@@ -58,14 +58,7 @@ public class PlayerMovementController : MonoBehaviour
             {
                 twoTriggerPressed = false;
             }
-            if (ControllerL.GetHairTrigger() && twoTriggerPressed == false)
-            {
-                Up(1);
-            }
-            if (ControllerR.GetHairTrigger() && twoTriggerPressed == false)
-            {
-                Up(-1);
-            }
+          
             if (Input.GetKey(KeyCode.R))
             {
                 FindObjectOfType<GameController>().RestartGame();
@@ -138,15 +131,13 @@ public class PlayerMovementController : MonoBehaviour
         }
     }
 
-    private void MovePlayerForward(float vZValue)
+    private void MovePlayerForward(float velocityZValue)
     {
-        if (vZValue<=1f)
+        if (velocityZValue <= 1f)
         {
-            vZValue += (Time.realtimeSinceStartup * (0.5f / 300));
+            velocityZValue += (Time.realtimeSinceStartup * (0.5f / 300));
         }
-       
-
-        playerTransform.Translate(Vector3.forward * vZValue);
+        playerTransform.Translate(Vector3.forward * velocityZValue);
     }
     private void IncreaseTravveledDistance()
     {

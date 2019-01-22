@@ -7,14 +7,13 @@ public class PowerUpController : MonoBehaviour
     [Header("Bonus")]
     public Image powerUpSlot1;
     public Image powerUpSlot2;
-    public static int powerUpCount = 0;
+    public int powerUpCount = 0;
     private float timer;
     [Header("Phase Bonus")]
     public Sprite phaseSprite;
     public List<float> phasePowerUpDuringTime;
     public bool isPhaseUsable;
     public bool isPhaseActive;
-    public bool isPhasePowerUpActive;
     public Text phaseTimer;
     [Header("Roket Bonus")]
     public Sprite rocketSprite;
@@ -29,7 +28,7 @@ public class PowerUpController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        ChangeAlpha(1f);
+        ChangeControllerMaterialAlpha(1f);
     }
 
     // Update is called once per frame
@@ -54,14 +53,14 @@ public class PowerUpController : MonoBehaviour
         {
             timer = 0f;
             isPhaseActive = false;
-            ChangeAlpha(1f);
+            ChangeControllerMaterialAlpha(1f);
         }
     }
     private void PrintValueToText(Text textObject, string value, string name)
     {
         textObject.text = name + ": " + value;
     }
-    private void ChangeAlpha(float a)
+    private void ChangeControllerMaterialAlpha(float a)
     {
         playerMovementController.leftController.GetComponent<VR_ControllerManager>().joystickRenderer.sharedMaterial.color = new Color(1f, 1f, 1f, a);
 
@@ -74,7 +73,6 @@ public class PowerUpController : MonoBehaviour
             case 0:
                 powerUpSlot1.sprite = null;
                 powerUpSlot1.tag = "Untagged";
-
                 powerUpSlot2.sprite = null;
                 powerUpSlot2.tag = "Untagged";
                 break;
@@ -91,6 +89,8 @@ public class PowerUpController : MonoBehaviour
             case 3:
                 powerUpSlot1.sprite = powerUpSprite;
                 powerUpSlot1.tag = pUpTag;
+                playerMovementController.ControllerR.TriggerHapticPulse(50000);
+                powerUpCount = 2;
                 break;
             default:
                 break;
@@ -110,7 +110,7 @@ public class PowerUpController : MonoBehaviour
     }
     public void UsePhase()
     {
-        ChangeAlpha(.2f);
+        ChangeControllerMaterialAlpha(.2f);
         powerUpCount--;
         isPhaseUsable = false;
         isPhaseActive = true;

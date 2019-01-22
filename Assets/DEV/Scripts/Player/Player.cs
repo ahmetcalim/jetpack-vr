@@ -49,18 +49,21 @@ public class Player : MonoBehaviour
             PrintValueToText(resourceTxt, gainedResource.ToString(), "Kaynak");
             PrintValueToText(speedXTxt, (Time.deltaTime).ToString(), "Hız");
             gameController.GainResource();
-          /*  if (isPhaseActive)
-            {
-                PhaseTimeCount();
-            }*/
+         
             
         }
     }
    
     public static void ResetStaticValues()
     {
-        TravelledDistance = 0;
-        totalDistance = 0;
+        difficulty = 0f;
+        TravelledDistance = 0f;
+        totalDistance = 0f;
+        velocityXBase = 0.5f;
+        velocityXMax = 1f;
+        travelledDistance = 0f;
+        gainedResource = 0f;
+        resourceMultipleValue = .5f;
         isGameRunning = true;
        
     }
@@ -73,7 +76,6 @@ public class Player : MonoBehaviour
             Destroy(other.gameObject);
             if (powerUpController.isPhaseActive == false)
             {
-               
                 gameController.GameOverEvents();
             }
            
@@ -108,74 +110,5 @@ public class Player : MonoBehaviour
     {
         textObject.text = name + ": " + value;
     }
-    /*
-        public void UseRocket()
-    {
-        foreach (var item in rocketDestroyManager.TriggerList)
-        {
-            Destroy(item.gameObject);
-        }
-      
-        powerUpCount--;
-        
-        isRocketUsable = false;
-
-    }
-    public void UsePhase()
-    {
-        ChangeAlpha(.2f);
-        powerUpCount--;
-        isPhaseUsable = false;
-        isPhaseActive = true;
-    }
-    private void PhaseTimeCount()
-    {
-        if (timer<=phasePowerUpDuringTime[0])
-        {
-            timer += Time.deltaTime * 1f;
-            PrintValueToText(phaseTimer, timer.ToString(), "Phase TimeC: ");
-        }
-        else
-        {
-            timer = 0f;
-            isPhaseActive = false;
-            ChangeAlpha(1f);
-        }
-    }
-    private void SetPowerUp(Sprite powerUpSprite, string pUpTag)
-    {
-        powerUpCount++;
-        switch (powerUpCount)
-        {
-            case 0:
-                powerUpSlot1.sprite = null;
-                powerUpSlot1.tag = "Untagged";
-
-                powerUpSlot2.sprite = null;
-                powerUpSlot2.tag = "Untagged";
-                break;
-            case 1:
-                powerUpSlot1.sprite = powerUpSprite;
-                powerUpSlot1.tag = pUpTag;
-                playerMovementController.ControllerL.TriggerHapticPulse(50000);
-                break;
-            case 2:
-                powerUpSlot2.sprite = powerUpSprite;
-                powerUpSlot2.tag = pUpTag;
-                playerMovementController.ControllerR.TriggerHapticPulse(50000);
-                break;
-            case 3:
-                powerUpSlot1.sprite = powerUpSprite;
-                powerUpSlot1.tag = pUpTag;
-                break;
-            default:
-                break;
-        }
-    }
-  
-    private void ChangeAlpha(float a)
-    {
-        playerMovementController.leftController.GetComponent<VR_ControllerManager>().joystickRenderer.sharedMaterial.color = new Color(1f, 1f, 1f, a);
-
-    }*/
+   
 }
