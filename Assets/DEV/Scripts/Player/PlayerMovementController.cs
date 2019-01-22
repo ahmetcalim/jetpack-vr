@@ -14,6 +14,7 @@ public class PlayerMovementController : MonoBehaviour
    
     public bool isVREnabled;
     public Player player;
+    public PowerUpController powerUpController;
     private float playerStartPositionZ;
     public float accelerationY;
     public static float constant1 = 44; 
@@ -77,12 +78,12 @@ public class PlayerMovementController : MonoBehaviour
                 {
                     case "Phase":
                         Debug.Log("Phase Kullanılmalı");
-                        player.UsePhase();
+                        powerUpController.UsePhase();
                         leftController.powerUpSlot.GetComponent<Image>().sprite = null;
                         break;
                     case "Rocket":
                         Debug.Log("Rocket Kullanılmalı");
-                        player.UseRocket();
+                        powerUpController.UseRocket();
                         leftController.powerUpSlot.GetComponent<Image>().sprite = null;
                         break;
                         
@@ -99,12 +100,12 @@ public class PlayerMovementController : MonoBehaviour
                 {
                     case "Phase":
                         Debug.Log("Phase Kullanılmalı");
-                        player.UsePhase();
+                        powerUpController.UsePhase();
                         rightController.powerUpSlot.GetComponent<Image>().sprite = null;
                         break;
                     case "Rocket":
                         Debug.Log("Rocket Kullanılmalı");
-                        player.UseRocket();
+                        powerUpController.UseRocket();
                         rightController.powerUpSlot.GetComponent<Image>().sprite = null;
                         break;
 

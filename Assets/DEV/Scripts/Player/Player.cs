@@ -15,26 +15,15 @@ public class Player : MonoBehaviour
     public static bool isGameRunning = true;
     public static float difficulty = 0;
     public static float resourceMultipleValue = .5f;
-    public static bool isPhasePowerUpActive;
-    public static int powerUpCount = 0;
-    public static bool isPhaseUsable;
-    public static bool isRocketUsable;
-    public static bool isPhaseActive;
-    public static bool isRocketActive;
-    public List<float> phasePowerUpDuringTime;
     public Text difficultyTxt;
     public Text resourceTxt;
     public Text speedXTxt;
-    public Text phaseTimer;
-    public Image powerUpSlot1;
-    public Image powerUpSlot2;
-    public Sprite phaseSprite;
-    public Sprite rocketSprite;
+    
   
-    public Button geciciPhaseButton;
-    public Button geciciRocketButton;
+   
     public RocketDestroyManager rocketDestroyManager;
     public PlayerMovementController playerMovementController;
+    public PowerUpController powerUpController;
     private float timer = 0f;
     public static float TravelledDistance
     {
@@ -50,7 +39,7 @@ public class Player : MonoBehaviour
     }
     void Start()
     {
-        ChangeAlpha(1f);
+       
     }
     private void Update()
     {
@@ -60,10 +49,10 @@ public class Player : MonoBehaviour
             PrintValueToText(resourceTxt, gainedResource.ToString(), "Kaynak");
             PrintValueToText(speedXTxt, (Time.deltaTime).ToString(), "Hız");
             gameController.GainResource();
-            if (isPhaseActive)
+          /*  if (isPhaseActive)
             {
                 PhaseTimeCount();
-            }
+            }*/
             
         }
     }
@@ -72,8 +61,8 @@ public class Player : MonoBehaviour
     {
         TravelledDistance = 0;
         totalDistance = 0;
-       
         isGameRunning = true;
+       
     }
     private void OnTriggerEnter(Collider other)
     {
@@ -82,7 +71,7 @@ public class Player : MonoBehaviour
         {
           
             Destroy(other.gameObject);
-            if (isPhaseActive == false)
+            if (powerUpController.isPhaseActive == false)
             {
                
                 gameController.GameOverEvents();
@@ -97,24 +86,30 @@ public class Player : MonoBehaviour
             if (powerUp.powerUpName == PowerUp.PowerUpName.PHASE)
             {
                 //PHASE
-                SetPowerUp(phaseSprite, "Phase");
+                powerUpController.SetPowerUp(powerUpController.phaseSprite, "Phase");
 
-                isPhaseUsable = true;
-                geciciPhaseButton.GetComponentInChildren<Text>().text = "Phase: " + isPhaseUsable.ToString();
+                powerUpController.isPhaseUsable = true;
+             
             }
             if (powerUp.powerUpName == PowerUp.PowerUpName.ROCKET)
             {
                 //ROCKET
-                SetPowerUp(rocketSprite, "Rocket");
+                powerUpController.SetPowerUp(powerUpController.rocketSprite, "Rocket");
 
-                isRocketUsable = true;
-                geciciPhaseButton.GetComponentInChildren<Text>().text = "Rocket: " + isRocketUsable.ToString();
+                powerUpController.isRocketUsable = true;
+               
             }
             
 
         }
     }
-    public void UseRocket()
+  
+    private void PrintValueToText(Text textObject, string value, string name)
+    {
+        textObject.text = name + ": " + value;
+    }
+    /*
+        public void UseRocket()
     {
         foreach (var item in rocketDestroyManager.TriggerList)
         {
@@ -124,7 +119,7 @@ public class Player : MonoBehaviour
         powerUpCount--;
         
         isRocketUsable = false;
-       
+
     }
     public void UsePhase()
     {
@@ -177,13 +172,10 @@ public class Player : MonoBehaviour
                 break;
         }
     }
-    private void PrintValueToText(Text textObject, string value, string name)
-    {
-        textObject.text = name + ": " + value;
-    }
+  
     private void ChangeAlpha(float a)
     {
         playerMovementController.leftController.GetComponent<VR_ControllerManager>().joystickRenderer.sharedMaterial.color = new Color(1f, 1f, 1f, a);
 
-    }
+    }*/
 }
