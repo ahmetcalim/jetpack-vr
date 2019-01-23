@@ -1,40 +1,40 @@
 fileFormatVersion: 2
-guid: acd8d183465c291448778fe465e90a0f
+guid: ff9e6bbb139794e48a70b69485cfbd31
 ModelImporter:
   serializedVersion: 23
   fileIDToRecycleName:
-    100000: //RootNode
-    100002: Lab_SECTION_1
-    400000: //RootNode
-    400002: Lab_SECTION_1
-    2100000: M_LAB_1_W
-    2100002: M_EMPTY
-    2100004: M_LAB_1_Light
+    100000: LAB_SECTION_1
+    100002: //RootNode
+    400000: LAB_SECTION_1
+    400002: //RootNode
+    2100000: M_LAB_1_Light
+    2100002: M_LAB_1_W
+    2100004: M_EMPTY
     2100006: M_LAB_1_F
-    2300000: Lab_SECTION_1
-    3300000: Lab_SECTION_1
-    4300000: Lab_SECTION_1
+    2300000: LAB_SECTION_1
+    3300000: LAB_SECTION_1
+    4300000: LAB_SECTION_1
   externalObjects:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: M_EMPTY
-    second: {fileID: 2100000, guid: ad392d7700d84d9438c506a90861013b, type: 2}
+    second: {fileID: 2100000, guid: 3f5c95674103ecb4eb6d57f87a550769, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: M_LAB_1_F
-    second: {fileID: 2100000, guid: fc3e0a762544caf4b9c0fdcb0bd4ccce, type: 2}
+    second: {fileID: 2100000, guid: d8292c3cc40e914409e7f66998d92d52, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: M_LAB_1_Light
-    second: {fileID: 2100000, guid: e0bd40bd739cf7e43b72a97d87ffe131, type: 2}
+    second: {fileID: 2100000, guid: 777388a95d46c024d9c5ce667a155a6d, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: M_LAB_1_W
-    second: {fileID: 2100000, guid: 0a329963e32d85e4b8a48fd29cc9c573, type: 2}
+    second: {fileID: 2100000, guid: 328109ed1ce74a94d88192e8c9940a53, type: 2}
   materials:
     importMaterials: 1
     materialName: 0

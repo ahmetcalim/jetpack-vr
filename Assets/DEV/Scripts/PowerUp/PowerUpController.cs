@@ -15,6 +15,7 @@ public class PowerUpController : MonoBehaviour
     public bool isPhaseUsable;
     public bool isPhaseActive;
     public Text phaseTimer;
+    public AudioSource bipAudio;
     [Header("Roket Bonus")]
     public Sprite rocketSprite;
     public RocketDestroyManager rocketDestroyManager;
@@ -22,7 +23,7 @@ public class PowerUpController : MonoBehaviour
     public bool isRocketActive;
     [Header("Diğer")]
     public PlayerMovementController playerMovementController;
-
+    
 
 
     // Start is called before the first frame update
@@ -47,7 +48,11 @@ public class PowerUpController : MonoBehaviour
         if (timer <= phasePowerUpDuringTime[0])
         {
             timer += Time.deltaTime * 1f;
-            PrintValueToText(phaseTimer, timer.ToString(), "Phase TimeC: ");
+            if (timer>=2.08f && timer <2.1f)
+            {
+                StartCoroutine(HapticFeedBack());
+            }
+            PrintValueToText(phaseTimer, timer.ToString(), "Phase: ");
         }
         else
         {
@@ -72,23 +77,23 @@ public class PowerUpController : MonoBehaviour
         {
             case 0:
                 powerUpSlot1.sprite = null;
-                powerUpSlot1.tag = "Untagged";
+                powerUpSlot1.gameObject.tag = "Untagged";
                 powerUpSlot2.sprite = null;
-                powerUpSlot2.tag = "Untagged";
+                powerUpSlot2.gameObject.tag = "Untagged";
                 break;
             case 1:
                 powerUpSlot1.sprite = powerUpSprite;
-                powerUpSlot1.tag = pUpTag;
+                powerUpSlot1.gameObject.tag = pUpTag;
                 playerMovementController.ControllerL.TriggerHapticPulse(50000);
                 break;
             case 2:
                 powerUpSlot2.sprite = powerUpSprite;
-                powerUpSlot2.tag = pUpTag;
+                powerUpSlot2.gameObject.tag = pUpTag;
                 playerMovementController.ControllerR.TriggerHapticPulse(50000);
                 break;
             case 3:
                 powerUpSlot1.sprite = powerUpSprite;
-                powerUpSlot1.tag = pUpTag;
+                powerUpSlot1.gameObject.tag = pUpTag;
                 playerMovementController.ControllerR.TriggerHapticPulse(50000);
                 powerUpCount = 2;
                 break;
@@ -114,5 +119,15 @@ public class PowerUpController : MonoBehaviour
         powerUpCount--;
         isPhaseUsable = false;
         isPhaseActive = true;
+    }
+    IEnumerator HapticFeedBack()
+    {
+        for (int i = 0; i < 3; i++)
+        {
+            yield return new WaitForSeconds(1f);
+            bipAudio.Play();
+            playerMovementController.ControllerL.TriggerHapticPulse(5000);
+            playerMovementController.ControllerR.TriggerHapticPulse(5000);
+        }
     }
 }

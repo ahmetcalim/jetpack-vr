@@ -3,7 +3,13 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - Powerup
+  - Obstacle
+  - Left
+  - Right
+  - Phase
+  - Rocket
   layers:
   - Default
   - TransparentFX

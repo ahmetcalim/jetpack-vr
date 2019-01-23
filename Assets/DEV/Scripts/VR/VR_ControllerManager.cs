@@ -42,6 +42,7 @@ public class VR_ControllerManager : MonoBehaviour {
     }
     private void Update()
     {
+        
         if (Player.isGameRunning == true)
         {
 
@@ -56,22 +57,42 @@ public class VR_ControllerManager : MonoBehaviour {
         triggerPrefab.transform.localRotation = Quaternion.Euler(-x * 15, 0, 0);
         angle = this.transform.rotation.eulerAngles.z;
 
+
+        if (playerTransform.position.x >=-12.5f && playerTransform.position.x <= 12.5f)
+        {
+
+            
+            if ((angle >= 30f && angle < 150))
+            {
+                turnConstant = (((angle - 30))) / 6f;
+                targetTransform = new Vector3(playerTransform.position.x - 3, playerTransform.position.y, playerTransform.position.z);
+                playerTransform.transform.position = Vector3.Lerp(playerTransform.position, targetTransform, Time.deltaTime * turnConstant);
+            }
+            if (angle >= 210f && angle < 330f)
+            {
+
+
+                turnConstant = ((Mathf.Abs((330f - angle)))) / 6f;
+                targetTransform = new Vector3(playerTransform.position.x + 3, playerTransform.position.y, playerTransform.transform.position.z);
+                //playerTransform.transform.position += new Vector3(Time.deltaTime * turnConstant / 3f, playerTransform.position.y, playerTransform.position.z);
+                playerTransform.transform.position = Vector3.Lerp(playerTransform.position, targetTransform, Time.deltaTime * turnConstant);
+            }
+        }
+        else
+        {
+            if (playerTransform.position.x <-12.5f)
+            {
+                playerTransform.position = new Vector3(-12.5f, playerTransform.position.y, playerTransform.position.z);
+              
+            }
+            if (playerTransform.position.x > 12.5f)
+            {
+                playerTransform.position = new Vector3(12.5f, playerTransform.position.y, playerTransform.position.z);
+
+            }
+        }
+        
        
-        if ((angle >= 30f && angle < 150))
-        {
-            turnConstant = (((angle - 30))) /6f;
-            targetTransform = new Vector3(playerTransform.position.x - 3, playerTransform.position.y, playerTransform.position.z);
-            playerTransform.transform.position = Vector3.Lerp(playerTransform.position, targetTransform, Time.deltaTime * turnConstant);
-        }
-        if (angle >= 210f && angle < 330f)
-        {
-           
-          
-            turnConstant = ((Mathf.Abs((330f - angle)))) / 6f;
-            targetTransform = new Vector3(playerTransform.position.x + 3, playerTransform.position.y, playerTransform.position.z);
-            //playerTransform.transform.position += new Vector3(Time.deltaTime * turnConstant / 3f, playerTransform.position.y, playerTransform.position.z);
-           playerTransform.transform.position = Vector3.Lerp(playerTransform.position, targetTransform, Time.deltaTime * turnConstant);
-        }
        
     }
     

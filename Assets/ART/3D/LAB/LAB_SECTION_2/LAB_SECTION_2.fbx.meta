@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 1b1783df8b3f1654a8692811db2fce09
+guid: 3700f6d11a4caf74b92df38a2b8b10c1
 ModelImporter:
   serializedVersion: 23
   fileIDToRecycleName:
@@ -18,17 +18,17 @@ ModelImporter:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: M_EMPTY
-    second: {fileID: 2100000, guid: 64f04342cfe97b84b95ce5432cef168f, type: 2}
+    second: {fileID: 2100000, guid: fd9a97a469cd2094b8d24ead8ee22b98, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: M_LAB_2_F
-    second: {fileID: 2100000, guid: 3318d5a3ac0ee28439ea690316e69df2, type: 2}
+    second: {fileID: 2100000, guid: b0f58bbdc75ccc5488e57d327745603e, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: M_LAB_2_W
-    second: {fileID: 2100000, guid: f8d4c7aecdf0170469a31ed0742077d3, type: 2}
+    second: {fileID: 2100000, guid: 5396ff1685aed294986a9ac7b2150861, type: 2}
   materials:
     importMaterials: 1
     materialName: 0

@@ -11,7 +11,8 @@ public class PlayerMovementController : MonoBehaviour
   
     public enum PlayerDirection { X, Y, Z };
     public PlayerDirection playerDirection;
-   
+    public enum YMoveType {TRIGGER, CONTROLLERX};
+    public YMoveType yMoveType;
     public bool isVREnabled;
     public Player player;
     public PowerUpController powerUpController;
@@ -23,6 +24,8 @@ public class PlayerMovementController : MonoBehaviour
     private bool twoTriggerPressed;
     public SteamVR_TrackedObject leftController;
     public SteamVR_TrackedObject rightController;
+    private float angleXController;
+
     public SteamVR_Controller.Device ControllerL
     {
         get { return SteamVR_Controller.Input((int)leftController.index); }
@@ -44,21 +47,47 @@ public class PlayerMovementController : MonoBehaviour
     void Update()
     {
        
+
         if (Player.isGameRunning == true)
         {
-            
+            angleXController = (leftController.transform.rotation.x + rightController.transform.rotation.x) / -2;
 
             Player.difficulty = Mathf.Pow(3, ((Time.time * 2) / (90 + Time.time)) + 1) - 3;
-            if (ControllerL.GetHairTrigger() && ControllerR.GetHairTrigger())
+            switch (yMoveType)
             {
-                twoTriggerPressed = true;
-                Up(0);
+                case YMoveType.TRIGGER:
+                    if (ControllerL.GetHairTrigger())
+                    {
+
+                        Up(-1);
+                    }
+                    if (ControllerR.GetHairTrigger())
+                    {
+
+                        Up(1);
+                    }
+                    break;
+                case YMoveType.CONTROLLERX:
+                    if (ControllerL.GetHairTrigger() && ControllerR.GetHairTrigger())
+                    {
+                        if (angleXController >0)
+                        {
+                            Up(1);
+                        }
+                        if (angleXController<0)
+                        {
+                            Up(-1);
+                        }
+                        
+                    }
+                    
+                    break;
+                default:
+                    break;
             }
-            else
-            {
-                twoTriggerPressed = false;
-            }
-          
+           
+           
+
             if (Input.GetKey(KeyCode.R))
             {
                 FindObjectOfType<GameController>().RestartGame();
@@ -125,14 +154,18 @@ public class PlayerMovementController : MonoBehaviour
         {
 
             accelerationY = Mathf.Pow(constant3 * (Time.deltaTime + 0.01f), constant1 / constant2) + 9;
+            if (side < 0)
+            {
+                accelerationY *= 2f;
+            }
 
-
-            playerTransform.GetComponent<Rigidbody>().velocity = new Vector3(side, 1f, 0f) * accelerationY;
+            playerTransform.GetComponent<Rigidbody>().velocity = new Vector3(0, side, 0f) * accelerationY;
         }
     }
 
     private void MovePlayerForward(float velocityZValue)
     {
+     
         if (velocityZValue <= 1f)
         {
             velocityZValue += (Time.realtimeSinceStartup * (0.5f / 300));
