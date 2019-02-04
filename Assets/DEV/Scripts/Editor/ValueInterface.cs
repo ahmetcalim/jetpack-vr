@@ -14,8 +14,7 @@ public class ValueInterface : EditorWindow
 
         Player player = FindObjectOfType<Player>();
         Player.resourceMultipleValue = EditorGUILayout.FloatField("Resource Multiple Value", Player.resourceMultipleValue);
-        Player.velocityXBase = EditorGUILayout.FloatField("Velocity X Base Value", Player.velocityXBase);
-        Player.velocityXMax = EditorGUILayout.FloatField("Velocity X Max Value", Player.velocityXMax);
+
         PlayerMovementController.constant1 = EditorGUILayout.FloatField("Constant 1", PlayerMovementController.constant1);
         PlayerMovementController.constant2 = EditorGUILayout.FloatField("Constant 2", PlayerMovementController.constant2);
         PlayerMovementController.constant3 = EditorGUILayout.FloatField("Constant 3", PlayerMovementController.constant3);

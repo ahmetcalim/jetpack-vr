@@ -25,7 +25,10 @@ public class PlayerMovementController : MonoBehaviour
     public SteamVR_TrackedObject leftController;
     public SteamVR_TrackedObject rightController;
     private float angleXController;
-
+    public AudioSource powerupUsingAudioSource;
+    public AudioClip phaseAudioClip;
+    public AudioClip rocketAudioClip;
+   
     public SteamVR_Controller.Device ControllerL
     {
         get { return SteamVR_Controller.Input((int)leftController.index); }
@@ -38,11 +41,6 @@ public class PlayerMovementController : MonoBehaviour
     private void Start()
     {
         playerStartPositionZ = playerTransform.position.z;
-        if (isVREnabled == true)
-        {
-           // SteamVR_Controller.Device.onTriggerPress += Up;
-        }
-      
     }
     void Update()
     {
@@ -58,12 +56,10 @@ public class PlayerMovementController : MonoBehaviour
                 case YMoveType.TRIGGER:
                     if (ControllerL.GetHairTrigger())
                     {
-
                         Up(-1);
                     }
                     if (ControllerR.GetHairTrigger())
                     {
-
                         Up(1);
                     }
                     break;
@@ -74,39 +70,45 @@ public class PlayerMovementController : MonoBehaviour
                         {
                             Up(1);
                         }
-                        if (angleXController<0)
+                        else
                         {
                             Up(-1);
                         }
-                        
                     }
-                    
                     break;
                 default:
                     break;
             }
-           
-           
-
             if (Input.GetKey(KeyCode.R))
             {
                 FindObjectOfType<GameController>().RestartGame();
             }
             if (ControllerL.GetPressUp(SteamVR_Controller.ButtonMask.Touchpad))
             {
-                Debug.Log("Sol taçped");
-                //Sol touchpad dokunuldu
+               
+              
                 switch (leftController.powerUpSlot.tag)
                 {
                     case "Phase":
-                        Debug.Log("Phase Kullanılmalı");
-                        powerUpController.UsePhase();
-                        leftController.powerUpSlot.GetComponent<Image>().sprite = null;
+                        if (!powerUpController.isPhaseActive)
+                        {
+                            powerUpController.UsePhase();
+                            leftController.powerUpSlot.tag = "Untagged";
+                           
+                            powerupUsingAudioSource.clip = phaseAudioClip;
+                            powerupUsingAudioSource.Play();
+                            leftController.powerUpSlot.GetComponent<Image>().sprite = null;
+
+                        }
+                        
                         break;
                     case "Rocket":
-                        Debug.Log("Rocket Kullanılmalı");
-                        powerUpController.UseRocket();
-                        leftController.powerUpSlot.GetComponent<Image>().sprite = null;
+                            powerUpController.UseRocket();
+                            leftController.powerUpSlot.tag = "Untagged";
+                           
+                            powerupUsingAudioSource.clip = rocketAudioClip;
+                            powerupUsingAudioSource.Play();
+                            leftController.powerUpSlot.GetComponent<Image>().sprite = null;
                         break;
                         
                     default:
@@ -121,14 +123,23 @@ public class PlayerMovementController : MonoBehaviour
                 switch (rightController.powerUpSlot.tag)
                 {
                     case "Phase":
-                        Debug.Log("Phase Kullanılmalı");
-                        powerUpController.UsePhase();
-                        rightController.powerUpSlot.GetComponent<Image>().sprite = null;
+                        if (!powerUpController.isPhaseActive)
+                        {
+                            powerUpController.UsePhase();
+                            rightController.powerUpSlot.tag = "Untagged";
+                          
+                            powerupUsingAudioSource.clip = phaseAudioClip;
+                            powerupUsingAudioSource.Play();
+                            rightController.powerUpSlot.GetComponent<Image>().sprite = null;
+                        }
                         break;
                     case "Rocket":
-                        Debug.Log("Rocket Kullanılmalı");
-                        powerUpController.UseRocket();
-                        rightController.powerUpSlot.GetComponent<Image>().sprite = null;
+                            powerUpController.UseRocket();
+                            rightController.powerUpSlot.tag = "Untagged";
+                           
+                            powerupUsingAudioSource.clip = rocketAudioClip;
+                            powerupUsingAudioSource.Play();
+                            rightController.powerUpSlot.GetComponent<Image>().sprite = null;
                         break;
 
                     default:
@@ -137,7 +148,7 @@ public class PlayerMovementController : MonoBehaviour
             }
 
 
-            MovePlayerForward(Player.velocityXBase);
+            MovePlayerForward(player.velocityXBase);
            
             IncreaseTravveledDistance();
         }
@@ -147,10 +158,9 @@ public class PlayerMovementController : MonoBehaviour
         accelerationY = constant3 * 1f * (constant1 / constant2);
         return accelerationY;
     }
-    
     public void Up(float side)
     {
-        if (Player.isGameRunning == true)
+        if (Player.isGameRunning == true && Player.isMalfunctionActive == false)
         {
 
             accelerationY = Mathf.Pow(constant3 * (Time.deltaTime + 0.01f), constant1 / constant2) + 9;
@@ -162,10 +172,9 @@ public class PlayerMovementController : MonoBehaviour
             playerTransform.GetComponent<Rigidbody>().velocity = new Vector3(0, side, 0f) * accelerationY;
         }
     }
-
     private void MovePlayerForward(float velocityZValue)
     {
-     
+         
         if (velocityZValue <= 1f)
         {
             velocityZValue += (Time.realtimeSinceStartup * (0.5f / 300));

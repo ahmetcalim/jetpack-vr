@@ -6,11 +6,13 @@
 [Bb]uild
 /[Bb]uilds/
 /[Ll]ibrary/
+/[Aa]ssets/[Oo]culus/
 sysinfo.txt
 *.stackdump
 /Assets/AssetStoreTools*
 /gameb/JetPackVR_Data*
 /gameb*
+
 *.apk
 *.unitypackage
  
@@ -31,7 +33,7 @@ sysinfo.txt
 .consulo/
 /*.tmp
 /*.svd
- 
+/*.meta
 # ============ #
 # OS generated #
 # ============ #

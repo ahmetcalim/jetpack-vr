@@ -8,6 +8,11 @@ public class GameController : MonoBehaviour
     public GameObject gameOverPanel;
 
     public AudioSource aud;
+    void Awake()
+    {
+        // Make the game run as fast as possible in Windows
+        Application.targetFrameRate = 300;
+    }
     public void GainResource()
     {
       
@@ -48,6 +53,6 @@ public class GameController : MonoBehaviour
     IEnumerator SesCal()
     {
         yield return new WaitForSeconds(5f);
-        aud.Play();
+
     }
 }

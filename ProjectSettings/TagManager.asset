@@ -10,6 +10,7 @@ TagManager:
   - Right
   - Phase
   - Rocket
+  - Malfunction
   layers:
   - Default
   - TransparentFX

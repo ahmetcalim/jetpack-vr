@@ -7,7 +7,7 @@ using UnityEngine.UI;
 public class Player : MonoBehaviour
 {
     public GameController gameController;
-    public static float velocityXBase = 0.5f;
+    public float velocityXBase = 0.5f;
     public static float velocityXMax = 1f;
     public static float travelledDistance;
     public static float totalDistance;
@@ -15,12 +15,11 @@ public class Player : MonoBehaviour
     public static bool isGameRunning = true;
     public static float difficulty = 0;
     public static float resourceMultipleValue = .5f;
+    public static bool isMalfunctionActive;
     public Text difficultyTxt;
     public Text resourceTxt;
     public Text speedXTxt;
-    
-  
-   
+    public Text bonusFeedBackTxt;
     public RocketDestroyManager rocketDestroyManager;
     public PlayerMovementController playerMovementController;
     public PowerUpController powerUpController;
@@ -47,7 +46,7 @@ public class Player : MonoBehaviour
         {
             PrintValueToText(difficultyTxt, difficulty.ToString(), "Zorluk");
             PrintValueToText(resourceTxt, gainedResource.ToString(), "Kaynak");
-            PrintValueToText(speedXTxt, (Time.deltaTime).ToString(), "Hız");
+            PrintValueToText(speedXTxt, (travelledDistance / Time.time).ToString(), "Hız");
             gameController.GainResource();
          
             
@@ -56,10 +55,11 @@ public class Player : MonoBehaviour
    
     public static void ResetStaticValues()
     {
+        isMalfunctionActive = false;
         difficulty = 0f;
         TravelledDistance = 0f;
         totalDistance = 0f;
-        velocityXBase = 0.5f;
+      
         velocityXMax = 1f;
         travelledDistance = 0f;
         gainedResource = 0f;
@@ -80,28 +80,39 @@ public class Player : MonoBehaviour
             }
            
         }
+        if (other.tag == "Malfunction")
+        {
+            powerUpController.ActivateMalfunction();
+        }
         if (other.tag == "Powerup")
         {
             Destroy(other.gameObject);
 
             PowerUp powerUp = other.GetComponent<PowerUp>();
-            if (powerUp.powerUpName == PowerUp.PowerUpName.PHASE)
+          
+            if (powerUp.powerUpType == PowerUp.PowerUpType.PHASE)
             {
+                
+                PrintValueToText(bonusFeedBackTxt, "Phase Bonus Alındı.", "");
+                bonusFeedBackTxt.GetComponent<Animator>().SetTrigger("Feedback");
                 //PHASE
                 powerUpController.SetPowerUp(powerUpController.phaseSprite, "Phase");
 
-                powerUpController.isPhaseUsable = true;
+              
              
             }
-            if (powerUp.powerUpName == PowerUp.PowerUpName.ROCKET)
+            if (powerUp.powerUpType == PowerUp.PowerUpType.ROCKET)
             {
+                PrintValueToText(bonusFeedBackTxt, "Roket Bonus Alındı.", "");
+                bonusFeedBackTxt.GetComponent<Animator>().SetTrigger("Feedback");
                 //ROCKET
                 powerUpController.SetPowerUp(powerUpController.rocketSprite, "Rocket");
 
-                powerUpController.isRocketUsable = true;
+             
                
             }
-            
+       
+
 
         }
     }

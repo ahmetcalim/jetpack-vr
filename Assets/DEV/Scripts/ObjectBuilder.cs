@@ -12,9 +12,14 @@ public class ObjectBuilder : MonoBehaviour
     {
         spawnPoint = new Vector3(1.4305e-06f, 0f, startTransform.position.z + 19.2f);
 
-        GameObject copy = Instantiate(objs[Random.Range(0,2)], spawnPoint, Quaternion.identity);
-        copy.transform.SetParent(parentTransform);
+        GameObject copy = Instantiate(objs[0], spawnPoint, Quaternion.identity);
+       copy.transform.SetParent(parentTransform);
         startTransform = copy.transform;
+        spawnPoint = new Vector3(1.4305e-06f, 0f, startTransform.position.z + 19.2f);
+
+        GameObject copy2= Instantiate(objs[1], spawnPoint, Quaternion.identity);
+        copy2.transform.SetParent(parentTransform);
+        startTransform = copy2.transform;
 
     }
 }
