@@ -7,8 +7,8 @@ using Valve.VR.InteractionSystem;
 public class PowerUpController : MonoBehaviour
 {
     [Header("Bonus")]
-    public Image powerUpSlot1;
-    public Image powerUpSlot2;
+    public Image powerUpSlotLeft;
+    public Image powerUpSlotRight;
     public int powerUpCount = 0;
     private float timer;
     public Text bonusFeedBackTxt;
@@ -50,18 +50,18 @@ public class PowerUpController : MonoBehaviour
   
     public void SetPowerUp(Sprite powerUpSprite, string pUpTag)
     {
-        if (powerUpSlot1.sprite == null)
+        if (powerUpSlotLeft.sprite == null)
         {
-            powerUpSlot1.sprite = powerUpSprite;
-            powerUpSlot1.gameObject.tag = pUpTag;
-            powerUpSlot1.gameObject.GetComponent<AudioSource>().Play();
+            powerUpSlotLeft.sprite = powerUpSprite;
+            powerUpSlotLeft.gameObject.tag = pUpTag;
+            powerUpSlotLeft.GetComponent<AudioSource>().Play();
             //         VibrateController(playerMovementController.ControllerL, 1f, 10);
         }
-        else if(powerUpSlot2.sprite == null)
+        else if(powerUpSlotRight.sprite == null)
         {
-            powerUpSlot2.sprite = powerUpSprite;
-            powerUpSlot2.gameObject.GetComponent<AudioSource>().Play();
-            powerUpSlot2.gameObject.tag = pUpTag;
+            powerUpSlotRight.sprite = powerUpSprite;
+            powerUpSlotRight.GetComponent<AudioSource>().Play();
+            powerUpSlotRight.gameObject.tag = pUpTag;
             ////        VibrateController(playerMovementController.ControllerR, 1f, 10);
         }
         else
@@ -70,17 +70,17 @@ public class PowerUpController : MonoBehaviour
             {
                 case 0:
 
-                    powerUpSlot2.sprite = powerUpSprite;
-                    powerUpSlot2.gameObject.tag = pUpTag;
-                    powerUpSlot2.gameObject.GetComponent<AudioSource>().Play();
+                    powerUpSlotRight.sprite = powerUpSprite;
+                    powerUpSlotRight.gameObject.tag = pUpTag;
+                    powerUpSlotRight.gameObject.GetComponent<AudioSource>().Play();
                     playerMovementController.ControllerL.TriggerHapticPulse(50000);
                     
                     lastSlot = 1;
                     break;
                 case 1:
-                    powerUpSlot1.sprite = powerUpSprite;
-                    powerUpSlot1.gameObject.tag = pUpTag;
-                    powerUpSlot1.gameObject.GetComponent<AudioSource>().Play();
+                    powerUpSlotLeft.sprite = powerUpSprite;
+                    powerUpSlotLeft.gameObject.tag = pUpTag;
+                    powerUpSlotLeft.gameObject.GetComponent<AudioSource>().Play();
                     playerMovementController.ControllerR.TriggerHapticPulse(50000);
                   
                     lastSlot = 0;
@@ -92,16 +92,12 @@ public class PowerUpController : MonoBehaviour
     }
     public void UseRocket()
     {
-       
             bonusFeedBackTxt.GetComponent<Animator>().SetTrigger("Feedback");
             PrintValueToText(bonusFeedBackTxt, "Roket Kullanıldı.", "- ");
             foreach (var item in rocketDestroyManager.TriggerList)
             {
                 Destroy(item.gameObject);
             }
-         
-       
-
     }
     public void UsePhase()
     {

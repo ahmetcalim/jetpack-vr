@@ -8,11 +8,6 @@ public class PlayerMovementController : MonoBehaviour
 {
     public Transform playerTransform;
     private Vector3 targetTransform;
-  
-    public enum PlayerDirection { X, Y, Z };
-    public PlayerDirection playerDirection;
-    public enum YMoveType {TRIGGER, CONTROLLERX};
-    public YMoveType yMoveType;
     public bool isVREnabled;
     public Player player;
     public PowerUpController powerUpController;
@@ -44,49 +39,23 @@ public class PlayerMovementController : MonoBehaviour
     }
     void Update()
     {
-       
-
         if (Player.isGameRunning == true)
         {
             angleXController = (leftController.transform.rotation.x + rightController.transform.rotation.x) / -2;
-
             Player.difficulty = Mathf.Pow(3, ((Time.time * 2) / (90 + Time.time)) + 1) - 3;
-            switch (yMoveType)
+            if (ControllerL.GetHairTrigger() && ControllerR.GetHairTrigger())
             {
-                case YMoveType.TRIGGER:
-                    if (ControllerL.GetHairTrigger())
-                    {
-                        Up(-1);
-                    }
-                    if (ControllerR.GetHairTrigger())
-                    {
-                        Up(1);
-                    }
-                    break;
-                case YMoveType.CONTROLLERX:
-                    if (ControllerL.GetHairTrigger() && ControllerR.GetHairTrigger())
-                    {
-                        if (angleXController >0)
-                        {
-                            Up(1);
-                        }
-                        else
-                        {
-                            Up(-1);
-                        }
-                    }
-                    break;
-                default:
-                    break;
-            }
-            if (Input.GetKey(KeyCode.R))
-            {
-                FindObjectOfType<GameController>().RestartGame();
+                if (angleXController >0)
+                {
+                    Up(1);
+                }
+                else
+                {
+                    Up(-1);
+                }
             }
             if (ControllerL.GetPressUp(SteamVR_Controller.ButtonMask.Touchpad))
             {
-               
-              
                 switch (leftController.powerUpSlot.tag)
                 {
                     case "Phase":
@@ -118,8 +87,6 @@ public class PlayerMovementController : MonoBehaviour
             }
             if (ControllerR.GetPressUp(SteamVR_Controller.ButtonMask.Touchpad))
             {
-                Debug.Log("Sağ taçped");
-                //Sağ touchpad dokunuldu
                 switch (rightController.powerUpSlot.tag)
                 {
                     case "Phase":
@@ -127,7 +94,6 @@ public class PlayerMovementController : MonoBehaviour
                         {
                             powerUpController.UsePhase();
                             rightController.powerUpSlot.tag = "Untagged";
-                          
                             powerupUsingAudioSource.clip = phaseAudioClip;
                             powerupUsingAudioSource.Play();
                             rightController.powerUpSlot.GetComponent<Image>().sprite = null;
@@ -136,55 +102,41 @@ public class PlayerMovementController : MonoBehaviour
                     case "Rocket":
                             powerUpController.UseRocket();
                             rightController.powerUpSlot.tag = "Untagged";
-                           
                             powerupUsingAudioSource.clip = rocketAudioClip;
                             powerupUsingAudioSource.Play();
                             rightController.powerUpSlot.GetComponent<Image>().sprite = null;
                         break;
-
                     default:
                         break;
                 }
             }
-
-
-            MovePlayerForward(player.velocityXBase);
-           
+            MovePlayerForward();
             IncreaseTravveledDistance();
         }
-    }
-    public float CalculateaY()
-    {
-        accelerationY = constant3 * 1f * (constant1 / constant2);
-        return accelerationY;
     }
     public void Up(float side)
     {
         if (Player.isGameRunning == true && Player.isMalfunctionActive == false)
         {
-
             accelerationY = Mathf.Pow(constant3 * (Time.deltaTime + 0.01f), constant1 / constant2) + 9;
             if (side < 0)
             {
                 accelerationY *= 2f;
             }
-
             playerTransform.GetComponent<Rigidbody>().velocity = new Vector3(0, side, 0f) * accelerationY;
         }
     }
-    private void MovePlayerForward(float velocityZValue)
+    private void MovePlayerForward()
     {
-         
-        if (velocityZValue <= 1f)
+        if (player.velocityXBase <= 1f)
         {
-            velocityZValue += (Time.realtimeSinceStartup * (0.5f / 300));
+            player.velocityXBase += (Time.realtimeSinceStartup * (0.5f / 30000));
         }
-        playerTransform.Translate(Vector3.forward * velocityZValue);
+        playerTransform.Translate(Vector3.forward * player.velocityXBase);
     }
     private void IncreaseTravveledDistance()
     {
-        Player.TravelledDistance = playerTransform.position.z - playerStartPositionZ;
-       
+        player.travelledDistance = playerTransform.position.z - playerStartPositionZ;
     }
     private void SetTargetTransform(float side)
     {

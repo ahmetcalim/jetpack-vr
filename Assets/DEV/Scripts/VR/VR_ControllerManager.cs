@@ -48,7 +48,6 @@ public class VR_ControllerManager : MonoBehaviour {
             Turn();
         }
     }
-    
     private void Turn()
     {
         
@@ -95,19 +94,14 @@ public class VR_ControllerManager : MonoBehaviour {
 
 
     }
-    
     public void OnTriggerEnter(Collider other)
     {
         SetCollidingObject(other);
     }
-
-   
     public void OnTriggerStay(Collider other)
     {
         SetCollidingObject(other);
     }
-
- 
     public void OnTriggerExit(Collider other)
     {
         if (!collidingObject)

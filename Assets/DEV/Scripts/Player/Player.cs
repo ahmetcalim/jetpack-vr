@@ -2,14 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-
+using UnityEngine.SceneManagement;
 //Bu class Player ile ilgili özellikleri barındırmakta.
 public class Player : MonoBehaviour
 {
     public GameController gameController;
-    public float velocityXBase = 0.5f;
+    public float velocityXBase = 0.1f;
     public static float velocityXMax = 1f;
-    public static float travelledDistance;
+    public float travelledDistance;
     public static float totalDistance;
     public static float gainedResource;
     public static bool isGameRunning = true;
@@ -24,22 +24,7 @@ public class Player : MonoBehaviour
     public PlayerMovementController playerMovementController;
     public PowerUpController powerUpController;
     private float timer = 0f;
-    public static float TravelledDistance
-    {
-        get
-        {
-            return travelledDistance;
-        }
-        set
-        {
 
-            travelledDistance = value;
-        }
-    }
-    void Start()
-    {
-       
-    }
     private void Update()
     {
         if (isGameRunning)
@@ -47,32 +32,34 @@ public class Player : MonoBehaviour
             PrintValueToText(difficultyTxt, difficulty.ToString(), "Zorluk");
             PrintValueToText(resourceTxt, gainedResource.ToString(), "Kaynak");
             PrintValueToText(speedXTxt, (travelledDistance / Time.time).ToString(), "Hız");
-            gameController.GainResource();
-         
-            
+            GainResource();
+        }
+        else
+        {
+            if (Input.GetKeyUp(KeyCode.R))
+            {
+                ResetStaticValues();
+                SceneManager.LoadScene(0);
+            }
         }
     }
-   
+    public void GainResource()
+    {
+        gainedResource = (travelledDistance * difficulty) * resourceMultipleValue;
+    }
     public static void ResetStaticValues()
     {
         isMalfunctionActive = false;
         difficulty = 0f;
-        TravelledDistance = 0f;
         totalDistance = 0f;
-      
-        velocityXMax = 1f;
-        travelledDistance = 0f;
         gainedResource = 0f;
         resourceMultipleValue = .5f;
         isGameRunning = true;
-       
     }
     private void OnTriggerEnter(Collider other)
     {
-      
         if (other.tag == "Obstacle" )
         {
-          
             Destroy(other.gameObject);
             if (powerUpController.isPhaseActive == false)
             {
@@ -87,19 +74,13 @@ public class Player : MonoBehaviour
         if (other.tag == "Powerup")
         {
             Destroy(other.gameObject);
-
             PowerUp powerUp = other.GetComponent<PowerUp>();
-          
             if (powerUp.powerUpType == PowerUp.PowerUpType.PHASE)
             {
-                
                 PrintValueToText(bonusFeedBackTxt, "Phase Bonus Alındı.", "");
                 bonusFeedBackTxt.GetComponent<Animator>().SetTrigger("Feedback");
                 //PHASE
                 powerUpController.SetPowerUp(powerUpController.phaseSprite, "Phase");
-
-              
-             
             }
             if (powerUp.powerUpType == PowerUp.PowerUpType.ROCKET)
             {
@@ -107,16 +88,9 @@ public class Player : MonoBehaviour
                 bonusFeedBackTxt.GetComponent<Animator>().SetTrigger("Feedback");
                 //ROCKET
                 powerUpController.SetPowerUp(powerUpController.rocketSprite, "Rocket");
-
-             
-               
             }
-       
-
-
         }
     }
-  
     private void PrintValueToText(Text textObject, string value, string name)
     {
         textObject.text = name + ": " + value;
