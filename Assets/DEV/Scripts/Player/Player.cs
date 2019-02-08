@@ -25,6 +25,14 @@ public class Player : MonoBehaviour
     public PowerUpController powerUpController;
     private float timer = 0f;
 
+    private void Start()
+    {
+        if (PlayerPrefsManager.GetPlayerValueFromPlayerPrefs("gainedResource") != 0)
+        {
+            gainedResource = PlayerPrefsManager.GetPlayerValueFromPlayerPrefs("gainedResource");
+        }
+       
+    }
     private void Update()
     {
         if (isGameRunning)
@@ -46,6 +54,7 @@ public class Player : MonoBehaviour
     public void GainResource()
     {
         gainedResource = (travelledDistance * difficulty) * resourceMultipleValue;
+        PlayerPrefsManager.SetToPlayerPrefs(gainedResource, "gainedResource");
     }
     public static void ResetStaticValues()
     {

@@ -20,12 +20,10 @@ public class VR_ControllerManager : MonoBehaviour {
     private GameObject collidingObject;
     public MeshRenderer joystickRenderer;
     private GameObject objectInHand;
-   
     private SteamVR_Controller.Device Controller
     {
         get { return SteamVR_Controller.Input((int)trackedObj.index); }
     }
-  
     void Awake()
     {
         trackedObj = GetComponent<SteamVR_TrackedObject>();

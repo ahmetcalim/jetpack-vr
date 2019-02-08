@@ -23,7 +23,6 @@ public class PlayerMovementController : MonoBehaviour
     public AudioSource powerupUsingAudioSource;
     public AudioClip phaseAudioClip;
     public AudioClip rocketAudioClip;
-   
     public SteamVR_Controller.Device ControllerL
     {
         get { return SteamVR_Controller.Input((int)leftController.index); }
