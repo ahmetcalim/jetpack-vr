@@ -532,6 +532,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   powerUpType: 1
+  sprite: {fileID: 21300000, guid: 0d2119c40f60d0a4b8a16030b558e9c0, type: 3}
+  tagName: Rocket
 --- !u!1 &4746268591964050798
 GameObject:
   m_ObjectHideFlags: 0

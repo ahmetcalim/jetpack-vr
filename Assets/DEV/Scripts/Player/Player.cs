@@ -16,7 +16,7 @@ public class Player : MonoBehaviour
     public static float difficulty = 0;
     public static float resourceMultipleValue = .5f;
     public static bool isMalfunctionActive;
-    public Text difficultyTxt;
+
     public Text resourceTxt;
     public Text speedXTxt;
     public Text bonusFeedBackTxt;
@@ -34,9 +34,9 @@ public class Player : MonoBehaviour
     {
         if (isGameRunning)
         {
-            PrintValueToText(difficultyTxt, PlayerPrefs.GetFloat("gResource").ToString(), "T_Resource");
-            PrintValueToText(resourceTxt, (gainedResource).ToString(), "C_Resource");
-            PrintValueToText(speedXTxt, velocityXBase.ToString(), "Hız");
+           
+            PrintValueToText(resourceTxt, (gainedResource).ToString(), "");
+            PrintValueToText(speedXTxt, velocityXBase.ToString(), "");
             GainResource();
         }
         else
@@ -82,20 +82,10 @@ public class Player : MonoBehaviour
         {
             Destroy(other.gameObject);
             PowerUp powerUp = other.GetComponent<PowerUp>();
-            if (powerUp.powerUpType == PowerUp.PowerUpType.PHASE)
-            {
-                PrintValueToText(bonusFeedBackTxt, "Phase Bonus Alındı.", "");
-                bonusFeedBackTxt.GetComponent<Animator>().SetTrigger("Feedback");
-                //PHASE
-                powerUpController.SetPowerUp(powerUpController.phaseSprite, "Phase");
-            }
-            if (powerUp.powerUpType == PowerUp.PowerUpType.ROCKET)
-            {
-                PrintValueToText(bonusFeedBackTxt, "Roket Bonus Alındı.", "");
-                bonusFeedBackTxt.GetComponent<Animator>().SetTrigger("Feedback");
-                //ROCKET
-                powerUpController.SetPowerUp(powerUpController.rocketSprite, "Rocket");
-            }
+            PrintValueToText(bonusFeedBackTxt, powerUp.powerUpType.ToString() + " Bonus Alındı.", "");
+            bonusFeedBackTxt.GetComponent<Animator>().SetTrigger("Feedback");
+            powerUpController.SetPowerUp(powerUp.sprite, powerUp.tagName);
+           
         }
     }
     private void PrintValueToText(Text textObject, string value, string name)

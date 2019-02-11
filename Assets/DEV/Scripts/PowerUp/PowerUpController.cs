@@ -12,23 +12,26 @@ public class PowerUpController : MonoBehaviour
     public int powerUpCount = 0;
     private float timer;
     public Text bonusFeedBackTxt;
+    public AudioSource bipAudio;
+
     [Header("Phase Bonus")]
-    public Sprite phaseSprite;
     public List<float> phasePowerUpDuringTime;
     public bool isPhaseActive;
     public Text phaseTimer;
-    public AudioSource bipAudio;
     public Material m_Controller_Fade;
     public Material m_Controller_Default;
     [Header("Roket Bonus")]
-    public Sprite rocketSprite;
     public RocketDestroyManager rocketDestroyManager;
-   
     public bool isRocketActive;
+
+    [Header("Bullet Time Bonus")]
+    public List<float> bulletTimeDuringTime;
+    public bool isBulletTimeActive;
+
     [Header("Diğer")]
     public PlayerMovementController playerMovementController;
-    public List<PowerUp> powerUps;
     private int lastSlot = 1;
+
 
     // Start is called before the first frame update
     void Start()
@@ -56,7 +59,7 @@ public class PowerUpController : MonoBehaviour
             powerUpSlotLeft.gameObject.tag = pUpTag;
             powerUpSlotLeft.GetComponent<AudioSource>().Play();
             playerMovementController.ControllerL.TriggerHapticPulse(50000);
-            //         VibrateController(playerMovementController.ControllerL, 1f, 10);
+          
         }
         else if(powerUpSlotRight.sprite == null)
         {
@@ -64,7 +67,7 @@ public class PowerUpController : MonoBehaviour
             powerUpSlotRight.sprite = powerUpSprite;
             powerUpSlotRight.GetComponent<AudioSource>().Play();
             powerUpSlotRight.gameObject.tag = pUpTag;
-            ////        VibrateController(playerMovementController.ControllerR, 1f, 10);
+      
         }
         else
         {
@@ -94,8 +97,9 @@ public class PowerUpController : MonoBehaviour
     }
     public void UseRocket()
     {
-            bonusFeedBackTxt.GetComponent<Animator>().SetTrigger("Feedback");
-            PrintValueToText(bonusFeedBackTxt, "Roket Kullanıldı.", "- ");
+        PrintValueToText(bonusFeedBackTxt, "Roket Kullanıldı.", "");
+        bonusFeedBackTxt.GetComponent<Animator>().SetTrigger("Feedback");
+          
             foreach (var item in rocketDestroyManager.TriggerList)
             {
                 Destroy(item.gameObject);
@@ -103,12 +107,19 @@ public class PowerUpController : MonoBehaviour
     }
     public void UsePhase()
     {
-       
-            bonusFeedBackTxt.GetComponent<Animator>().SetTrigger("Feedback");
-            PrintValueToText(bonusFeedBackTxt, "Phase Kullanıldı.", "- ");
+        PrintValueToText(bonusFeedBackTxt, "Phase Kullanıldı.", "");
+        bonusFeedBackTxt.GetComponent<Animator>().SetTrigger("Feedback");
+            
             ChangeControllerMaterialAlpha(m_Controller_Fade);
             isPhaseActive = true;
     
+    }
+    public void UseBulletTime()
+    {
+        PrintValueToText(bonusFeedBackTxt, "Bullet Time Kullanıldı.", "");
+        bonusFeedBackTxt.GetComponent<Animator>().SetTrigger("Feedback");
+
+
     }
     public void ActivateMalfunction()
     {
@@ -123,7 +134,7 @@ public class PowerUpController : MonoBehaviour
             {
                 StartCoroutine(HapticFeedBack());
             }
-            PrintValueToText(phaseTimer, timer.ToString(), "Phase: ");
+           
         }
         else
         {

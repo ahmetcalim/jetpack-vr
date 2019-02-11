@@ -21,8 +21,11 @@ public class PlayerMovementController : MonoBehaviour
     public SteamVR_TrackedObject rightController;
     private float angleXController;
     public AudioSource powerupUsingAudioSource;
+    //Bunlar powerup class ının içerisine alınacak.
     public AudioClip phaseAudioClip;
     public AudioClip rocketAudioClip;
+    public AudioClip bulletTimeAudioClip;
+    ///-----////------////------///----////
     public AudioSource rocketAudioSource;
     public SteamVR_Controller.Device ControllerL
     {
@@ -77,25 +80,27 @@ public class PlayerMovementController : MonoBehaviour
                     case "Phase":
                         if (!powerUpController.isPhaseActive)
                         {
-                            powerUpController.UsePhase();
-                            leftController.powerUpSlot.tag = "Untagged";
-                           
-                            powerupUsingAudioSource.clip = phaseAudioClip;
-                            powerupUsingAudioSource.Play();
-                            leftController.powerUpSlot.GetComponent<Image>().sprite = null;
-
+                        powerUpController.UsePhase();
+                        leftController.powerUpSlot.tag = "Untagged";
+                        powerupUsingAudioSource.clip = phaseAudioClip;
+                        powerupUsingAudioSource.Play();
+                        leftController.powerUpSlot.GetComponent<Image>().sprite = null;
                         }
-                        
                         break;
                     case "Rocket":
-                            powerUpController.UseRocket();
-                            leftController.powerUpSlot.tag = "Untagged";
-                           
-                            powerupUsingAudioSource.clip = rocketAudioClip;
-                            powerupUsingAudioSource.Play();
-                            leftController.powerUpSlot.GetComponent<Image>().sprite = null;
+                        powerUpController.UseRocket();
+                        leftController.powerUpSlot.tag = "Untagged";
+                        powerupUsingAudioSource.clip = rocketAudioClip;
+                        powerupUsingAudioSource.Play();
+                        leftController.powerUpSlot.GetComponent<Image>().sprite = null;
                         break;
-                        
+                    case "BulletTime":
+                        powerUpController.UseBulletTime();
+                        leftController.powerUpSlot.tag = "Untagged";
+                        powerupUsingAudioSource.Play();
+                        leftController.powerUpSlot.GetComponent<Image>().sprite = null;
+                    
+                        break;
                     default:
                         break;
                 }
@@ -108,19 +113,26 @@ public class PlayerMovementController : MonoBehaviour
                     case "Phase":
                         if (!powerUpController.isPhaseActive)
                         {
-                            powerUpController.UsePhase();
-                            rightController.powerUpSlot.tag = "Untagged";
-                            powerupUsingAudioSource.clip = phaseAudioClip;
-                            powerupUsingAudioSource.Play();
-                            rightController.powerUpSlot.GetComponent<Image>().sprite = null;
+                        powerUpController.UsePhase();
+                        rightController.powerUpSlot.tag = "Untagged";
+                        powerupUsingAudioSource.clip = phaseAudioClip;
+                        powerupUsingAudioSource.Play();
+                        rightController.powerUpSlot.GetComponent<Image>().sprite = null;
                         }
                         break;
                     case "Rocket":
-                            powerUpController.UseRocket();
-                            rightController.powerUpSlot.tag = "Untagged";
-                            powerupUsingAudioSource.clip = rocketAudioClip;
-                            powerupUsingAudioSource.Play();
-                            rightController.powerUpSlot.GetComponent<Image>().sprite = null;
+                        powerUpController.UseRocket();
+                        rightController.powerUpSlot.tag = "Untagged";
+                        powerupUsingAudioSource.clip = rocketAudioClip;
+                        powerupUsingAudioSource.Play();
+                        rightController.powerUpSlot.GetComponent<Image>().sprite = null;
+                        break;
+                    case "BulletTime":
+                        powerUpController.UseBulletTime();
+                        rightController.powerUpSlot.tag = "Untagged";
+                        powerupUsingAudioSource.Play();
+                        rightController.powerUpSlot.GetComponent<Image>().sprite = null;
+                       
                         break;
                     default:
                         break;

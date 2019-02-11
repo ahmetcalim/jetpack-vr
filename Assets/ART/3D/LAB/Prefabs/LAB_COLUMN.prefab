@@ -100,11 +100,13 @@ MonoBehaviour:
   - {fileID: 4739749126569559069, guid: e235e3e0f8c017e45bb4d7790239abe2, type: 3}
   - {fileID: 7824739895711529689, guid: ccaac1bd96847ed4e92df505ab924227, type: 3}
   - {fileID: 2829296533880505206, guid: 0115598f072f4bd438e80ca451059cd6, type: 3}
+  - {fileID: 89649929184176790, guid: f7bc18a9c089a614bb0d49bf47e30de7, type: 3}
   asset: {fileID: 2053906339750274657}
   scaleFactor: 3.2
   nextNode: {fileID: 0}
   prevNode: {fileID: 0}
   tunnelType: 0
+  themeType: 0
 --- !u!65 &4614587145520427665
 BoxCollider:
   m_ObjectHideFlags: 0
