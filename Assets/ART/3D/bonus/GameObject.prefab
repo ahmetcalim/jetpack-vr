@@ -90,7 +90,7 @@ GameObject:
   - component: {fileID: 7282060355787071320}
   m_Layer: 0
   m_Name: GameObject
-  m_TagString: Phase
+  m_TagString: Powerup
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -102,8 +102,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1550125836506829644}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -25, y: -490, z: 21889}
+  m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.4367212, y: 0.4367212, z: 0.4367212}
   m_Children:
   - {fileID: 6713626712430712575}
@@ -124,7 +124,7 @@ Transform:
   - {fileID: 4752363484254875881}
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
 --- !u!65 &1474661981
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -133,7 +133,7 @@ BoxCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1550125836506829644}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 3.0177965, y: 10.870242, z: 11.731724}
@@ -150,7 +150,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a203d16e49b758247adbe4306f8d0153, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  powerUpName: 0
+  powerUpType: 0
 --- !u!1 &2499624130664849006
 GameObject:
   m_ObjectHideFlags: 0

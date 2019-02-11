@@ -14,16 +14,4 @@ public class GameController : MonoBehaviour
     {
         Application.targetFrameRate = 90;
     }
-    public void GameOverEvents()
-    {
-        Player.isGameRunning = false;
-     
-        StartCoroutine(SpawnUI());
-    }
-    IEnumerator SpawnUI()
-    {
-        yield return new WaitForSeconds(2f);
-        Instantiate(gameOverPanel, new Vector3(player.position.x, 5f, player.position.z + 5f), Quaternion.identity);
-    }
- 
 }

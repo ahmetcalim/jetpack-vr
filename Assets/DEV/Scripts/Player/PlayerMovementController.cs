@@ -23,6 +23,7 @@ public class PlayerMovementController : MonoBehaviour
     public AudioSource powerupUsingAudioSource;
     public AudioClip phaseAudioClip;
     public AudioClip rocketAudioClip;
+    public AudioSource rocketAudioSource;
     public SteamVR_Controller.Device ControllerL
     {
         get { return SteamVR_Controller.Input((int)leftController.index); }
@@ -44,6 +45,14 @@ public class PlayerMovementController : MonoBehaviour
             Player.difficulty = Mathf.Pow(3, ((Time.time * 2) / (90 + Time.time)) + 1) - 3;
             if (ControllerL.GetHairTrigger() && ControllerR.GetHairTrigger())
             {
+                if (!rocketAudioSource.isPlaying)
+                {
+                    rocketAudioSource.Play();
+                }
+                if (rocketAudioSource.volume <=.7f)
+                {
+                    rocketAudioSource.volume += (Time.deltaTime/2f);
+                }
                 if (angleXController >0)
                 {
                     Up(1);
@@ -51,6 +60,14 @@ public class PlayerMovementController : MonoBehaviour
                 else
                 {
                     Up(-1);
+                }
+            }
+            else
+            {
+                
+                if (rocketAudioSource.volume>=0f)
+                {
+                    rocketAudioSource.volume -= (Time.deltaTime/3f);
                 }
             }
             if (ControllerL.GetPressUp(SteamVR_Controller.ButtonMask.Touchpad))
@@ -109,7 +126,7 @@ public class PlayerMovementController : MonoBehaviour
                         break;
                 }
             }
-            MovePlayerForward();
+            //MovePlayerForward();
             IncreaseTravveledDistance();
         }
     }
@@ -125,17 +142,17 @@ public class PlayerMovementController : MonoBehaviour
             playerTransform.GetComponent<Rigidbody>().velocity = new Vector3(0, side, 0f) * accelerationY;
         }
     }
-    private void MovePlayerForward()
+    /*private void MovePlayerForward()
     {
         if (player.velocityXBase <= 1f)
         {
             player.velocityXBase += (Time.realtimeSinceStartup * (0.5f / 30000));
         }
         playerTransform.Translate(Vector3.forward * player.velocityXBase);
-    }
+    }*/
     private void IncreaseTravveledDistance()
     {
-        player.travelledDistance = playerTransform.position.z - playerStartPositionZ;
+        player.travelledDistance = (Time.time * player.velocityXBase);
     }
     private void SetTargetTransform(float side)
     {

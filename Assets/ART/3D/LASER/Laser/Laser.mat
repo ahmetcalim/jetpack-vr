@@ -32,4 +32,4 @@ Material:
     - _ExtrusionPoint: 0.07
     - __dirty: 0
     m_Colors:
-    - _Color: {r: 0, g: 1, b: 0.032458067, a: 0}
+    - _Color: {r: 1, g: 0, b: 0.0379858, a: 0}

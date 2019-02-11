@@ -6,6 +6,6 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/GameScene.unity
-    guid: 7af04fab8f0f6f0448f1f580d5c1fb52
+    path: Assets/Scenes/TunnelCreator.unity
+    guid: d2387bdf041c61c4e962f57f1f33f725
   m_configObjects: {}

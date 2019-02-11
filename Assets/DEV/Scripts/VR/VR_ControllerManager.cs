@@ -18,7 +18,7 @@ public class VR_ControllerManager : MonoBehaviour {
     private float cameraAngle;
     public float turnConstant = 10f;
     private GameObject collidingObject;
-    public MeshRenderer joystickRenderer;
+    public List<MeshRenderer> joystickRenderers;
     private GameObject objectInHand;
     private SteamVR_Controller.Device Controller
     {
@@ -54,7 +54,7 @@ public class VR_ControllerManager : MonoBehaviour {
             angle = this.transform.rotation.eulerAngles.z;
 
 
-            if (playerTransform.position.x >= -11f && playerTransform.position.x <= 11f)
+            if (playerTransform.position.x >= 2f && playerTransform.position.x <= 23f)
             {
 
 
@@ -76,14 +76,14 @@ public class VR_ControllerManager : MonoBehaviour {
             }
             else
             {
-                if (playerTransform.position.x < -11f)
+                if (playerTransform.position.x < 2f)
                 {
-                    playerTransform.position = new Vector3(-11f, playerTransform.position.y, playerTransform.position.z);
+                    playerTransform.position = new Vector3(2f, playerTransform.position.y, playerTransform.position.z);
 
                 }
-                if (playerTransform.position.x > 11f)
+                if (playerTransform.position.x > 23f)
                 {
-                    playerTransform.position = new Vector3(11f, playerTransform.position.y, playerTransform.position.z);
+                    playerTransform.position = new Vector3(23f, playerTransform.position.y, playerTransform.position.z);
 
                 }
             }

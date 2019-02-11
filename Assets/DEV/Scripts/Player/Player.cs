@@ -7,11 +7,11 @@ using UnityEngine.SceneManagement;
 public class Player : MonoBehaviour
 {
     public GameController gameController;
-    public float velocityXBase = 0.1f;
-    public static float velocityXMax = 1f;
+    public float velocityXBase = 50;
+    public static float velocityXMax = 100f;
     public float travelledDistance;
     public static float totalDistance;
-    public static float gainedResource;
+    private float gainedResource;
     public static bool isGameRunning = true;
     public static float difficulty = 0;
     public static float resourceMultipleValue = .5f;
@@ -27,19 +27,16 @@ public class Player : MonoBehaviour
 
     private void Start()
     {
-        if (PlayerPrefsManager.GetPlayerValueFromPlayerPrefs("gainedResource") != 0)
-        {
-            gainedResource = PlayerPrefsManager.GetPlayerValueFromPlayerPrefs("gainedResource");
-        }
        
+    
     }
     private void Update()
     {
         if (isGameRunning)
         {
-            PrintValueToText(difficultyTxt, difficulty.ToString(), "Zorluk");
-            PrintValueToText(resourceTxt, gainedResource.ToString(), "Kaynak");
-            PrintValueToText(speedXTxt, (travelledDistance / Time.time).ToString(), "Hız");
+            PrintValueToText(difficultyTxt, PlayerPrefs.GetFloat("gResource").ToString(), "T_Resource");
+            PrintValueToText(resourceTxt, (gainedResource).ToString(), "C_Resource");
+            PrintValueToText(speedXTxt, velocityXBase.ToString(), "Hız");
             GainResource();
         }
         else
@@ -54,14 +51,13 @@ public class Player : MonoBehaviour
     public void GainResource()
     {
         gainedResource = (travelledDistance * difficulty) * resourceMultipleValue;
-        PlayerPrefsManager.SetToPlayerPrefs(gainedResource, "gainedResource");
     }
     public static void ResetStaticValues()
     {
         isMalfunctionActive = false;
         difficulty = 0f;
         totalDistance = 0f;
-        gainedResource = 0f;
+       
         resourceMultipleValue = .5f;
         isGameRunning = true;
     }
@@ -72,9 +68,11 @@ public class Player : MonoBehaviour
             Destroy(other.gameObject);
             if (powerUpController.isPhaseActive == false)
             {
-                gameController.GameOverEvents();
+                isGameRunning = false;
+                Debug.Log("GameOver");
+
+                PlayerPrefs.SetFloat("gResource", PlayerPrefs.GetFloat("gResource") + gainedResource);
             }
-           
         }
         if (other.tag == "Malfunction")
         {

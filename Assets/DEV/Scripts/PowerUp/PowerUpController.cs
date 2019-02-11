@@ -55,10 +55,12 @@ public class PowerUpController : MonoBehaviour
             powerUpSlotLeft.sprite = powerUpSprite;
             powerUpSlotLeft.gameObject.tag = pUpTag;
             powerUpSlotLeft.GetComponent<AudioSource>().Play();
+            playerMovementController.ControllerL.TriggerHapticPulse(50000);
             //         VibrateController(playerMovementController.ControllerL, 1f, 10);
         }
         else if(powerUpSlotRight.sprite == null)
         {
+            playerMovementController.ControllerR.TriggerHapticPulse(50000);
             powerUpSlotRight.sprite = powerUpSprite;
             powerUpSlotRight.GetComponent<AudioSource>().Play();
             powerUpSlotRight.gameObject.tag = pUpTag;
@@ -105,7 +107,6 @@ public class PowerUpController : MonoBehaviour
             bonusFeedBackTxt.GetComponent<Animator>().SetTrigger("Feedback");
             PrintValueToText(bonusFeedBackTxt, "Phase Kullanıldı.", "- ");
             ChangeControllerMaterialAlpha(m_Controller_Fade);
-            
             isPhaseActive = true;
     
     }
@@ -118,7 +119,7 @@ public class PowerUpController : MonoBehaviour
         if (timer <= phasePowerUpDuringTime[0])
         {
             timer += Time.deltaTime * 1f;
-            if (timer >= 4.08f && timer < 4.1f)
+            if (timer >= 3.08f && timer < 3.1f)
             {
                 StartCoroutine(HapticFeedBack());
             }
@@ -138,12 +139,16 @@ public class PowerUpController : MonoBehaviour
     }
     private void ChangeControllerMaterialAlpha(Material mat)
     {
-        playerMovementController.leftController.GetComponent<VR_ControllerManager>().joystickRenderer.sharedMaterial = mat;
+        foreach (var item in playerMovementController.leftController.GetComponent<VR_ControllerManager>().joystickRenderers)
+        {
+            item.sharedMaterial = mat;
+        }
+        
 
     }
     IEnumerator HapticFeedBack()
     {
-        for (int i = 0; i < 2; i++)
+        for (int i = 0; i < 3; i++)
         {
             yield return new WaitForSeconds(1f);
             bipAudio.Play();
