@@ -50,7 +50,7 @@ public class CorridorGenerator : MonoBehaviour
         }
         if (Player.isGameRunning == true)
         {
-            rb.velocity = -transform.forward * player.velocityXBase;
+            rb.velocity = -transform.forward * player.velocityXBase * PowerUpController.bulletTimeMultipleValue;
         }
         else
         {

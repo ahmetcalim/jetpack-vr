@@ -11,20 +11,22 @@ public class PowerUpController : MonoBehaviour
     public Image powerUpSlotRight;
     public int powerUpCount = 0;
     private float timer;
+    private bool timeCountFinished = true;
     public Text bonusFeedBackTxt;
     public AudioSource bipAudio;
 
     [Header("Phase Bonus")]
     public List<float> phasePowerUpDuringTime;
     public bool isPhaseActive;
-    public Text phaseTimer;
     public Material m_Controller_Fade;
     public Material m_Controller_Default;
+
     [Header("Roket Bonus")]
     public RocketDestroyManager rocketDestroyManager;
     public bool isRocketActive;
 
     [Header("Bullet Time Bonus")]
+    public static float bulletTimeMultipleValue = 1f;
     public List<float> bulletTimeDuringTime;
     public bool isBulletTimeActive;
 
@@ -44,13 +46,31 @@ public class PowerUpController : MonoBehaviour
     {
         if (Player.isGameRunning == true)
         {
-            if (isPhaseActive)
+            CheckActivePowerups();
+        }
+    }
+    private void CheckActivePowerups()
+    {
+        if (isPhaseActive)
+        {
+            isPhaseActive = !TimeCount(phasePowerUpDuringTime[0]);
+        }
+        else
+        {
+            ChangeControllerMaterialAlpha(m_Controller_Default);
+        }
+        if (isBulletTimeActive)
+        {
+            isBulletTimeActive = !TimeCount(bulletTimeDuringTime[0]);
+        }
+        else
+        {
+            if (bulletTimeMultipleValue != 1f)
             {
-                PhaseTimeCount();
+                bulletTimeMultipleValue = 1f;
             }
         }
     }
-  
     public void SetPowerUp(Sprite powerUpSprite, string pUpTag)
     {
         if (powerUpSlotLeft.sprite == null)
@@ -74,12 +94,10 @@ public class PowerUpController : MonoBehaviour
             switch (lastSlot)
             {
                 case 0:
-
                     powerUpSlotRight.sprite = powerUpSprite;
                     powerUpSlotRight.gameObject.tag = pUpTag;
                     powerUpSlotRight.gameObject.GetComponent<AudioSource>().Play();
                     playerMovementController.ControllerL.TriggerHapticPulse(50000);
-                    
                     lastSlot = 1;
                     break;
                 case 1:
@@ -87,7 +105,6 @@ public class PowerUpController : MonoBehaviour
                     powerUpSlotLeft.gameObject.tag = pUpTag;
                     powerUpSlotLeft.gameObject.GetComponent<AudioSource>().Play();
                     playerMovementController.ControllerR.TriggerHapticPulse(50000);
-                  
                     lastSlot = 0;
                     break;
                 default:
@@ -97,6 +114,7 @@ public class PowerUpController : MonoBehaviour
     }
     public void UseRocket()
     {
+        //TO DO KULLANIM İÇİN SES ÇAL
         PrintValueToText(bonusFeedBackTxt, "Roket Kullanıldı.", "");
         bonusFeedBackTxt.GetComponent<Animator>().SetTrigger("Feedback");
           
@@ -107,6 +125,7 @@ public class PowerUpController : MonoBehaviour
     }
     public void UsePhase()
     {
+        //TO DO KULLANIM İÇİN SES ÇAL
         PrintValueToText(bonusFeedBackTxt, "Phase Kullanıldı.", "");
         bonusFeedBackTxt.GetComponent<Animator>().SetTrigger("Feedback");
             
@@ -116,19 +135,23 @@ public class PowerUpController : MonoBehaviour
     }
     public void UseBulletTime()
     {
+        //TO DO KULLANIM İÇİN SES ÇAL
         PrintValueToText(bonusFeedBackTxt, "Bullet Time Kullanıldı.", "");
         bonusFeedBackTxt.GetComponent<Animator>().SetTrigger("Feedback");
-
+        bulletTimeMultipleValue = 0.2f;
+        isBulletTimeActive = true;
 
     }
     public void ActivateMalfunction()
     {
         Player.isMalfunctionActive = true;
     }
-    private void PhaseTimeCount()
+    private bool TimeCount(float duringTime)
     {
-        if (timer <= phasePowerUpDuringTime[0])
+        
+        if (timer <= duringTime)
         {
+            timeCountFinished = false;
             timer += Time.deltaTime * 1f;
             if (timer >= 3.08f && timer < 3.1f)
             {
@@ -139,10 +162,10 @@ public class PowerUpController : MonoBehaviour
         else
         {
             timer = 0f;
-            isPhaseActive = false;
-            
-            ChangeControllerMaterialAlpha(m_Controller_Default);
+            timeCountFinished = true;
+            //ChangeControllerMaterialAlpha(m_Controller_Default);
         }
+        return timeCountFinished;
     }
     private void PrintValueToText(Text textObject, string value, string name)
     {

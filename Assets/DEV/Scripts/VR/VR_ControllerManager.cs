@@ -8,8 +8,6 @@ public class VR_ControllerManager : MonoBehaviour {
 
     
     private SteamVR_TrackedObject trackedObj;
-    public delegate void OnTriggerDownDelegate();
-    public static OnTriggerDownDelegate onTriggerDown;
     private Valve.VR.EVRButtonId triggerButton = Valve.VR.EVRButtonId.k_EButton_SteamVR_Trigger;
     public GameObject triggerPrefab;
     private Vector3 targetTransform;
@@ -62,7 +60,7 @@ public class VR_ControllerManager : MonoBehaviour {
                 {
                     turnConstant = (((angle - 30))) / 6f;
                     targetTransform = new Vector3(playerTransform.position.x - 3, playerTransform.position.y, playerTransform.position.z);
-                    playerTransform.transform.position = Vector3.Lerp(playerTransform.position, targetTransform, Time.deltaTime * turnConstant);
+                    playerTransform.transform.position = Vector3.Lerp(playerTransform.position, targetTransform, Time.deltaTime * turnConstant * PowerUpController.bulletTimeMultipleValue);
                 }
                 if (angle >= 210f && angle < 330f)
                 {
@@ -71,7 +69,7 @@ public class VR_ControllerManager : MonoBehaviour {
                     turnConstant = ((Mathf.Abs((330f - angle)))) / 6f;
                     targetTransform = new Vector3(playerTransform.position.x + 3, playerTransform.position.y, playerTransform.transform.position.z);
                     //playerTransform.transform.position += new Vector3(Time.deltaTime * turnConstant / 3f, playerTransform.position.y, playerTransform.position.z);
-                    playerTransform.transform.position = Vector3.Lerp(playerTransform.position, targetTransform, Time.deltaTime * turnConstant);
+                    playerTransform.transform.position = Vector3.Lerp(playerTransform.position, targetTransform, Time.deltaTime * turnConstant * PowerUpController.bulletTimeMultipleValue);
                 }
             }
             else
