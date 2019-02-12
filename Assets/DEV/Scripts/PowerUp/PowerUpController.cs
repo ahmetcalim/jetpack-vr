@@ -138,7 +138,7 @@ public class PowerUpController : MonoBehaviour
         //TO DO KULLANIM İÇİN SES ÇAL
         PrintValueToText(bonusFeedBackTxt, "Bullet Time Kullanıldı.", "");
         bonusFeedBackTxt.GetComponent<Animator>().SetTrigger("Feedback");
-        bulletTimeMultipleValue = 0.2f;
+        bulletTimeMultipleValue = 0.5f;
         isBulletTimeActive = true;
 
     }

@@ -19,10 +19,12 @@ public class NodeGraph : MonoBehaviour
     public void Generate()
     {
         if (Next() == headNode)
-            corridorGenerator.Create(headNode, true);
+            corridorGenerator.Create(currentNode, true);
         else
             corridorGenerator.Create(currentNode, false);
+
     }
+
     public KNode Next()
     {
        
@@ -30,12 +32,14 @@ public class NodeGraph : MonoBehaviour
 
         if (linkCount != 0)
         {
+            
             currentNode = tailNode.links[Random.Range(0, linkCount)];
             if (time>=const_time)
             {
+                Debug.Log("Girdim!");
                 ChangeTheme();
-                const_time = Random.Range(10,30);
-                Debug.Log("GİRDİM!");
+                const_time = Random.Range(10, 30);
+
                 for (int i = 0; i < linkCount; i++)
                 {
                     if (tailNode.links[i].themeType!=currentThemeType)
@@ -60,10 +64,10 @@ public class NodeGraph : MonoBehaviour
                     }
                 }
             }
-            
+
             if (currentNode.tunnelType == headNode.tunnelType)
-                return this.headNode;
-            else
+                currentNode = headNode;
+
                 return currentNode;
         }
         else
@@ -92,7 +96,7 @@ public class NodeGraph : MonoBehaviour
     }
 
     int time=0 ;
-    int const_time = 3;
+    int const_time = 20;
     IEnumerator GetTime()
     {
         Debug.Log("süre: " + time);

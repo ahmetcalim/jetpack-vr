@@ -43,14 +43,10 @@ public class CorridorGenerator : MonoBehaviour
         MoveTunnel();
     }
     void MoveTunnel()
-    {
-        if (player.velocityXBase <= Player.velocityXMax)
-        {
-            player.velocityXBase += ((Time.deltaTime * 1f) / 2.5f);
-        }
+    { 
         if (Player.isGameRunning == true)
         {
-            rb.velocity = -transform.forward * player.velocityXBase * PowerUpController.bulletTimeMultipleValue;
+            rb.velocity = -transform.forward * player.velocityZBase * PowerUpController.bulletTimeMultipleValue;
         }
         else
         {

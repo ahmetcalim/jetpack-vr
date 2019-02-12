@@ -6,17 +6,21 @@ using UnityEngine.SceneManagement;
 //Bu class Player ile ilgili özellikleri barındırmakta.
 public class Player : MonoBehaviour
 {
+    [Header("Malfunction")]
+    public static bool isMalfunctionActive;
+    public float heat = 0f;
+    public float maxHeatValue = 1500f;
+    [Header("Diğer")]
     public GameController gameController;
-    public float velocityXBase = 50;
-    public static float velocityXMax = 100f;
+    public float velocityZBase = 40;
+    public static float velocityZMax = 100f;
     public float travelledDistance;
     public static float totalDistance;
     private float gainedResource;
     public static bool isGameRunning = true;
     public static float difficulty = 0;
     public static float resourceMultipleValue = .5f;
-    public static bool isMalfunctionActive;
-
+    public Transform tunnelTransform;
     public Text resourceTxt;
     public Text speedXTxt;
     public Text bonusFeedBackTxt;
@@ -24,20 +28,25 @@ public class Player : MonoBehaviour
     public PlayerMovementController playerMovementController;
     public PowerUpController powerUpController;
     private float timer = 0f;
-
-    private void Start()
-    {
-       
-    
-    }
+    private float nextActionTime = 0.0f;
+    public float period = 0.1f;
+    public Transform playerPawnTransform;
     private void Update()
     {
         if (isGameRunning)
         {
-           
             PrintValueToText(resourceTxt, (gainedResource).ToString(), "");
-            PrintValueToText(speedXTxt, velocityXBase.ToString(), "");
+            PrintValueToText(speedXTxt, velocityZBase.ToString(), "");
             GainResource();
+           if (velocityZBase <= velocityZMax)
+            {
+
+                if (Time.realtimeSinceStartup > nextActionTime)
+                {
+                    nextActionTime += period;
+                    velocityZBase += .03f;
+                }
+            }
         }
         else
         {

@@ -101,6 +101,7 @@ MonoBehaviour:
   - {fileID: 7824739895711529689, guid: ccaac1bd96847ed4e92df505ab924227, type: 3}
   - {fileID: 2829296533880505206, guid: 0115598f072f4bd438e80ca451059cd6, type: 3}
   - {fileID: 89649929184176790, guid: f7bc18a9c089a614bb0d49bf47e30de7, type: 3}
+  - {fileID: 3917509927971732494, guid: 1c4667a692f0d994082c146d3bfe2384, type: 3}
   asset: {fileID: 2053906339750274657}
   scaleFactor: 3.2
   nextNode: {fileID: 0}

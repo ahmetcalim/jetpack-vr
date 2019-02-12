@@ -17,7 +17,7 @@ public class PlayerMovementController : MonoBehaviour
     public static float constant1 = 44; 
     public static  float constant2 = 100;
     public static float constant3 = 3;
-   
+    
     public AudioClip rocketAudioClip;
     public AudioSource rocketAudioSource;
     public SteamVR_Controller.Device ControllerL
@@ -59,7 +59,7 @@ public class PlayerMovementController : MonoBehaviour
     }*/
     private void IncreaseTravveledDistance()
     {
-        player.travelledDistance = (Time.time * player.velocityXBase);
+        player.travelledDistance = (Time.time * player.velocityZBase);
     }
     private void SetTargetTransform(float side)
     {

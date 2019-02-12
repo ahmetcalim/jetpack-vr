@@ -19,7 +19,7 @@ public class KNode : MonoBehaviour
     }
     public enum ThemeType
     {
-        Lab1,Lab2,Lab3,Hospital
+        Lab1,Lab2,Lab3,Hospital,Glass
     }
 
 }
