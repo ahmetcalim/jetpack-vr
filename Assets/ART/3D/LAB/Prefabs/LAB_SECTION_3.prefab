@@ -97,7 +97,6 @@ MonoBehaviour:
   links:
   - {fileID: 5074562481959118283, guid: 3107774ac31023c49be8c8df14e15098, type: 3}
   - {fileID: 3917509927971732494, guid: 1c4667a692f0d994082c146d3bfe2384, type: 3}
-  - {fileID: 5936047921340487448, guid: f7b4301d0ca525041bccb13c3e901e7b, type: 3}
   asset: {fileID: 1710063517019491373}
   scaleFactor: 76.8
   nextNode: {fileID: 0}
