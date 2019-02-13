@@ -4,21 +4,26 @@ using UnityEngine;
 
 public class ObjectBuilder : MonoBehaviour
 {
-    public enum UpgradeTitle { POWERUP, MOVEMENT }
-    public UpgradeTitle upgradeTitle;
-    public UpgradeManager upgradeManager;
-    public void AddUpgradeTitle()
+    public List<GameObject> objs;
+    private Vector3 spawnPoint;
+    public Transform startTransform;
+    public Transform parentTransform;
+    public void BuildObject()
     {
-        switch (upgradeTitle)
-        {
-            case UpgradeTitle.POWERUP:
-              
-                break;
-            case UpgradeTitle.MOVEMENT:
-              
-                break;
-            default:
-                break;
-        }
+        spawnPoint = new Vector3(-0.57f, 5.9f, startTransform.position.z + 38.4f);
+
+        GameObject copy = Instantiate(objs[0], spawnPoint, Quaternion.identity);
+        copy.transform.SetParent(parentTransform);
+        copy.transform.position = new Vector3(0.57f, 5.9f, startTransform.position.z + 38.4f);
+
+        startTransform = copy.transform;
+        spawnPoint = new Vector3(0.57f, 5.9f, startTransform.position.z + 38.4f);
+
+        GameObject copy2= Instantiate(objs[1], spawnPoint, Quaternion.identity);
+        copy2.transform.SetParent(parentTransform);
+        copy2.transform.position = new Vector3(0.57f, 5.9f, startTransform.position.z + 38.4f);
+
+        startTransform = copy2.transform;
+
     }
 }

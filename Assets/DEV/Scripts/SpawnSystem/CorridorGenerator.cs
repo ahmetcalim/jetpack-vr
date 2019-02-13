@@ -35,7 +35,6 @@ public class CorridorGenerator : MonoBehaviour
             Destroy(nodeGraph.headNode.prevNode.gameObject);
             nodeGraph.tailNode.nextNode = null;
             SpawnObstacle(g.transform,k.scaleFactor);
-            SpawnObstacle(g.transform, k.scaleFactor);
         }
     }
 
@@ -63,11 +62,11 @@ public class CorridorGenerator : MonoBehaviour
     }
 
     public GameObject laserObstacle_Vertical_Red, laserObstacle_Horizantal_Red,
-        laserObstacle_Vertical_Green, laserObstacle_Horizantal_Green,powerUp_phase,powerUp_roket, powerUp_bulletTime, scifi_cube1, scifi_cube2;
+        laserObstacle_Vertical_Green, laserObstacle_Horizantal_Green,powerUp_phase,powerUp_roket, powerUp_bulletTime;
 
     void SpawnObstacle(Transform parentTransform,float nodeScale)
     {
-        int i = Random.Range(0, 12);
+        int i = Random.Range(0, 8);
 
         switch (i)
         {
@@ -93,18 +92,6 @@ public class CorridorGenerator : MonoBehaviour
                 break;
             case 7:
                 InstantiateObstacle(powerUp_bulletTime, parentTransform);
-                break;
-            case 8:
-                InstantiateObstacle(scifi_cube1, parentTransform);
-                break;
-            case 9:
-                InstantiateObstacle(scifi_cube2, parentTransform);
-                break;
-            case 10:
-                InstantiateObstacle(scifi_cube1, parentTransform);
-                break;
-            case 11:
-                InstantiateObstacle(scifi_cube2, parentTransform);
                 break;
             default:
                 break;

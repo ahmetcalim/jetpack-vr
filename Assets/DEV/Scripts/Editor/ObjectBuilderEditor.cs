@@ -10,16 +10,9 @@ public class ObjectBuilderEditor : Editor
         DrawDefaultInspector();
 
         ObjectBuilder myScript = (ObjectBuilder)target;
-        if (GUILayout.Button("Set Upgrade Title"))
+        if (GUILayout.Button("Build Object"))
         {
-            myScript.AddUpgradeTitle();
-            GUILayout.Space(100f);
+            myScript.BuildObject();
         }
-
-    }
-
-    public override void OnInteractivePreviewGUI(Rect r, GUIStyle background)
-    {
-        base.OnInteractivePreviewGUI(r, background);
     }
 }
