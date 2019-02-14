@@ -12,44 +12,51 @@ public class Upgrade : MonoBehaviour
     public Operator _operator;
     public float cost;
     public float upgradeAmount;
+    public int index;
     private void Start()
     {
         GetComponent<Button>().onClick.AddListener(()=>ApplyUpgrade());
-        GetComponent<Button>().GetComponentInChildren<Text>().text = upgradeType.ToString() + " " + _operator.ToString() + " " + upgradeAmount;
+        GetComponent<Button>().GetComponentInChildren<Text>().text = upgradeType.ToString() + " " + cost + " Res";
     }
     public void ApplyUpgrade()
     {
-        Debug.Log(upgradeType.ToString());
-        switch (_operator)
+        Debug.Log("basstım");
+        if (PlayerPrefs.GetFloat("gResource") > cost)
         {
-            case Operator.ADDITION:
-                break;
-            case Operator.ELIMINATION:
-                break;
-            case Operator.MULTIPLICATION:
-                break;
-            case Operator.DIVISION:
-                break;
-            default:
-                break;
+            PlayerPrefs.SetFloat("gResource", PlayerPrefs.GetFloat("gResource") - cost);
+            FindObjectOfType<UpgradeManager>().UpdateResourceText(PlayerPrefs.GetFloat("gResource"));
+            switch (_operator)
+            {
+                case Operator.ADDITION:
+                    break;
+                case Operator.ELIMINATION:
+                    break;
+                case Operator.MULTIPLICATION:
+                    break;
+                case Operator.DIVISION:
+                    break;
+                default:
+                    break;
+            }
+            switch (upgradeType)
+            {
+                case UpgradeType.PHASE:
+
+                    break;
+                case UpgradeType.ROCKET:
+                    break;
+                case UpgradeType.BULLET_TIME:
+                    break;
+                case UpgradeType.MOVEMENT_X:
+                    break;
+                case UpgradeType.MOVEMENT_Y:
+                    break;
+                case UpgradeType.MOVEMENT_Z:
+                    break;
+                default:
+                    break;
+            }
         }
-        switch (upgradeType)
-        {
-            case UpgradeType.PHASE:
-             
-                break;
-            case UpgradeType.ROCKET:
-                break;
-            case UpgradeType.BULLET_TIME:
-                break;
-            case UpgradeType.MOVEMENT_X:
-                break;
-            case UpgradeType.MOVEMENT_Y:
-                break;
-            case UpgradeType.MOVEMENT_Z:
-                break;
-            default:
-                break;
-        }
+     
     }
 }

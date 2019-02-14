@@ -779,7 +779,7 @@ Transform:
   m_GameObject: {fileID: 4968096414750269595}
   m_LocalRotation: {x: -0.7071068, y: -0, z: -0, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.16119, y: 1, z: 0.16119}
   m_Children: []
   m_Father: {fileID: 250447185956550146}
   m_RootOrder: 0
@@ -838,7 +838,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 250447185956550146}
-  - component: {fileID: 6825332900855457929}
+  - component: {fileID: 7731110963636171029}
   m_Layer: 0
   m_Name: LaserPrefab_Vertical_Red
   m_TagString: Obstacle
@@ -854,8 +854,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6337895812005329550}
   m_LocalRotation: {x: 0.5, y: 0.5, z: -0.5, w: 0.5}
-  m_LocalPosition: {x: 13.6, y: 9.5, z: -9.6}
-  m_LocalScale: {x: 0.9, y: 0.9, z: 0.95}
+  m_LocalPosition: {x: 7, y: 9.6, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4968096414750269574}
   - {fileID: 7879257027888198942}
@@ -863,7 +863,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 90, y: 90, z: 0}
---- !u!65 &6825332900855457929
+--- !u!65 &7731110963636171029
 BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -874,8 +874,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 2.033484, y: 1.9316549, z: 19.367678}
-  m_Center: {x: 0.052213736, y: 0.020032328, z: -0.057159226}
+  m_Size: {x: 1.73, y: 1.54, z: 19.2}
+  m_Center: {x: -0.03, y: -0.02, z: -0.04}
 --- !u!1 &7879257026669324301
 GameObject:
   m_ObjectHideFlags: 0

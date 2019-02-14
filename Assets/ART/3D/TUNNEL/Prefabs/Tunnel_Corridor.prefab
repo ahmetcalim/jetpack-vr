@@ -12,7 +12,8 @@ GameObject:
   - component: {fileID: 3138867936787098017}
   - component: {fileID: 3933641194343555426}
   - component: {fileID: 997545680531613328}
-  m_Layer: 0
+  - component: {fileID: 8065292068057778165}
+  m_Layer: 10
   m_Name: Tunnel_Corridor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -98,12 +99,26 @@ MonoBehaviour:
   links:
   - {fileID: 997545680531613328, guid: e4b0177174c5b5c49a1f016acd941557, type: 3}
   - {fileID: 3917509927971732494, guid: 1c4667a692f0d994082c146d3bfe2384, type: 3}
+  - {fileID: 4411285057864124233, guid: 6493646be8641914e92b8234d8a9e3a8, type: 3}
   asset: {fileID: 2621146734490740906}
   scaleFactor: 76.8
   nextNode: {fileID: 0}
   prevNode: {fileID: 0}
   tunnelType: 10
   themeType: 4
+--- !u!65 &8065292068057778165
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2621146734490740906}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 29.300003, y: 18.787184, z: 76.799995}
+  m_Center: {x: 13.650003, y: 8.393592, z: -38.399998}
 --- !u!1001 &7396919171528332861
 PrefabInstance:
   m_ObjectHideFlags: 0

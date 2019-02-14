@@ -87,10 +87,9 @@ GameObject:
   m_Component:
   - component: {fileID: 7671350561286994046}
   - component: {fileID: 1474661981}
-  - component: {fileID: 7282060355787071320}
   m_Layer: 0
-  m_Name: Phase
-  m_TagString: Powerup
+  m_Name: powerUp_phase
+  m_TagString: Phase
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -104,7 +103,7 @@ Transform:
   m_GameObject: {fileID: 1550125836506829644}
   m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.4367212, y: 0.4367212, z: 0.4367212}
+  m_LocalScale: {x: 0.45, y: 0.45, z: 0.45}
   m_Children:
   - {fileID: 6713626712430712575}
   - {fileID: 6246737225508933176}
@@ -133,26 +132,11 @@ BoxCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1550125836506829644}
   m_Material: {fileID: 0}
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 3.0177965, y: 10.870242, z: 11.731724}
   m_Center: {x: 1.0088983, y: -1.603406, z: 3.0269833}
---- !u!114 &7282060355787071320
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1550125836506829644}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a203d16e49b758247adbe4306f8d0153, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  powerUpType: 0
-  sprite: {fileID: 21300000, guid: a6582f3802c6f77489c5c4e1c8c19088, type: 3}
-  tagName: Phase
 --- !u!1 &2499624130664849006
 GameObject:
   m_ObjectHideFlags: 0

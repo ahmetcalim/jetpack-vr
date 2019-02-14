@@ -22,8 +22,9 @@ public class UpgradeGeneratorEditor : Editor
 
     void OnEnable()
     {
-        // Setup the SerializedProperties
-        upgradeFeaturePowerup = serializedObject.FindProperty("upgradeFeaturePowerup");
+        
+           // Setup the SerializedProperties
+           upgradeFeaturePowerup = serializedObject.FindProperty("upgradeFeaturePowerup");
         upgradeFeatureMovement = serializedObject.FindProperty("upgradeFeatureMovement");
         upgradeTitle = serializedObject.FindProperty("upgradeTitle");
         movement_x = serializedObject.FindProperty("movement_x");
@@ -98,10 +99,7 @@ public class UpgradeGeneratorEditor : Editor
         {
             upgradeGenerator.CreateUpgrade();
         }
-        if (GUILayout.Button("Clear List"))
-        {
-            upgradeGenerator.ClearList();
-        }
+      
     }
 
 }

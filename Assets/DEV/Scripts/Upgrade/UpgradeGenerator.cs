@@ -8,11 +8,11 @@ public class UpgradeGenerator : MonoBehaviour
 
     public UpgradeTitle upgradeTitle;
 
-    public enum UpgradeFeaturePowerup { PHASE, ROCKET, BULLET_TIME}
+    public enum UpgradeFeaturePowerup { PHASE, ROCKET, BULLET_TIME }
 
     public UpgradeFeaturePowerup upgradeFeaturePowerup;
 
-    public enum UpgradeFeatureMovement { MOVEMENT_X, MOVEMENT_Y, MOVEMENT_Z}
+    public enum UpgradeFeatureMovement { MOVEMENT_X, MOVEMENT_Y, MOVEMENT_Z }
 
     public UpgradeFeatureMovement upgradeFeatureMovement;
 
@@ -28,15 +28,16 @@ public class UpgradeGenerator : MonoBehaviour
     public float cost;
     public Button upgradeButton;
     public Transform upgradeButtonParent;
-    public List<int> costs;
+    
     public void CreateUpgrade()
     {
         var upgradeBtnCopy = Instantiate(upgradeButton) as Button;
         upgradeBtnCopy.transform.SetParent(upgradeButtonParent);
-        upgradeBtnCopy.gameObject.AddComponent<Upgrade>();
+        upgradeBtnCopy.transform.localPosition = new Vector3(upgradeBtnCopy.transform.position.x, upgradeBtnCopy.transform.position.y, 0f);
+     
         Upgrade upgradeClass = upgradeBtnCopy.GetComponent<Upgrade>();
         upgradeBtnCopy.transform.SetSiblingIndex(0);
-      
+
         upgradeClass.cost = cost;
         switch (_operator)
         {
@@ -58,8 +59,8 @@ public class UpgradeGenerator : MonoBehaviour
         switch (upgradeTitle)
         {
             case UpgradeTitle.POWERUP:
-                upgradeClass.upgradeTitle= Upgrade.UpgradeTitle.POWERUP;
-            
+                upgradeClass.upgradeTitle = Upgrade.UpgradeTitle.POWERUP;
+
                 switch (upgradeFeaturePowerup)
                 {
                     case UpgradeFeaturePowerup.PHASE:
@@ -101,13 +102,10 @@ public class UpgradeGenerator : MonoBehaviour
             default:
                 break;
         }
-       
-    
+
+
     }
-    public void ClearList()
-    {
-        costs.Clear();
-    }
+   
     public void QuickSort(List<int> dizi, int baslangic, int bitis)
     {
         int i;
@@ -117,7 +115,7 @@ public class UpgradeGenerator : MonoBehaviour
             QuickSort(dizi, baslangic, i - 1);
             QuickSort(dizi, i + 1, bitis);
         }
-     
+
     }
     public int partition(List<int> A, int baslangic, int bitis)
     {

@@ -1,17 +1,20 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.UI;
 public class UpgradeManager : MonoBehaviour
 {
-    public List<Upgrade> upgrades;
-    // Start is called before the first frame update
+    public Text playerResource;
+    
     void Start()
     {
-        
+        UpdateResourceText(PlayerPrefs.GetFloat("gResource"));
     }
-
-    // Update is called once per frame
+    public void UpdateResourceText(float resourceAmount)
+    {
+        playerResource.text ="Resource: " + ((int)resourceAmount).ToString();
+    }
+    
     void Update()
     {
         

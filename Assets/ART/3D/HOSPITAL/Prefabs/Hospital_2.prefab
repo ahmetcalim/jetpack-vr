@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 6014906616401225487}
   - component: {fileID: 778048293274490812}
   - component: {fileID: 1930171844053407699}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Hospital_2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -116,6 +116,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   links:
   - {fileID: 89649929184176790, guid: f7bc18a9c089a614bb0d49bf47e30de7, type: 3}
+  - {fileID: 4411285057864124233, guid: 6493646be8641914e92b8234d8a9e3a8, type: 3}
   asset: {fileID: 68847440939745206}
   scaleFactor: 19.2
   nextNode: {fileID: 0}

@@ -31,6 +31,12 @@ public class Player : MonoBehaviour
     private float nextActionTime = 0.0f;
     public float period = 0.1f;
     public Transform playerPawnTransform;
+    public GameObject UIVROrigin;
+    public GameObject VRGameOrigin;
+    private void Start()
+    {
+        isGameRunning = true;
+    }
     private void Update()
     {
         if (isGameRunning)
@@ -41,22 +47,16 @@ public class Player : MonoBehaviour
            if (velocityZBase <= velocityZMax)
             {
 
-                if (Time.realtimeSinceStartup > nextActionTime)
+                if (Time.timeSinceLevelLoad > nextActionTime)
                 {
                     nextActionTime += period;
                     velocityZBase += .03f;
                 }
             }
         }
-        else
-        {
-            if (Input.GetKeyUp(KeyCode.R))
-            {
-                ResetStaticValues();
-                SceneManager.LoadScene(0);
-            }
-        }
+       
     }
+    
     public void GainResource()
     {
         gainedResource = (travelledDistance * difficulty) * resourceMultipleValue;
@@ -68,24 +68,26 @@ public class Player : MonoBehaviour
         totalDistance = 0f;
        
         resourceMultipleValue = .5f;
-        isGameRunning = true;
+       
     }
     private void OnTriggerEnter(Collider other)
     {
         if (other.tag == "Obstacle" )
         {
+            ResetStaticValues();
+            Destroy(playerPawnTransform.gameObject.GetComponent<Rigidbody>());
+            foreach (var item in rocketDestroyManager.TriggerList)
+            {
+                Destroy(item.gameObject);
+            }
+            UIVROrigin.SetActive(true);
+            VRGameOrigin.SetActive(false);
             Destroy(other.gameObject);
             if (powerUpController.isPhaseActive == false)
             {
                 isGameRunning = false;
-                Debug.Log("GameOver");
-
                 PlayerPrefs.SetFloat("gResource", PlayerPrefs.GetFloat("gResource") + gainedResource);
             }
-        }
-        if (other.tag == "Malfunction")
-        {
-            powerUpController.ActivateMalfunction();
         }
         if (other.tag == "Powerup")
         {

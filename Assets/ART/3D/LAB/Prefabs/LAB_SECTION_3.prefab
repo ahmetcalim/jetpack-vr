@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 4888044246528760773}
   - component: {fileID: 1736508044794438958}
   - component: {fileID: 8507223748432816186}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: LAB_SECTION_3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -97,6 +97,7 @@ MonoBehaviour:
   links:
   - {fileID: 5074562481959118283, guid: 3107774ac31023c49be8c8df14e15098, type: 3}
   - {fileID: 3917509927971732494, guid: 1c4667a692f0d994082c146d3bfe2384, type: 3}
+  - {fileID: 4411285057864124233, guid: 6493646be8641914e92b8234d8a9e3a8, type: 3}
   asset: {fileID: 1710063517019491373}
   scaleFactor: 76.8
   nextNode: {fileID: 0}

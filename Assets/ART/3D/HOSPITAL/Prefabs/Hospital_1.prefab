@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 2433343800555086976}
   - component: {fileID: 1722393007152109537}
   - component: {fileID: 4538590167503493567}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Hospital_1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -29,7 +29,7 @@ Transform:
   m_GameObject: {fileID: 259787235883993233}
   m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: -1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -94,7 +94,7 @@ BoxCollider:
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 29.3, y: 21.199999, z: 19.199999}
-  m_Center: {x: 13.650002, y: 9.599999, z: -9.599999}
+  m_Center: {x: 13.650002, y: 9.599999, z: 9.599999}
 --- !u!114 &4538590167503493567
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -109,6 +109,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   links:
   - {fileID: 89649929184176790, guid: f7bc18a9c089a614bb0d49bf47e30de7, type: 3}
+  - {fileID: 4411285057864124233, guid: 6493646be8641914e92b8234d8a9e3a8, type: 3}
   asset: {fileID: 259787235883993233}
   scaleFactor: 19.2
   nextNode: {fileID: 0}

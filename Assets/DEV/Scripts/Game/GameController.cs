@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 public class GameController : MonoBehaviour
 {
     public Transform player;
@@ -13,5 +14,13 @@ public class GameController : MonoBehaviour
     void Awake()
     {
         Application.targetFrameRate = 90;
+    }
+    public void RestartGame()
+    {
+        SceneManager.LoadScene(1);
+    }
+    public void GoMainMenu()
+    {
+        SceneManager.LoadScene(0);
     }
 }

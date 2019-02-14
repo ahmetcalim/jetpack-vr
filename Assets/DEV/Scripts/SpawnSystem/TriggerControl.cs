@@ -8,6 +8,14 @@ public class TriggerControl : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-           nGraph.Generate();
+        if (other.gameObject.layer==LayerMask.NameToLayer("Section")) 
+        {
+            nGraph.Generate();
+        }
+        else
+        {
+            Destroy(other.gameObject);
+        }
+          
     }
 }

@@ -40,7 +40,7 @@ Shader "ONKU/LaserDistortion"
 		{
 			float4 temp_output_28_0 = _Color;
 			o.Albedo = temp_output_28_0.rgb;
-			o.Emission = temp_output_28_0.rgb;
+			o.Emission = temp_output_28_0.rgb*2;
 			o.Alpha = 1;
 		}
 
