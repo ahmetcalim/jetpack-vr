@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using Valve.VR.InteractionSystem;
-
+using HTC.UnityPlugin.Utility;
 public class PowerUpController : MonoBehaviour
 {
     [Header("Bonus")]
@@ -16,7 +16,7 @@ public class PowerUpController : MonoBehaviour
     public AudioSource bipAudio;
 
     [Header("Phase Bonus")]
-    public List<float> phasePowerUpDuringTime;
+    public float phasePowerUpDuringTime;
     public bool isPhaseActive;
     public Material m_Controller_Fade;
     public Material m_Controller_Default;
@@ -24,10 +24,10 @@ public class PowerUpController : MonoBehaviour
     [Header("Roket Bonus")]
     public RocketDestroyManager rocketDestroyManager;
     public bool isRocketActive;
-
+    private float rocketEffectAreaSize;
     [Header("Bullet Time Bonus")]
     public static float bulletTimeMultipleValue = 1f;
-    public List<float> bulletTimeDuringTime;
+    public float bulletTimeDuringTime;
     public bool isBulletTimeActive;
 
     [Header("Diğer")]
@@ -38,22 +38,51 @@ public class PowerUpController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        UpdatePrefs();
         ChangeControllerMaterialAlpha(m_Controller_Default);
     }
-
     // Update is called once per frame
-    void Update()
+    void LateUpdate()
     {
         if (Player.isGameRunning == true)
         {
             CheckActivePowerups();
         }
     }
+    public void UpdatePrefs()
+    {
+        if (PlayerPrefs.GetFloat("bulletTimeDuringTime") > bulletTimeDuringTime)
+        {
+            bulletTimeDuringTime = PlayerPrefs.GetFloat("bulletTimeDuringTime");
+        }
+        else
+        {
+            PlayerPrefs.SetFloat("bulletTimeDuringTime", bulletTimeDuringTime);
+        }
+
+        if (PlayerPrefs.GetFloat("phasePowerUpDuringTime") > phasePowerUpDuringTime)
+        {
+            phasePowerUpDuringTime = PlayerPrefs.GetFloat("phasePowerUpDuringTime");
+        }
+        else
+        {
+            PlayerPrefs.SetFloat("phasePowerUpDuringTime", phasePowerUpDuringTime);
+        }
+        if (PlayerPrefs.GetFloat("rocketEffectAreaSize") > rocketEffectAreaSize)
+        {
+            rocketEffectAreaSize = PlayerPrefs.GetFloat("rocketEffectAreaSize");
+        }
+        else
+        {
+            PlayerPrefs.SetFloat("rocketEffectAreaSize", rocketEffectAreaSize);
+        }
+
+    }
     private void CheckActivePowerups()
     {
         if (isPhaseActive)
         {
-            isPhaseActive = !TimeCount(phasePowerUpDuringTime[0]);
+            isPhaseActive = !TimeCount(phasePowerUpDuringTime);
         }
         else
         {
@@ -61,7 +90,7 @@ public class PowerUpController : MonoBehaviour
         }
         if (isBulletTimeActive)
         {
-            isBulletTimeActive = !TimeCount(bulletTimeDuringTime[0]);
+            isBulletTimeActive = !TimeCount(bulletTimeDuringTime);
         }
         else
         {
@@ -117,7 +146,6 @@ public class PowerUpController : MonoBehaviour
         //TO DO KULLANIM İÇİN SES ÇAL
         PrintValueToText(bonusFeedBackTxt, "Roket Kullanıldı.", "");
         bonusFeedBackTxt.GetComponent<Animator>().SetTrigger("Feedback");
-          
             foreach (var item in rocketDestroyManager.TriggerList)
             {
                 Destroy(item.gameObject);
@@ -153,7 +181,7 @@ public class PowerUpController : MonoBehaviour
         {
             timeCountFinished = false;
             timer += Time.deltaTime * 1f;
-            if (timer >= 3.08f && timer < 3.1f)
+            if (timer >= duringTime-3.92f && timer < duringTime-3.9)
             {
                 StartCoroutine(HapticFeedBack());
             }
@@ -163,7 +191,6 @@ public class PowerUpController : MonoBehaviour
         {
             timer = 0f;
             timeCountFinished = true;
-            //ChangeControllerMaterialAlpha(m_Controller_Default);
         }
         return timeCountFinished;
     }
@@ -177,7 +204,11 @@ public class PowerUpController : MonoBehaviour
         {
             item.sharedMaterial = mat;
         }
-        
+        foreach (var item in playerMovementController.rightController.GetComponent<VR_ControllerManager>().joystickRenderers)
+        {
+            item.sharedMaterial = mat;
+        }
+
 
     }
     IEnumerator HapticFeedBack()

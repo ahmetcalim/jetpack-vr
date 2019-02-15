@@ -24,7 +24,19 @@ public class VR_ControllerManager : MonoBehaviour {
     }
     void Awake()
     {
+        UpdatePrefs();
         trackedObj = GetComponent<SteamVR_TrackedObject>();
+    }
+    public void UpdatePrefs()
+    {
+        if (PlayerPrefs.GetFloat("turnConstant") > turnConstant)
+        {
+            turnConstant = PlayerPrefs.GetFloat("turnConstant");
+        }
+        else
+        {
+            PlayerPrefs.SetFloat("turnConstant", turnConstant);
+        }
     }
     private void SetCollidingObject(Collider col)
     {

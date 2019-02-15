@@ -18,13 +18,14 @@ public class UpgradeGeneratorEditor : Editor
         upgradeButton,
         upgradeButtonParent,
         cost,
-        _operator;
+        _operator,
+        index;
 
     void OnEnable()
     {
         
            // Setup the SerializedProperties
-           upgradeFeaturePowerup = serializedObject.FindProperty("upgradeFeaturePowerup");
+        upgradeFeaturePowerup = serializedObject.FindProperty("upgradeFeaturePowerup");
         upgradeFeatureMovement = serializedObject.FindProperty("upgradeFeatureMovement");
         upgradeTitle = serializedObject.FindProperty("upgradeTitle");
         movement_x = serializedObject.FindProperty("movement_x");
@@ -37,6 +38,7 @@ public class UpgradeGeneratorEditor : Editor
         upgradeButtonParent = serializedObject.FindProperty("upgradeButtonParent");
         cost = serializedObject.FindProperty("cost");
         _operator = serializedObject.FindProperty("_operator");
+        index = serializedObject.FindProperty("index");
 
     }
     public override void OnInspectorGUI()
@@ -92,6 +94,7 @@ public class UpgradeGeneratorEditor : Editor
         EditorGUILayout.PropertyField(upgradeButton);
         EditorGUILayout.PropertyField(upgradeButtonParent);
         EditorGUILayout.PropertyField(_operator);
+        EditorGUILayout.PropertyField(index);
         serializedObject.ApplyModifiedProperties();
         
         UpgradeGenerator upgradeGenerator = (UpgradeGenerator)target;

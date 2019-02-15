@@ -28,17 +28,18 @@ public class UpgradeGenerator : MonoBehaviour
     public float cost;
     public Button upgradeButton;
     public Transform upgradeButtonParent;
-    
+    public int index;
     public void CreateUpgrade()
     {
         var upgradeBtnCopy = Instantiate(upgradeButton) as Button;
         upgradeBtnCopy.transform.SetParent(upgradeButtonParent);
         upgradeBtnCopy.transform.localPosition = new Vector3(upgradeBtnCopy.transform.position.x, upgradeBtnCopy.transform.position.y, 0f);
-     
+        upgradeBtnCopy.transform.localScale = new Vector3(1f,1f,1f);
         Upgrade upgradeClass = upgradeBtnCopy.GetComponent<Upgrade>();
-        upgradeBtnCopy.transform.SetSiblingIndex(0);
+        
 
         upgradeClass.cost = cost;
+        upgradeClass.index = index;
         switch (_operator)
         {
             case Operator.ADDITION:
@@ -106,37 +107,5 @@ public class UpgradeGenerator : MonoBehaviour
 
     }
    
-    public void QuickSort(List<int> dizi, int baslangic, int bitis)
-    {
-        int i;
-        if (baslangic < bitis)
-        {
-            i = partition(dizi, baslangic, bitis);
-            QuickSort(dizi, baslangic, i - 1);
-            QuickSort(dizi, i + 1, bitis);
-        }
-
-    }
-    public int partition(List<int> A, int baslangic, int bitis)
-    {
-        int gecici;
-        int x = A[bitis];
-        int i = baslangic - 1;
-
-        for (int j = baslangic; j <= bitis - 1; j++)
-        {
-            if (A[j] <= x)
-            {
-                i++;
-                gecici = A[i];
-                A[i] = A[j];
-                A[j] = gecici;
-            }
-        }
-        gecici = A[i + 1];
-        A[i + 1] = A[bitis];
-        A[bitis] = gecici;
-        return i + 1;
-    }
 
 }

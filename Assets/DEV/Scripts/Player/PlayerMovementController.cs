@@ -17,9 +17,8 @@ public class PlayerMovementController : MonoBehaviour
     public static float constant1 = 44; 
     public static  float constant2 = 100;
     public static float constant3 = 3;
-    
-    public AudioClip rocketAudioClip;
-    public AudioSource rocketAudioSource;
+    private float accelerationYConstant = 9f;
+   
     public SteamVR_Controller.Device ControllerL
     {
         get { return SteamVR_Controller.Input((int)leftController.index); }
@@ -27,6 +26,21 @@ public class PlayerMovementController : MonoBehaviour
     public SteamVR_Controller.Device ControllerR
     {
         get { return SteamVR_Controller.Input((int)rightController.index); }
+    }
+    private void Start()
+    {
+        UpdatePrefs();
+    }
+    public void UpdatePrefs()
+    {
+        if (PlayerPrefs.GetFloat("accelerationYConstant") > accelerationYConstant)
+        {
+            accelerationYConstant = PlayerPrefs.GetFloat("accelerationYConstant");
+        }
+        else
+        {
+            PlayerPrefs.SetFloat("accelerationYConstant", accelerationYConstant);
+        }
     }
     void Update()
     {
@@ -41,7 +55,7 @@ public class PlayerMovementController : MonoBehaviour
     {
         if (Player.isGameRunning == true && Player.isMalfunctionActive == false)
         {
-            accelerationY = Mathf.Pow(constant3 * (Time.deltaTime + 0.01f), constant1 / constant2) + 9;
+            accelerationY = Mathf.Pow(constant3 * (Time.deltaTime + 0.01f), constant1 / constant2) + accelerationYConstant;
             if (side < 0)
             {
                 accelerationY *= 2f;
