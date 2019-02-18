@@ -7,7 +7,7 @@ using UnityEngine.SceneManagement;
 public class Player : MonoBehaviour
 {
     [Header("Malfunction")]
-    public static bool isMalfunctionActive;
+    public static bool isMalfunctionActive = false;
     [Header("Z Hız")]
     public float velocityZBase = 40;
     public static float velocityZMax = 100f;
@@ -97,6 +97,7 @@ public class Player : MonoBehaviour
         }
         if (other.tag == "Powerup")
         {
+            other.GetComponent<AudioSource>().Play();
             Destroy(other.gameObject);
             PowerUp powerUp = other.GetComponent<PowerUp>();
             PrintValueToText(bonusFeedBackTxt, powerUp.powerUpType.ToString() + " Bonus Alındı.", "");

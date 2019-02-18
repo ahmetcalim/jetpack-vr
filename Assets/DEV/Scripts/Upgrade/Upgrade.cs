@@ -38,13 +38,11 @@ public class Upgrade : MonoBehaviour
                 case UpgradeType.PHASE:
                     if (upgradeManager.phaseUpgradeLevelIndex == index)
                     {
-                       
                         PlayerPrefs.SetFloat("phasePowerUpDuringTime", PlayerPrefs.GetFloat("phasePowerUpDuringTime") + upgradeAmount);
                         DoTheseBeforeUpgrade();
                         upgradeManager.phaseUpgradeLevelIndex++;
                         PlayerPrefs.SetInt("phaseUpgradeLevelIndex", upgradeManager.phaseUpgradeLevelIndex);
                     }
-
                     break;
                 case UpgradeType.ROCKET:
                     if (upgradeManager.rocketUpgradeLevelIndex == index)
@@ -54,7 +52,6 @@ public class Upgrade : MonoBehaviour
                         upgradeManager.rocketUpgradeLevelIndex++;
                         PlayerPrefs.SetInt("rocketUpgradeLevelIndex", upgradeManager.rocketUpgradeLevelIndex);
                     }
-
                     break;
                 case UpgradeType.BULLET_TIME:
                     if (upgradeManager.bulletTimeUpgradeLevelIndex == index)
@@ -64,7 +61,6 @@ public class Upgrade : MonoBehaviour
                         upgradeManager.bulletTimeUpgradeLevelIndex++;
                         PlayerPrefs.SetInt("bulletTimeUpgradeLevelIndex", upgradeManager.bulletTimeUpgradeLevelIndex);
                     }
-
                     break;
                 case UpgradeType.MOVEMENT_X:
                     if (upgradeManager.movementXUpgradeLevelIndex == index)
@@ -97,8 +93,11 @@ public class Upgrade : MonoBehaviour
                     break;
             }
         }
+        else
+        {
+            Debug.Log("ACCIK DAHA PARA KAZAN.");
+        }
     }
-    
     private void CheckAvailabity()
     {
        

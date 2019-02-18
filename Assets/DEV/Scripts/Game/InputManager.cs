@@ -9,7 +9,7 @@ public class InputManager : MonoBehaviour
     public PowerUpController powerUpController;
     private float angleXController;
     public Player player;
-   
+    
     public PlayerMovementController playerMovementController;
     private bool doOnce;
     public SteamVR_Controller.Device ControllerL
@@ -93,6 +93,8 @@ public class InputManager : MonoBehaviour
     }
     private void CheckTriggerInput()
     {
+        
+        Debug.Log(ControllerR.velocity.magnitude);
         angleXController = (leftController.transform.rotation.x + rightController.transform.rotation.x) / -2;
         if (ControllerL.GetHairTrigger() && ControllerR.GetHairTrigger())
         {
@@ -103,6 +105,23 @@ public class InputManager : MonoBehaviour
             else
             {
                 playerMovementController.Up(-1);
+            }
+        }
+        if (ControllerL.GetHairTrigger() && Player.isMalfunctionActive)
+        {
+            
+            if (ControllerL.velocity.magnitude > 3f)
+            {
+                Debug.Log("SOLU SALLADIM KIRDIM BEBEYİM");
+            }
+        }
+        if (ControllerR.GetHairTrigger() && Player.isMalfunctionActive)
+        {
+
+            
+            if (ControllerR.velocity.magnitude > 3f)
+            {
+                Debug.Log("SAĞI SALLADIM KIRDIM BEBEYİM");
             }
         }
     }
