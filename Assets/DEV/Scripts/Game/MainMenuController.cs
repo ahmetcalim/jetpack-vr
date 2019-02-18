@@ -4,16 +4,8 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 public class MainMenuController : MonoBehaviour
 {
-    public void PlayGame()
+    public void OpenSceneByIndex(int index)
     {
-        SceneManager.LoadScene(1);
-    }
-    public void OpenUpgradeScene()
-    {
-        SceneManager.LoadScene(2);
-    }
-    public void GoHome()
-    {
-        SceneManager.LoadScene(0);
+        SceneManager.LoadScene(index);
     }
 }

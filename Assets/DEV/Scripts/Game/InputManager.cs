@@ -25,7 +25,7 @@ public class InputManager : MonoBehaviour
     {
        
     }
-    void Update()
+    void FixedUpdate()
     {
         if (Player.isGameRunning)
         {

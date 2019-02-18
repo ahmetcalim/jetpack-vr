@@ -15,9 +15,7 @@ public class UpgradeGenerator : MonoBehaviour
     public enum UpgradeFeatureMovement { MOVEMENT_X, MOVEMENT_Y, MOVEMENT_Z }
 
     public UpgradeFeatureMovement upgradeFeatureMovement;
-
-    public enum Operator { ADDITION, ELIMINATION, MULTIPLICATION, DIVISION }
-    public Operator _operator;
+    
 
     public float movement_x;
     public float movement_y;
@@ -40,23 +38,7 @@ public class UpgradeGenerator : MonoBehaviour
 
         upgradeClass.cost = cost;
         upgradeClass.index = index;
-        switch (_operator)
-        {
-            case Operator.ADDITION:
-                upgradeClass._operator = Upgrade.Operator.ADDITION;
-                break;
-            case Operator.ELIMINATION:
-                upgradeClass._operator = Upgrade.Operator.ELIMINATION;
-                break;
-            case Operator.MULTIPLICATION:
-                upgradeClass._operator = Upgrade.Operator.MULTIPLICATION;
-                break;
-            case Operator.DIVISION:
-                upgradeClass._operator = Upgrade.Operator.DIVISION;
-                break;
-            default:
-                break;
-        }
+      
         switch (upgradeTitle)
         {
             case UpgradeTitle.POWERUP:

@@ -46,7 +46,7 @@ public class PlayerMovementController : MonoBehaviour
     {
         if (Player.isGameRunning == true)
         {
-            Player.difficulty = Mathf.Pow(3, ((Time.time * 2) / (90 + Time.time)) + 1) - 3;
+            
             //MovePlayerForward();
             IncreaseTravveledDistance();
         }

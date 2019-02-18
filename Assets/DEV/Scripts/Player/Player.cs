@@ -20,6 +20,7 @@ public class Player : MonoBehaviour
     public float travelledDistance;
     public static float totalDistance;
     private float gainedResource;
+    private float gainedResourceSum;
     public static bool isGameRunning = true;
     public static float difficulty = 0;
     public static float resourceMultipleValue = .5f;
@@ -43,11 +44,13 @@ public class Player : MonoBehaviour
     }
     private void Update()
     {
-        if (isGameRunning)
+        if (isGameRunning == true)
         {
-           PrintValueToText(resourceTxt, (gainedResource).ToString(), "Kaynak");
+            difficulty = Mathf.Pow(3, ((Time.timeSinceLevelLoad * 2) / (90 + Time.timeSinceLevelLoad)) + 1) - 3;
+            GainResource();
+            PrintValueToText(resourceTxt, (gainedResource).ToString(), "Kaynak");
            PrintValueToText(speedXTxt, velocityZBase.ToString(), "Hız");
-           GainResource();
+         
            if (velocityZBase <= velocityZMax)
            {
                 if (Time.timeSinceLevelLoad > nextActionTime)
@@ -69,6 +72,7 @@ public class Player : MonoBehaviour
         difficulty = 0f;
         totalDistance = 0f;
         resourceMultipleValue = .5f;
+       
     }
     private void OnTriggerEnter(Collider other)
     {
@@ -86,7 +90,9 @@ public class Player : MonoBehaviour
                 UIVROrigin.SetActive(true);
                 VRGameOrigin.SetActive(false);
                 isGameRunning = false;
-                PlayerPrefs.SetFloat("gResource", PlayerPrefs.GetFloat("gResource") + gainedResource);
+                gainedResourceSum = PlayerPrefs.GetFloat("gResource") + gainedResource;
+                gainedResource = 0f;
+                PlayerPrefs.SetFloat("gResource", gainedResourceSum);
             }
         }
         if (other.tag == "Powerup")
@@ -99,7 +105,7 @@ public class Player : MonoBehaviour
            
         }
     }
-    private void PrintValueToText(Text textObject, string value, string name)
+    public void PrintValueToText(Text textObject, string value, string name)
     {
         textObject.text = name + ": " + value;
     }

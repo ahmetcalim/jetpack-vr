@@ -18,7 +18,6 @@ public class UpgradeGeneratorEditor : Editor
         upgradeButton,
         upgradeButtonParent,
         cost,
-        _operator,
         index;
 
     void OnEnable()
@@ -37,7 +36,6 @@ public class UpgradeGeneratorEditor : Editor
         upgradeButton = serializedObject.FindProperty("upgradeButton");
         upgradeButtonParent = serializedObject.FindProperty("upgradeButtonParent");
         cost = serializedObject.FindProperty("cost");
-        _operator = serializedObject.FindProperty("_operator");
         index = serializedObject.FindProperty("index");
 
     }
@@ -93,7 +91,6 @@ public class UpgradeGeneratorEditor : Editor
         EditorGUILayout.PropertyField(cost);
         EditorGUILayout.PropertyField(upgradeButton);
         EditorGUILayout.PropertyField(upgradeButtonParent);
-        EditorGUILayout.PropertyField(_operator);
         EditorGUILayout.PropertyField(index);
         serializedObject.ApplyModifiedProperties();
         

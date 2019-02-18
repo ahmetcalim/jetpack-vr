@@ -33,21 +33,6 @@ public class Upgrade : MonoBehaviour
      
         if (PlayerPrefs.GetFloat("gResource") > cost)
         {
-          
-            switch (_operator)
-            {
-                case Operator.ADDITION:
-                    break;
-                case Operator.ELIMINATION:
-                    break;
-                case Operator.MULTIPLICATION:
-                    break;
-                case Operator.DIVISION:
-                    break;
-                default:
-                    break;
-            }
-            Debug.Log("BASTIM");
             switch (upgradeType)
             {
                 case UpgradeType.PHASE:
@@ -89,7 +74,6 @@ public class Upgrade : MonoBehaviour
                         upgradeManager.movementXUpgradeLevelIndex++;
                         PlayerPrefs.SetInt("movementXUpgradeLevelIndex", upgradeManager.movementXUpgradeLevelIndex);
                     }
-
                     break;
                 case UpgradeType.MOVEMENT_Y:
                     if (upgradeManager.movementYUpgradeLevelIndex == index)
@@ -99,7 +83,6 @@ public class Upgrade : MonoBehaviour
                         upgradeManager.movementYUpgradeLevelIndex++;
                         PlayerPrefs.SetInt("movementYUpgradeLevelIndex", upgradeManager.movementYUpgradeLevelIndex);
                     }
-
                     break;
                 case UpgradeType.MOVEMENT_Z:
                     if (upgradeManager.movementZUpgradeLevelIndex == index)
@@ -109,7 +92,6 @@ public class Upgrade : MonoBehaviour
                         upgradeManager.movementZUpgradeLevelIndex++;
                         PlayerPrefs.SetInt("movementZUpgradeLevelIndex", upgradeManager.movementZUpgradeLevelIndex);
                     }
-
                     break;
                 default:
                     break;

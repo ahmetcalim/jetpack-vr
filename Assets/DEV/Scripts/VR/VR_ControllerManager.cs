@@ -18,6 +18,8 @@ public class VR_ControllerManager : MonoBehaviour {
     private GameObject collidingObject;
     public List<MeshRenderer> joystickRenderers;
     private GameObject objectInHand;
+    public Player player;
+    public PowerUpController powerUpController;
     private SteamVR_Controller.Device Controller
     {
         get { return SteamVR_Controller.Input((int)trackedObj.index); }
@@ -54,6 +56,7 @@ public class VR_ControllerManager : MonoBehaviour {
         if (Player.isGameRunning == true)
         {
             Turn();
+            
         }
     }
     private void Turn()

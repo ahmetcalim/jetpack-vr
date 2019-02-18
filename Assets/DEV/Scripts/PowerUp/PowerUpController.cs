@@ -97,6 +97,7 @@ public class PowerUpController : MonoBehaviour
             if (bulletTimeMultipleValue != 1f)
             {
                 bulletTimeMultipleValue = 1f;
+                Physics.gravity = new Vector3(0, -20f, 0);
             }
         }
     }
@@ -157,9 +158,8 @@ public class PowerUpController : MonoBehaviour
         phaseCountDownBar.SetTrigger("StartPhaseBar");
         PrintValueToText(bonusFeedBackTxt, "Phase Kullanıldı.", "");
         bonusFeedBackTxt.GetComponent<Animator>().SetTrigger("Feedback");
-            
-            ChangeControllerMaterialAlpha(m_Controller_Fade);
-            isPhaseActive = true;
+        ChangeControllerMaterialAlpha(m_Controller_Fade);
+        isPhaseActive = true;
     
     }
     public void UseBulletTime()
@@ -168,6 +168,7 @@ public class PowerUpController : MonoBehaviour
         PrintValueToText(bonusFeedBackTxt, "Bullet Time Kullanıldı.", "");
         bonusFeedBackTxt.GetComponent<Animator>().SetTrigger("Feedback");
         bulletTimeMultipleValue = 0.5f;
+        Physics.gravity = new Vector3(0, -5f, 0);
         isBulletTimeActive = true;
 
     }
@@ -222,6 +223,4 @@ public class PowerUpController : MonoBehaviour
             playerMovementController.ControllerR.TriggerHapticPulse(50000);
         }
     }
-  
-
 }
