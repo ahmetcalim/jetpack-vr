@@ -20,7 +20,7 @@ public class PowerUpController : MonoBehaviour
     public bool isPhaseActive;
     public Material m_Controller_Fade;
     public Material m_Controller_Default;
-
+    public Animator phaseCountDownBar;
     [Header("Roket Bonus")]
     public RocketDestroyManager rocketDestroyManager;
     public bool isRocketActive;
@@ -154,6 +154,7 @@ public class PowerUpController : MonoBehaviour
     public void UsePhase()
     {
         //TO DO KULLANIM İÇİN SES ÇAL
+        phaseCountDownBar.SetTrigger("StartPhaseBar");
         PrintValueToText(bonusFeedBackTxt, "Phase Kullanıldı.", "");
         bonusFeedBackTxt.GetComponent<Animator>().SetTrigger("Feedback");
             
