@@ -58,7 +58,7 @@ public class PlayerMovementController : MonoBehaviour
             accelerationY = Mathf.Pow(constant3 * (Time.deltaTime + 0.01f), constant1 / constant2) + accelerationYConstant;
             if (side < 0)
             {
-                accelerationY *= 2f;
+                accelerationY *= 4f;
             }
             playerTransform.GetComponent<Rigidbody>().velocity = new Vector3(0, side, 0f) * accelerationY * PowerUpController.bulletTimeMultipleValue;
         }

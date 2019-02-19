@@ -12,9 +12,10 @@ public class PowerUpController : MonoBehaviour
     public int powerUpCount = 0;
     private float timer;
     private bool timeCountFinished = true;
-    public Text bonusFeedBackTxt;
-    public AudioSource bipAudio;
 
+    public AudioSource mainAudioSource;
+    public AudioSource countDownAudioSource;
+    public SoundController soundController;
     [Header("Phase Bonus")]
     public float phasePowerUpDuringTime;
     public bool isPhaseActive;
@@ -82,7 +83,7 @@ public class PowerUpController : MonoBehaviour
     {
         if (isPhaseActive)
         {
-            isPhaseActive = !TimeCount(phasePowerUpDuringTime);
+            isPhaseActive = !TimeCount(phasePowerUpDuringTime, 3.92f, 3.9f, 1f);
         }
         else
         {
@@ -90,24 +91,27 @@ public class PowerUpController : MonoBehaviour
         }
         if (isBulletTimeActive)
         {
-            isBulletTimeActive = !TimeCount(bulletTimeDuringTime);
+            isBulletTimeActive = !TimeCount((bulletTimeDuringTime/5), 3.92f/5f, 3.9f/5f, 5f);
         }
         else
         {
             if (bulletTimeMultipleValue != 1f)
             {
                 bulletTimeMultipleValue = 1f;
-                Physics.gravity = new Vector3(0, -20f, 0);
+                Time.timeScale = 1f;
+                PlaySound(soundController.bulletTimeOut);
+               
             }
         }
     }
     public void SetPowerUp(Sprite powerUpSprite, string pUpTag)
     {
+        
         if (powerUpSlotLeft.sprite == null)
         {
             powerUpSlotLeft.sprite = powerUpSprite;
             powerUpSlotLeft.gameObject.tag = pUpTag;
-            powerUpSlotLeft.GetComponent<AudioSource>().Play();
+           
             playerMovementController.ControllerL.TriggerHapticPulse(50000);
           
         }
@@ -115,7 +119,7 @@ public class PowerUpController : MonoBehaviour
         {
             playerMovementController.ControllerR.TriggerHapticPulse(50000);
             powerUpSlotRight.sprite = powerUpSprite;
-            powerUpSlotRight.GetComponent<AudioSource>().Play();
+           
             powerUpSlotRight.gameObject.tag = pUpTag;
       
         }
@@ -126,14 +130,15 @@ public class PowerUpController : MonoBehaviour
                 case 0:
                     powerUpSlotRight.sprite = powerUpSprite;
                     powerUpSlotRight.gameObject.tag = pUpTag;
-                    powerUpSlotRight.gameObject.GetComponent<AudioSource>().Play();
+                  
                     playerMovementController.ControllerL.TriggerHapticPulse(50000);
                     lastSlot = 1;
                     break;
                 case 1:
                     powerUpSlotLeft.sprite = powerUpSprite;
                     powerUpSlotLeft.gameObject.tag = pUpTag;
-                    powerUpSlotLeft.gameObject.GetComponent<AudioSource>().Play();
+
+                  
                     playerMovementController.ControllerR.TriggerHapticPulse(50000);
                     lastSlot = 0;
                     break;
@@ -145,8 +150,9 @@ public class PowerUpController : MonoBehaviour
     public void UseRocket()
     {
         //TO DO KULLANIM İÇİN SES ÇAL
-        PrintValueToText(bonusFeedBackTxt, "Roket Kullanıldı.", "");
-        bonusFeedBackTxt.GetComponent<Animator>().SetTrigger("Feedback");
+        PlaySound(soundController.rocketUsing);
+
+      
             foreach (var item in rocketDestroyManager.TriggerList)
             {
                 Destroy(item.gameObject);
@@ -155,9 +161,9 @@ public class PowerUpController : MonoBehaviour
     public void UsePhase()
     {
         //TO DO KULLANIM İÇİN SES ÇAL
+        PlaySound(soundController.phaseUsing);
         phaseCountDownBar.SetTrigger("StartPhaseBar");
-        PrintValueToText(bonusFeedBackTxt, "Phase Kullanıldı.", "");
-        bonusFeedBackTxt.GetComponent<Animator>().SetTrigger("Feedback");
+      
         ChangeControllerMaterialAlpha(m_Controller_Fade);
         isPhaseActive = true;
     
@@ -165,10 +171,11 @@ public class PowerUpController : MonoBehaviour
     public void UseBulletTime()
     {
         //TO DO KULLANIM İÇİN SES ÇAL
-        PrintValueToText(bonusFeedBackTxt, "Bullet Time Kullanıldı.", "");
-        bonusFeedBackTxt.GetComponent<Animator>().SetTrigger("Feedback");
-        bulletTimeMultipleValue = 0.5f;
-        Physics.gravity = new Vector3(0, -5f, 0);
+        PlaySound(soundController.bulletTimeUsing);
+       
+        bulletTimeMultipleValue = 5f;
+        Time.timeScale = 0.2f;
+       
         isBulletTimeActive = true;
 
     }
@@ -176,16 +183,16 @@ public class PowerUpController : MonoBehaviour
     {
         Player.isMalfunctionActive = true;
     }
-    private bool TimeCount(float duringTime)
+    private bool TimeCount(float duringTime, float a, float b, float divide)
     {
         
         if (timer <= duringTime)
         {
             timeCountFinished = false;
             timer += Time.deltaTime * 1f;
-            if (timer >= duringTime-3.92f && timer < duringTime-3.9)
+            if (timer >= duringTime-a && timer < duringTime-b)
             {
-                StartCoroutine(HapticFeedBack());
+                StartCoroutine(HapticFeedBack(divide));
             }
            
         }
@@ -213,14 +220,20 @@ public class PowerUpController : MonoBehaviour
 
 
     }
-    IEnumerator HapticFeedBack()
+    IEnumerator HapticFeedBack(float divide)
     {
         for (int i = 0; i < 3; i++)
         {
-            yield return new WaitForSeconds(1f);
-            bipAudio.Play();
+            yield return new WaitForSeconds(1f/divide);
+
+            countDownAudioSource.Play();
             playerMovementController.ControllerL.TriggerHapticPulse(50000);
             playerMovementController.ControllerR.TriggerHapticPulse(50000);
         }
+    }
+    private void PlaySound(AudioClip clip)
+    {
+        mainAudioSource.clip = clip;
+        mainAudioSource.Play();
     }
 }

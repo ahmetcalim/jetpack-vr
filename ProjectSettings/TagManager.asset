@@ -12,6 +12,8 @@ TagManager:
   - Rocket
   - Malfunction
   - BulletTime
+  - GlassTunnel
+  - NormalFloor
   layers:
   - Default
   - TransparentFX

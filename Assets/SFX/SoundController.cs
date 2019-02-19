@@ -10,4 +10,5 @@ public class SoundController : MonoBehaviour
     public AudioClip rocketUsing;
     public AudioClip gameOver;
     public AudioClip countDownBip;
+    public AudioClip bulletTimeOut;
 }

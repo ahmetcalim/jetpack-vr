@@ -29,7 +29,7 @@ public class Player : MonoBehaviour
     public GameObject VRGameOrigin;
     public Transform tunnelTransform;
     public PlayerMovementController playerMovementController;
-
+    public static bool isGlassTunnelActive =false;
     [Header("Bbonuslar ve feedbackler")]
     public Text resourceTxt;
     public Text speedXTxt;
@@ -87,6 +87,10 @@ public class Player : MonoBehaviour
                 {
                     Destroy(item.gameObject);
                 }
+                foreach (var item in GameObject.FindGameObjectsWithTag("Powerup"))
+                {
+                    Destroy(item.gameObject);
+                }
                 UIVROrigin.SetActive(true);
                 VRGameOrigin.SetActive(false);
                 isGameRunning = false;
@@ -100,8 +104,8 @@ public class Player : MonoBehaviour
             other.GetComponent<AudioSource>().Play();
             Destroy(other.gameObject);
             PowerUp powerUp = other.GetComponent<PowerUp>();
-            PrintValueToText(bonusFeedBackTxt, powerUp.powerUpType.ToString() + " Bonus Alındı.", "");
-            bonusFeedBackTxt.GetComponent<Animator>().SetTrigger("Feedback");
+           // PrintValueToText(bonusFeedBackTxt, powerUp.powerUpType.ToString() + " Bonus Alındı.", "");
+            //bonusFeedBackTxt.GetComponent<Animator>().SetTrigger("Feedback");
             powerUpController.SetPowerUp(powerUp.sprite, powerUp.tagName);
            
         }
