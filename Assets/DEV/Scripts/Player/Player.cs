@@ -33,12 +33,13 @@ public class Player : MonoBehaviour
     [Header("Bbonuslar ve feedbackler")]
     public Text resourceTxt;
     public Text speedXTxt;
-    public Text bonusFeedBackTxt;
+
     public RocketDestroyManager rocketDestroyManager;
     public PowerUpController powerUpController;
 
     private void Start()
     {
+        Time.timeScale = 1f;
         isGameRunning = true;
         UpdatePrefs();
     }

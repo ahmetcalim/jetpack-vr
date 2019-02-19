@@ -9,7 +9,7 @@ public class GlassTunnelTrigger : MonoBehaviour
         if (other.tag == "GlassTunnel")
         {
             Player.isGlassTunnelActive = !Player.isGlassTunnelActive;
-            other.gameObject.GetComponent<MeshCollider>().isTrigger = !Player.isGlassTunnelActive;
+            other.gameObject.GetComponent<BoxCollider>().isTrigger = !Player.isGlassTunnelActive;
         }
         if (other.tag == "NormalFloor")
         {

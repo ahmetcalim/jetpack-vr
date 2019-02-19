@@ -94,11 +94,12 @@ public class InputManager : MonoBehaviour
     private void CheckTriggerInput()
     {
         
-        Debug.Log(ControllerR.velocity.magnitude);
+
         angleXController = (leftController.transform.rotation.x + rightController.transform.rotation.x) / -2;
         if (ControllerL.GetHairTrigger() && ControllerR.GetHairTrigger())
         {
-            if (angleXController > 0)
+            Debug.Log(angleXController);
+            if (angleXController > .2f)
             {
                 playerMovementController.Up(1);
             }
