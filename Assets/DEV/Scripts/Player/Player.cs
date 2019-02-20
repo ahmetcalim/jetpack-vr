@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using UnityEngine.Rendering.PostProcessing;
 //Bu class Player ile ilgili özellikleri barındırmakta.
 public class Player : MonoBehaviour
 {
@@ -12,10 +13,7 @@ public class Player : MonoBehaviour
     public float velocityZBase = 40;
     public static float velocityZMax = 100f;
     public float velocityIncreaseAmount = 0.03f;
-    private float timer = 0f;
-    private float nextActionTime = 0.0f;
-    private float period = 0.1f;
-
+   
     [Header("Player Özellikler")]
     public float travelledDistance;
     public static float totalDistance;
@@ -33,33 +31,26 @@ public class Player : MonoBehaviour
     [Header("Bbonuslar ve feedbackler")]
     public Text resourceTxt;
     public Text speedXTxt;
-
+    public PostProcessVolume postProcess;
     public RocketDestroyManager rocketDestroyManager;
     public PowerUpController powerUpController;
+
 
     private void Start()
     {
         Time.timeScale = 1f;
         isGameRunning = true;
-        UpdatePrefs();
+        StartCoroutine(IncreaseVelocityZ());
+        UpdatePlayerPrefs();
     }
     private void Update()
     {
         if (isGameRunning == true)
         {
-            difficulty = Mathf.Pow(3, ((Time.timeSinceLevelLoad * 2) / (90 + Time.timeSinceLevelLoad)) + 1) - 3;
-            GainResource();
-            PrintValueToText(resourceTxt, (gainedResource).ToString(), "Kaynak");
+           difficulty = Mathf.Pow(3, ((Time.timeSinceLevelLoad * 2) / (90 + Time.timeSinceLevelLoad)) + 1) - 3;
+           GainResource();
+           PrintValueToText(resourceTxt, (gainedResource).ToString(), "Kaynak");
            PrintValueToText(speedXTxt, velocityZBase.ToString(), "Hız");
-         
-           if (velocityZBase <= velocityZMax)
-           {
-                if (Time.timeSinceLevelLoad > nextActionTime)
-                {
-                    nextActionTime += period;
-                    velocityZBase += velocityIncreaseAmount;
-                }
-            }
         }
        
     }
@@ -73,7 +64,6 @@ public class Player : MonoBehaviour
         difficulty = 0f;
         totalDistance = 0f;
         resourceMultipleValue = .5f;
-       
     }
     private void OnTriggerEnter(Collider other)
     {
@@ -84,6 +74,9 @@ public class Player : MonoBehaviour
             {
                 ResetStaticValues();
                 Destroy(playerPawnTransform.gameObject.GetComponent<Rigidbody>());
+
+
+                //Bu çok sağlıksız
                 foreach (var item in rocketDestroyManager.TriggerList)
                 {
                     Destroy(item.gameObject);
@@ -92,11 +85,12 @@ public class Player : MonoBehaviour
                 {
                     Destroy(item.gameObject);
                 }
+                //-----/------//
                 UIVROrigin.SetActive(true);
                 VRGameOrigin.SetActive(false);
                 isGameRunning = false;
+
                 gainedResourceSum = PlayerPrefs.GetFloat("gResource") + gainedResource;
-                gainedResource = 0f;
                 PlayerPrefs.SetFloat("gResource", gainedResourceSum);
             }
         }
@@ -105,8 +99,6 @@ public class Player : MonoBehaviour
             other.GetComponent<AudioSource>().Play();
             Destroy(other.gameObject);
             PowerUp powerUp = other.GetComponent<PowerUp>();
-           // PrintValueToText(bonusFeedBackTxt, powerUp.powerUpType.ToString() + " Bonus Alındı.", "");
-            //bonusFeedBackTxt.GetComponent<Animator>().SetTrigger("Feedback");
             powerUpController.SetPowerUp(powerUp.sprite, powerUp.tagName);
            
         }
@@ -115,7 +107,7 @@ public class Player : MonoBehaviour
     {
         textObject.text = name + ": " + value;
     }
-    private void UpdatePrefs()
+    private void UpdatePlayerPrefs()
     {
         if (PlayerPrefs.GetFloat("velocityIncreaseAmount") > velocityIncreaseAmount)
         {
@@ -126,5 +118,14 @@ public class Player : MonoBehaviour
             PlayerPrefs.SetFloat("velocityIncreaseAmount", velocityIncreaseAmount);
         }
 
+    }
+    private IEnumerator IncreaseVelocityZ()
+    {
+        yield return new WaitForSeconds(.1f);
+        if (velocityZBase < velocityZMax && isGameRunning == true)
+        {
+            velocityZBase += velocityIncreaseAmount;
+            StartCoroutine(IncreaseVelocityZ());
+        }
     }
 }

@@ -9,7 +9,6 @@ public class PowerUpController : MonoBehaviour
     [Header("Bonus")]
     public Image powerUpSlotLeft;
     public Image powerUpSlotRight;
-    public int powerUpCount = 0;
     private float timer;
     private bool timeCountFinished = true;
 
@@ -17,7 +16,7 @@ public class PowerUpController : MonoBehaviour
     public AudioSource countDownAudioSource;
     public SoundController soundController;
     [Header("Phase Bonus")]
-    public float phasePowerUpDuringTime;
+    public float phasePowerUpMaxTime;
     public bool isPhaseActive;
     public Material m_Controller_Fade;
     public Material m_Controller_Default;
@@ -61,13 +60,13 @@ public class PowerUpController : MonoBehaviour
             PlayerPrefs.SetFloat("bulletTimeDuringTime", bulletTimeDuringTime);
         }
 
-        if (PlayerPrefs.GetFloat("phasePowerUpDuringTime") > phasePowerUpDuringTime)
+        if (PlayerPrefs.GetFloat("phasePowerUpDuringTime") > phasePowerUpMaxTime)
         {
-            phasePowerUpDuringTime = PlayerPrefs.GetFloat("phasePowerUpDuringTime");
+            phasePowerUpMaxTime = PlayerPrefs.GetFloat("phasePowerUpDuringTime");
         }
         else
         {
-            PlayerPrefs.SetFloat("phasePowerUpDuringTime", phasePowerUpDuringTime);
+            PlayerPrefs.SetFloat("phasePowerUpDuringTime", phasePowerUpMaxTime);
         }
         if (PlayerPrefs.GetFloat("rocketEffectAreaSize") > rocketEffectAreaSize)
         {
@@ -81,28 +80,7 @@ public class PowerUpController : MonoBehaviour
     }
     private void CheckActivePowerups()
     {
-        if (isPhaseActive)
-        {
-            isPhaseActive = !TimeCount(phasePowerUpDuringTime, 3.92f, 3.9f, 1f);
-        }
-        else
-        {
-            ChangeControllerMaterialAlpha(m_Controller_Default);
-        }
-        if (isBulletTimeActive)
-        {
-            isBulletTimeActive = !TimeCount((bulletTimeDuringTime/5), 3.92f/5f, 3.9f/5f, 5f);
-        }
-        else
-        {
-            if (bulletTimeMultipleValue != 1f)
-            {
-                bulletTimeMultipleValue = 1f;
-                Time.timeScale = 1f;
-                PlaySound(soundController.bulletTimeOut);
-               
-            }
-        }
+       
     }
     public void SetPowerUp(Sprite powerUpSprite, string pUpTag)
     {
@@ -130,15 +108,12 @@ public class PowerUpController : MonoBehaviour
                 case 0:
                     powerUpSlotRight.sprite = powerUpSprite;
                     powerUpSlotRight.gameObject.tag = pUpTag;
-                  
                     playerMovementController.ControllerL.TriggerHapticPulse(50000);
                     lastSlot = 1;
                     break;
                 case 1:
                     powerUpSlotLeft.sprite = powerUpSprite;
                     powerUpSlotLeft.gameObject.tag = pUpTag;
-
-                  
                     playerMovementController.ControllerR.TriggerHapticPulse(50000);
                     lastSlot = 0;
                     break;
@@ -153,56 +128,35 @@ public class PowerUpController : MonoBehaviour
         PlaySound(soundController.rocketUsing);
 
       
-            foreach (var item in rocketDestroyManager.TriggerList)
-            {
-                Destroy(item.gameObject);
-            }
+        foreach (var item in rocketDestroyManager.TriggerList)
+        {
+            Destroy(item.gameObject);
+        }
     }
     public void UsePhase()
     {
         //TO DO KULLANIM İÇİN SES ÇAL
         PlaySound(soundController.phaseUsing);
         phaseCountDownBar.SetTrigger("StartPhaseBar");
-      
+
         ChangeControllerMaterialAlpha(m_Controller_Fade);
         isPhaseActive = true;
-    
+        StartCoroutine(ActivatePowerup(0, phasePowerUpMaxTime));
     }
     public void UseBulletTime()
     {
         //TO DO KULLANIM İÇİN SES ÇAL
         PlaySound(soundController.bulletTimeUsing);
-       
         bulletTimeMultipleValue = 5f;
         Time.timeScale = 0.2f;
-       
         isBulletTimeActive = true;
-
+        StartCoroutine(ActivatePowerup(1, bulletTimeDuringTime));
     }
     public void ActivateMalfunction()
     {
         Player.isMalfunctionActive = true;
     }
-    private bool TimeCount(float duringTime, float a, float b, float divide)
-    {
-        
-        if (timer <= duringTime)
-        {
-            timeCountFinished = false;
-            timer += Time.deltaTime * 1f;
-            if (timer >= duringTime-a && timer < duringTime-b)
-            {
-                StartCoroutine(HapticFeedBack(divide));
-            }
-           
-        }
-        else
-        {
-            timer = 0f;
-            timeCountFinished = true;
-        }
-        return timeCountFinished;
-    }
+    
     private void PrintValueToText(Text textObject, string value, string name)
     {
         textObject.text = name + ": " + value;
@@ -220,20 +174,42 @@ public class PowerUpController : MonoBehaviour
 
 
     }
-    IEnumerator HapticFeedBack(float divide)
-    {
-        for (int i = 0; i < 3; i++)
-        {
-            yield return new WaitForSeconds(1f/divide);
-
-            countDownAudioSource.Play();
-            playerMovementController.ControllerL.TriggerHapticPulse(50000);
-            playerMovementController.ControllerR.TriggerHapticPulse(50000);
-        }
-    }
+   
     private void PlaySound(AudioClip clip)
     {
         mainAudioSource.clip = clip;
         mainAudioSource.Play();
+    }
+    private IEnumerator ActivatePowerup(int powerupIndex, float timeCount)
+    {
+        yield return new WaitForSeconds(1f / bulletTimeMultipleValue);
+        timeCount--;
+        if (timeCount >= 1f && timeCount <= 4f)
+        {
+            playerMovementController.ControllerL.TriggerHapticPulse(50000);
+            playerMovementController.ControllerR.TriggerHapticPulse(50000);
+        }
+        if (timeCount < 1)
+        {
+            switch (powerupIndex)
+            {
+                case 0:
+                    isPhaseActive = false;
+                    ChangeControllerMaterialAlpha(m_Controller_Default);
+                    break;
+                case 1:
+                    isPhaseActive = false;
+                    bulletTimeMultipleValue = 1f;
+                    Time.timeScale = 1f;
+                    PlaySound(soundController.bulletTimeOut);
+                    break;
+                default:
+                    break;
+            }
+        }
+        else
+        {
+            StartCoroutine(ActivatePowerup(powerupIndex, timeCount));
+        }
     }
 }

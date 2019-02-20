@@ -19,13 +19,9 @@ public class StartScenePositionManager : MonoBehaviour
     IEnumerator SpawnMenuCanvas()
     {
         yield return new WaitForSeconds(1f);
-
         canvas.transform.SetParent(canvasParent);
         canvas.GetComponent<RectTransform>().position = new Vector3(canvas.GetComponent<RectTransform>().position.x, 1f, 6f);
-       
         canvas.GetComponent<RectTransform>().LookAt(targetTransform);
-      
-     
         canvas.gameObject.SetActive(true);
 
         

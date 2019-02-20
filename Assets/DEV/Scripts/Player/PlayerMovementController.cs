@@ -14,9 +14,9 @@ public class PlayerMovementController : MonoBehaviour
     private Vector3 targetTransform;
     public Player player;
     public float accelerationY;
-    public static float constant1 = 44; 
-    public static  float constant2 = 100;
-    public static float constant3 = 3;
+    public static float yMovementConstant_1 = 44; 
+    public static  float yMovementConstant_2 = 100;
+    public static float yMovementConstant_3 = 3;
     private float accelerationYConstant = 9f;
    
     public SteamVR_Controller.Device ControllerL
@@ -46,8 +46,6 @@ public class PlayerMovementController : MonoBehaviour
     {
         if (Player.isGameRunning == true)
         {
-            
-            //MovePlayerForward();
             IncreaseTravveledDistance();
         }
     }
@@ -55,7 +53,7 @@ public class PlayerMovementController : MonoBehaviour
     {
         if (Player.isGameRunning == true && Player.isMalfunctionActive == false)
         {
-            accelerationY = Mathf.Pow(constant3 * (Time.deltaTime + 0.01f), constant1 / constant2) + accelerationYConstant;
+            accelerationY = Mathf.Pow(yMovementConstant_3 * (Time.deltaTime + 0.01f), yMovementConstant_1 / yMovementConstant_2) + accelerationYConstant;
             if (side < 0)
             {
                 accelerationY *= 4f;
@@ -63,21 +61,9 @@ public class PlayerMovementController : MonoBehaviour
             playerTransform.GetComponent<Rigidbody>().velocity = new Vector3(0, side, 0f) * accelerationY * PowerUpController.bulletTimeMultipleValue;
         }
     }
-    /*private void MovePlayerForward()
-    {
-        if (player.velocityXBase <= 1f)
-        {
-            player.velocityXBase += (Time.realtimeSinceStartup * (0.5f / 30000));
-        }
-        playerTransform.Translate(Vector3.forward * player.velocityXBase);
-    }*/
     private void IncreaseTravveledDistance()
     {
-        player.travelledDistance = (Time.time * player.velocityZBase);
-    }
-    private void SetTargetTransform(float side)
-    {
-        targetTransform = new Vector3(playerTransform.position.x + side, playerTransform.position.y, playerTransform.position.z);
+        player.travelledDistance = (Time.timeSinceLevelLoad * player.velocityZBase);
     }
   
 }

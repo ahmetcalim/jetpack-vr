@@ -9,7 +9,7 @@ public class InputManager : MonoBehaviour
     public PowerUpController powerUpController;
     private float angleXController;
     public Player player;
-    
+    Quaternion a;
     public PlayerMovementController playerMovementController;
     private bool doOnce;
     public SteamVR_Controller.Device ControllerL
@@ -19,11 +19,6 @@ public class InputManager : MonoBehaviour
     public SteamVR_Controller.Device ControllerR
     {
         get { return SteamVR_Controller.Input((int)rightController.index); }
-    }
-    // Update is called once per frame
-    private void Start()
-    {
-       
     }
     void FixedUpdate()
     {
@@ -93,8 +88,10 @@ public class InputManager : MonoBehaviour
     }
     private void CheckTriggerInput()
     {
+        Debug.Log("Sol Kontrolcü: " + leftController.transform.rotation.x);
         
-
+        Debug.Log("Sağ kontrolcü" +rightController.transform.rotation);
+        
         angleXController = (leftController.transform.rotation.x + rightController.transform.rotation.x) / -2;
         if (ControllerL.GetHairTrigger() && ControllerR.GetHairTrigger())
         {

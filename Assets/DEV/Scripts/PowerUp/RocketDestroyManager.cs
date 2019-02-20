@@ -8,7 +8,7 @@ public class RocketDestroyManager : MonoBehaviour
    
  
     //called when something enters the trigger
-     void OnTriggerEnter(Collider other)
+     void OnTriggerStay(Collider other)
     {
         //if the object is not already in the list
         if (!TriggerList.Contains(other.gameObject))
