@@ -9,9 +9,7 @@ public class InputManager : MonoBehaviour
     public PowerUpController powerUpController;
     private float angleXController;
     public Player player;
-    Quaternion a;
     public PlayerMovementController playerMovementController;
-    private bool doOnce;
     public SteamVR_Controller.Device ControllerL
     {
         get { return SteamVR_Controller.Input((int)leftController.index); }
@@ -27,71 +25,47 @@ public class InputManager : MonoBehaviour
             CheckTouchpadInput();
             CheckTriggerInput();
         }
-           
     }
     private void CheckTouchpadInput()
     {
         if (ControllerL.GetPressUp(SteamVR_Controller.ButtonMask.Touchpad))
         {
-            switch (leftController.powerUpSlot.tag)
-            {
-                case "Phase":
-                    if (!powerUpController.isPhaseActive)
-                    {
-                        powerUpController.UsePhase();
-                        leftController.powerUpSlot.tag = "Untagged";
-                        leftController.powerUpSlot.GetComponent<Image>().sprite = null;
-                    }
-                    break;
-                case "Rocket":
-                    powerUpController.UseRocket();
-                    leftController.powerUpSlot.tag = "Untagged";
-                    leftController.powerUpSlot.GetComponent<Image>().sprite = null;
-                    break;
-                case "BulletTime":
-                    powerUpController.UseBulletTime();
-                    leftController.powerUpSlot.tag = "Untagged";
-                    leftController.powerUpSlot.GetComponent<Image>().sprite = null;
-
-                    break;
-                default:
-                    break;
-            }
+            UsePowerup(leftController);
         }
         if (ControllerR.GetPressUp(SteamVR_Controller.ButtonMask.Touchpad))
         {
-            switch (rightController.powerUpSlot.tag)
-            {
-                case "Phase":
-                    if (!powerUpController.isPhaseActive)
-                    {
-                        powerUpController.UsePhase();
-                        rightController.powerUpSlot.tag = "Untagged";
-                        rightController.powerUpSlot.GetComponent<Image>().sprite = null;
-                    }
-                    break;
-                case "Rocket":
-                    powerUpController.UseRocket();
-                    rightController.powerUpSlot.tag = "Untagged";
-                    rightController.powerUpSlot.GetComponent<Image>().sprite = null;
-                    break;
-                case "BulletTime":
-                    powerUpController.UseBulletTime();
-                    rightController.powerUpSlot.tag = "Untagged";
-                    rightController.powerUpSlot.GetComponent<Image>().sprite = null;
-
-                    break;
-                default:
-                    break;
-            }
+            UsePowerup(rightController);
+        }
+    }
+    private void UsePowerup(SteamVR_TrackedObject controller)
+    {
+     
+        switch (controller.powerUpSlot.tag)
+        {
+            case "Phase":
+                if (!powerUpController.isPhaseActive)
+                {
+                    powerUpController.UsePhase();
+                    controller.powerUpSlot.tag = "Untagged";
+                    controller.powerUpSlot.GetComponent<Image>().sprite = null;
+                }
+                break;
+            case "Rocket":
+                powerUpController.UseRocket();
+                controller.powerUpSlot.tag = "Untagged";
+                controller.powerUpSlot.GetComponent<Image>().sprite = null;
+                break;
+            case "BulletTime":
+                powerUpController.UseBulletTime();
+                controller.powerUpSlot.tag = "Untagged";
+                controller.powerUpSlot.GetComponent<Image>().sprite = null;
+                break;
+            default:
+                break;
         }
     }
     private void CheckTriggerInput()
     {
-        Debug.Log("Sol Kontrolcü: " + leftController.transform.rotation.x);
-        
-        Debug.Log("Sağ kontrolcü" +rightController.transform.rotation);
-        
         angleXController = (leftController.transform.rotation.x + rightController.transform.rotation.x) / -2;
         if (ControllerL.GetHairTrigger() && ControllerR.GetHairTrigger())
         {
@@ -107,7 +81,6 @@ public class InputManager : MonoBehaviour
         }
         if (ControllerL.GetHairTrigger() && Player.isMalfunctionActive)
         {
-            
             if (ControllerL.velocity.magnitude > 3f)
             {
                 Debug.Log("SOLU SALLADIM KIRDIM BEBEYİM");
@@ -115,8 +88,6 @@ public class InputManager : MonoBehaviour
         }
         if (ControllerR.GetHairTrigger() && Player.isMalfunctionActive)
         {
-
-            
             if (ControllerR.velocity.magnitude > 3f)
             {
                 Debug.Log("SAĞI SALLADIM KIRDIM BEBEYİM");

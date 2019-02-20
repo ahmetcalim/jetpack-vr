@@ -42,13 +42,6 @@ public class PowerUpController : MonoBehaviour
         ChangeControllerMaterialAlpha(m_Controller_Default);
     }
     // Update is called once per frame
-    void LateUpdate()
-    {
-        if (Player.isGameRunning == true)
-        {
-            CheckActivePowerups();
-        }
-    }
     public void UpdatePrefs()
     {
         if (PlayerPrefs.GetFloat("bulletTimeDuringTime") > bulletTimeDuringTime)
@@ -77,10 +70,6 @@ public class PowerUpController : MonoBehaviour
             PlayerPrefs.SetFloat("rocketEffectAreaSize", rocketEffectAreaSize);
         }
 
-    }
-    private void CheckActivePowerups()
-    {
-       
     }
     public void SetPowerUp(Sprite powerUpSprite, string pUpTag)
     {
