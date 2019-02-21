@@ -9,7 +9,10 @@ public class InputManager : MonoBehaviour
     public PowerUpController powerUpController;
     private float angleXController;
     public Player player;
+    private float timer;
     public PlayerMovementController playerMovementController;
+    public List<Image> throttleLoadingBar;
+    public Text throttlePowerTxt;
     public SteamVR_Controller.Device ControllerL
     {
         get { return SteamVR_Controller.Input((int)leftController.index); }
@@ -24,6 +27,7 @@ public class InputManager : MonoBehaviour
         {
             CheckTouchpadInput();
             CheckTriggerInput();
+            CheckGripInput();
         }
     }
     private void CheckTouchpadInput()
@@ -69,14 +73,40 @@ public class InputManager : MonoBehaviour
         angleXController = (leftController.transform.rotation.x + rightController.transform.rotation.x) / -2;
         if (ControllerL.GetHairTrigger() && ControllerR.GetHairTrigger())
         {
-            Debug.Log(angleXController);
-            if (angleXController > .2f)
+            
+            if (timer <=1f)
+            {
+                timer += Time.deltaTime;
+                if (throttleLoadingBar[(int)(timer * 10f)].enabled == false)
+                {
+                    throttleLoadingBar[(int)(timer * 10f)].enabled = true;
+                }
+                throttlePowerTxt.text = "%" + ((int)(timer * 100f)).ToString();
+
+            }
+            if (angleXController > 0f)
             {
                 playerMovementController.Up(1);
             }
             else
             {
                 playerMovementController.Up(-1);
+            }
+        }
+        else
+        {
+            if (timer >= 0f)
+            {
+                timer -= Time.deltaTime;
+                if (throttleLoadingBar[(int)(timer*10f) + 1].enabled == true)
+                {
+                    throttleLoadingBar[(int)(timer*10f) + 1].enabled = false;
+                }
+                if (timer<=0.01f)
+                {
+                    throttleLoadingBar[0].enabled = false;
+                }
+                throttlePowerTxt.text = "%" + ((int)(timer * 100f) + 1).ToString();
             }
         }
         if (ControllerL.GetHairTrigger() && Player.isMalfunctionActive)
@@ -93,5 +123,12 @@ public class InputManager : MonoBehaviour
                 Debug.Log("SAĞI SALLADIM KIRDIM BEBEYİM");
             }
         }
+    }
+    private void CheckGripInput()
+    {
+        if (ControllerL.GetPressUp(SteamVR_Controller.ButtonMask.Grip))
+        {
+        }
+        
     }
 }

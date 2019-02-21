@@ -28,16 +28,25 @@ public class Player : MonoBehaviour
     public Transform tunnelTransform;
     public PlayerMovementController playerMovementController;
     public static bool isGlassTunnelActive =false;
+    public List<Image> speedBar;
+    private float barTimer;
+    private int speedBarState = 0;
+    private float speedBarInterval = 50;
+    private float loadAmount = 0f;
+    public List<BoxCollider> glassTunnelColliders;
     [Header("Bbonuslar ve feedbackler")]
     public Text resourceTxt;
     public Text speedXTxt;
+    public Text travelledDistanceTxt;
+    public Text gainedResourceSumTxt;
     public PostProcessVolume postProcess;
     public RocketDestroyManager rocketDestroyManager;
     public PowerUpController powerUpController;
-
+    
 
     private void Start()
     {
+       
         Time.timeScale = 1f;
         isGameRunning = true;
         StartCoroutine(IncreaseVelocityZ());
@@ -49,8 +58,10 @@ public class Player : MonoBehaviour
         {
            difficulty = Mathf.Pow(3, ((Time.timeSinceLevelLoad * 2) / (90 + Time.timeSinceLevelLoad)) + 1) - 3;
            GainResource();
-           PrintValueToText(resourceTxt, (gainedResource).ToString(), "Kaynak");
-           PrintValueToText(speedXTxt, velocityZBase.ToString(), "Hız");
+           PrintValueToText(resourceTxt, ((int)gainedResource).ToString(), "");
+           PrintValueToText(speedXTxt, (velocityZBase).ToString(), "");
+           PrintValueToText(travelledDistanceTxt, ((int)travelledDistance).ToString(), "");
+           PrintValueToText(gainedResourceSumTxt, ((int)PlayerPrefs.GetFloat("gResource")).ToString(), "");
         }
        
     }
@@ -105,7 +116,7 @@ public class Player : MonoBehaviour
     }
     public void PrintValueToText(Text textObject, string value, string name)
     {
-        textObject.text = name + ": " + value;
+        textObject.text = name + "" + value;
     }
     private void UpdatePlayerPrefs()
     {
@@ -124,8 +135,26 @@ public class Player : MonoBehaviour
         yield return new WaitForSeconds(.1f);
         if (velocityZBase < velocityZMax && isGameRunning == true)
         {
+            loadAmount += 0.003f;
+
+            speedBar[speedBarState].color = new Color(1f, 1f, 1f, loadAmount);
+            if (velocityZBase>speedBarInterval)
+            {
+
+                loadAmount = 0f;
+                speedBarInterval += 10;
+                speedBarState++;
+
+            }
             velocityZBase += velocityIncreaseAmount;
             StartCoroutine(IncreaseVelocityZ());
+        }
+    }
+    public void ActivateGlassTunnel(bool state)
+    {
+        foreach (var item in glassTunnelColliders)
+        {
+            item.isTrigger = state;
         }
     }
 }

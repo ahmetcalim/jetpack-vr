@@ -6,8 +6,7 @@ a[Ll]ibrary/
 [Ll]ogs/
 [Bb]uild
 /[Bb]uilds/
-/[Ll]ibrary/
-/[Aa]ssets/[Oo]culus/
+/[Ll]ibrary
 
 # Never ignore Asset meta data
 ![Aa]ssets/**/*.meta

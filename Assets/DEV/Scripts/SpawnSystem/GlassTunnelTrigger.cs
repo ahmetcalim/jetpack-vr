@@ -8,11 +8,18 @@ public class GlassTunnelTrigger : MonoBehaviour
     {
         if (other.tag == "GlassTunnel")
         {
-            Player.isGlassTunnelActive = !Player.isGlassTunnelActive;
-            other.gameObject.GetComponent<BoxCollider>().isTrigger = !Player.isGlassTunnelActive;
-        }
-        if (other.tag == "NormalFloor")
-        {
+            if (gameObject.name == "Tunnel_Collision")
+            {
+                Debug.Log("Açıldı");
+                Player.isGlassTunnelActive = true;
+                FindObjectOfType<Player>().ActivateGlassTunnel(false);
+            }
+            if ((gameObject.name == "HOSPITAL_COLUMN" || gameObject.name == "LAB_COLUMN") && Player.isGlassTunnelActive == true)
+            {
+                Debug.Log("Kapandı");
+                Player.isGlassTunnelActive = false;
+                FindObjectOfType<Player>().ActivateGlassTunnel(true);
+            }
             
         }
     }
