@@ -5,10 +5,11 @@ using UnityEngine;
 public class SoundController : MonoBehaviour
 {
     public AudioClip gameMusic;
-    public AudioClip bulletTimeUsing;
-    public AudioClip phaseUsing;
-    public AudioClip rocketUsing;
+    public AudioClip bulletTimeEnter;
+    public AudioClip phaseEnter;
+    public AudioClip rocketEnter;
     public AudioClip gameOver;
     public AudioClip countDownBip;
     public AudioClip bulletTimeOut;
+    public AudioClip phaseOut;
 }

@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using UnityEngine.Rendering.PostProcessing;
+using UnityEngine.XR;
 //Bu class Player ile ilgili özellikleri barındırmakta.
 public class Player : MonoBehaviour
 {
@@ -42,11 +43,13 @@ public class Player : MonoBehaviour
     public PostProcessVolume postProcess;
     public RocketDestroyManager rocketDestroyManager;
     public PowerUpController powerUpController;
-    
+    public Canvas dashBoard;
 
     private void Start()
     {
-       
+        XRSettings.eyeTextureResolutionScale = SettingsManager.currenRenderScale;
+        playerPawnTransform.position = new Vector3(13f, 5f, -850f);
+        dashBoard.GetComponent<RectTransform>().position = new Vector3(transform.position.x, dashBoard.GetComponent<RectTransform>().position.y, dashBoard.GetComponent<RectTransform>().position.z);
         Time.timeScale = 1f;
         isGameRunning = true;
         StartCoroutine(IncreaseVelocityZ());

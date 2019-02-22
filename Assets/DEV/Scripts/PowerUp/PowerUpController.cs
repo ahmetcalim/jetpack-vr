@@ -11,7 +11,7 @@ public class PowerUpController : MonoBehaviour
     public Image powerUpSlotRight;
     private float timer;
     private bool timeCountFinished = true;
-
+    public GameObject phase;
     public AudioSource mainAudioSource;
     public AudioSource countDownAudioSource;
     public SoundController soundController;
@@ -29,8 +29,9 @@ public class PowerUpController : MonoBehaviour
     public static float bulletTimeMultipleValue = 1f;
     public float bulletTimeDuringTime;
     public bool isBulletTimeActive;
-
+    public float phaseİkiKati = 1f;
     [Header("Diğer")]
+    private float gravityDefault;
     public PlayerMovementController playerMovementController;
     private int lastSlot = 1;
 
@@ -38,6 +39,7 @@ public class PowerUpController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        Physics.gravity = new Vector3(0f,-20f,0f);
         UpdatePrefs();
         ChangeControllerMaterialAlpha(m_Controller_Default);
     }
@@ -114,7 +116,7 @@ public class PowerUpController : MonoBehaviour
     public void UseRocket()
     {
         //TO DO KULLANIM İÇİN SES ÇAL
-        PlaySound(soundController.rocketUsing);
+        PlaySound(soundController.rocketEnter);
 
       
         foreach (var item in rocketDestroyManager.TriggerList)
@@ -124,8 +126,11 @@ public class PowerUpController : MonoBehaviour
     }
     public void UsePhase()
     {
+        phaseİkiKati = 3.5f;
         //TO DO KULLANIM İÇİN SES ÇAL
-        PlaySound(soundController.phaseUsing);
+        PlaySound(soundController.phaseEnter);
+
+        phase.SetActive(true);
         phaseCountDownBar.SetTrigger("StartPhaseBar");
 
         ChangeControllerMaterialAlpha(m_Controller_Fade);
@@ -135,9 +140,10 @@ public class PowerUpController : MonoBehaviour
     public void UseBulletTime()
     {
         //TO DO KULLANIM İÇİN SES ÇAL
-        PlaySound(soundController.bulletTimeUsing);
+        PlaySound(soundController.bulletTimeEnter);
         bulletTimeMultipleValue = 5f;
         Time.timeScale = 0.2f;
+        Physics.gravity = new Vector3(0f, -100f, 0f);
         isBulletTimeActive = true;
         StartCoroutine(ActivatePowerup(1, bulletTimeDuringTime));
     }
@@ -183,11 +189,16 @@ public class PowerUpController : MonoBehaviour
             switch (powerupIndex)
             {
                 case 0:
+                    PlaySound(soundController.phaseOut);
                     isPhaseActive = false;
                     ChangeControllerMaterialAlpha(m_Controller_Default);
+                   
+                    phase.SetActive(false);
+                    phaseİkiKati = 1f;
                     break;
                 case 1:
                     isPhaseActive = false;
+                    Physics.gravity = new Vector3(0f, -20f, 0f);
                     bulletTimeMultipleValue = 1f;
                     Time.timeScale = 1f;
                     PlaySound(soundController.bulletTimeOut);

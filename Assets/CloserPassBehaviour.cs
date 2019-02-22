@@ -4,21 +4,15 @@ using UnityEngine;
 
 public class CloserPassBehaviour : MonoBehaviour
 {
-    Collider otherC;
     private void OnTriggerEnter(Collider other)
     {
-        otherC = other;
-        StartCoroutine(DoWeee());
-    }
-    IEnumerator DoWeee()
-    {
-        yield return new WaitForSeconds(.2f);
         if (Player.isGameRunning)
         {
-            if (otherC.tag == "Obstacle")
+            if (other.tag == "Obstacle" && FindObjectOfType<PowerUpController>().isPhaseActive == false)
             {
                 GetComponent<AudioSource>().Play();
             }
         }
     }
+ 
 }

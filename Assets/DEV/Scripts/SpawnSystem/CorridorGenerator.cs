@@ -47,7 +47,7 @@ public class CorridorGenerator : MonoBehaviour
     { 
         if (Player.isGameRunning == true)
         {
-            rb.velocity = -transform.forward * player.velocityZBase;
+            rb.velocity = -transform.forward * player.velocityZBase * FindObjectOfType<PowerUpController>().phaseİkiKati;
         }
         else
         {

@@ -13,6 +13,9 @@ public class InputManager : MonoBehaviour
     public PlayerMovementController playerMovementController;
     public List<Image> throttleLoadingBar;
     public Text throttlePowerTxt;
+    public List<Image> dashBoardImageElements;
+    public List<Text> dashBoardTextElements;
+    public bool isDashboardVisible = true;
     public SteamVR_Controller.Device ControllerL
     {
         get { return SteamVR_Controller.Input((int)leftController.index); }
@@ -128,7 +131,37 @@ public class InputManager : MonoBehaviour
     {
         if (ControllerL.GetPressUp(SteamVR_Controller.ButtonMask.Grip))
         {
+            Yes();
         }
         
+    }
+    private void ChangeDashboardVisibility(List<Text> texts, List<Image> images, float visibilityAmount)
+    {
+        foreach (var item in images)
+        {
+            item.color = new Color(1f, 1f, 1f, visibilityAmount);
+        }
+        foreach (var item in texts)
+        {
+            item.color = new Color(1f, 1f, 1f, visibilityAmount);
+        }
+    }
+    public void Yes()
+    {
+        if (isDashboardVisible == true)
+        {
+            StartCoroutine(DashboardVisible(false));
+            ChangeDashboardVisibility(dashBoardTextElements, dashBoardImageElements, .05f);
+        }
+        else
+        {
+            StartCoroutine(DashboardVisible(true));
+            ChangeDashboardVisibility(dashBoardTextElements, dashBoardImageElements, 1f);
+        }
+    }
+    IEnumerator DashboardVisible(bool state)
+    {
+        yield return new WaitForSeconds(.1f);
+        isDashboardVisible = state;
     }
 }

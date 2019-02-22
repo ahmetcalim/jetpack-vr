@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 7908024123167585946}
   - component: {fileID: 8903864744298849493}
   - component: {fileID: 89649929184176790}
+  - component: {fileID: 7700702905760589258}
   m_Layer: 10
   m_Name: Hospital_3
   m_TagString: Untagged
@@ -120,3 +121,16 @@ MonoBehaviour:
   prevNode: {fileID: 0}
   tunnelType: 14
   themeType: 3
+--- !u!114 &7700702905760589258
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8819082383137134516}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f9e9bf8030acd8049a377a394783233e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  index: 0
