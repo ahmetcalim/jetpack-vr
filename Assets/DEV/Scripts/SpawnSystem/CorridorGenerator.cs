@@ -50,7 +50,7 @@ public class CorridorGenerator : MonoBehaviour
     }
     void MoveTunnel()
     { 
-        if (Player.isGameRunning == true)
+        if (Player.IsGameRunning())
         {
             rb.velocity = -transform.forward * player.velocityZBase * FindObjectOfType<PowerUpController>().phaseIkiKati;
         }

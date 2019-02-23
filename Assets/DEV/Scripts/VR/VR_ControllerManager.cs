@@ -53,7 +53,7 @@ public class VR_ControllerManager : MonoBehaviour {
     private void Update()
     {
         
-        if (Player.isGameRunning == true)
+        if (Player.IsGameRunning())
         {
             Turn();
             

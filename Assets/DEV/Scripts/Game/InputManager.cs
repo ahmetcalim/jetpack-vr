@@ -26,7 +26,7 @@ public class InputManager : MonoBehaviour
     }
     void FixedUpdate()
     {
-        if (Player.isGameRunning)
+        if (Player.IsGameRunning())
         {
             CheckTouchpadInput();
             CheckTriggerInput();

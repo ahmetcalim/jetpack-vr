@@ -20,7 +20,7 @@ public class Player : MonoBehaviour
     public static float totalDistance;
     private float gainedResource;
     private float gainedResourceSum;
-    public static bool isGameRunning = true;
+    private static bool isGameRunning = true;
     public static float difficulty = 0;
     public static float resourceMultipleValue = .5f;
     public Transform playerPawnTransform;
@@ -66,6 +66,10 @@ public class Player : MonoBehaviour
            PrintValueToText(gainedResourceSumTxt, ((int)PlayerPrefs.GetFloat("gResource")).ToString(), "");
         }
        
+    }
+    public static bool IsGameRunning()
+    {
+        return isGameRunning;
     }
     public void GainResource()
     {

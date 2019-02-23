@@ -44,14 +44,14 @@ public class PlayerMovementController : MonoBehaviour
     }
     void Update()
     {
-        if (Player.isGameRunning == true)
+        if (Player.IsGameRunning())
         {
             IncreaseTravveledDistance();
         }
     }
     public void Up(float side)
     {
-        if (Player.isGameRunning == true && Player.isMalfunctionActive == false)
+        if (Player.IsGameRunning() && Player.isMalfunctionActive == false)
         {
             accelerationY = Mathf.Pow(yMovementConstant_3 * (Time.deltaTime + 0.01f), yMovementConstant_1 / yMovementConstant_2) + accelerationYConstant;
             if (side < 0)
