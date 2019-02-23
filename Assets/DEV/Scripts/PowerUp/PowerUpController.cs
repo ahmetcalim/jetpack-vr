@@ -29,7 +29,7 @@ public class PowerUpController : MonoBehaviour
     public static float bulletTimeMultipleValue = 1f;
     public float bulletTimeDuringTime;
     public bool isBulletTimeActive;
-    public float phaseİkiKati = 1f;
+    public float phaseIkiKati = 1f;
     [Header("Diğer")]
     private float gravityDefault;
     public PlayerMovementController playerMovementController;
@@ -126,7 +126,7 @@ public class PowerUpController : MonoBehaviour
     }
     public void UsePhase()
     {
-        phaseİkiKati = 3.5f;
+        phaseIkiKati = 3.5f;
         //TO DO KULLANIM İÇİN SES ÇAL
         PlaySound(soundController.phaseEnter);
 
@@ -194,7 +194,7 @@ public class PowerUpController : MonoBehaviour
                     ChangeControllerMaterialAlpha(m_Controller_Default);
                    
                     phase.SetActive(false);
-                    phaseİkiKati = 1f;
+                    phaseIkiKati = 1f;
                     break;
                 case 1:
                     isPhaseActive = false;

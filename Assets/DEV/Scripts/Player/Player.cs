@@ -40,7 +40,6 @@ public class Player : MonoBehaviour
     public Text speedXTxt;
     public Text travelledDistanceTxt;
     public Text gainedResourceSumTxt;
-    public PostProcessVolume postProcess;
     public RocketDestroyManager rocketDestroyManager;
     public PowerUpController powerUpController;
     public Canvas dashBoard;

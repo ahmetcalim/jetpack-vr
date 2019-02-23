@@ -10,25 +10,30 @@ public class CorridorGenerator : MonoBehaviour
     public NodeGraph nodeGraph;
     public Rigidbody rb;
     public Player player;
+
     public void Create(KNode k,bool isHeadNode)
     {
+        currPosition= new Vector3(currPosition.x, currPosition.y, currPosition.z + k.scaleFactor);
+
         if (isHeadNode)
         {
-            k.gameObject.transform.localPosition = new Vector3(currPosition.x, currPosition.y, currPosition.z + k.scaleFactor);
-            currPosition = k.gameObject.transform.localPosition;
+            k.gameObject.transform.localPosition = currPosition;
+
             nodeGraph.tailNode.nextNode = k;
             k.prevNode = nodeGraph.tailNode;
             nodeGraph.tailNode = k;
+
             nodeGraph.headNode = nodeGraph.headNode.nextNode;
             nodeGraph.tailNode.nextNode = null;
         }
         else
         {
             GameObject g = Instantiate(k.gameObject,allTunnel);            
-            currPosition = new Vector3(currPosition.x, currPosition.y, currPosition.z + k.scaleFactor);
-            g.transform.localPosition = currPosition;            
+            g.transform.localPosition = currPosition;
+
             KNode currentNode= g.GetComponent<KNode>();
             nodeGraph.tailNode.nextNode = currentNode;
+
             currentNode.prevNode = nodeGraph.tailNode;
             nodeGraph.tailNode = currentNode;
             nodeGraph.headNode = nodeGraph.headNode.nextNode;
@@ -47,7 +52,7 @@ public class CorridorGenerator : MonoBehaviour
     { 
         if (Player.isGameRunning == true)
         {
-            rb.velocity = -transform.forward * player.velocityZBase * FindObjectOfType<PowerUpController>().phaseİkiKati;
+            rb.velocity = -transform.forward * player.velocityZBase * FindObjectOfType<PowerUpController>().phaseIkiKati;
         }
         else
         {
