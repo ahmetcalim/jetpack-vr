@@ -8,18 +8,12 @@ public class TunnelPart : MonoBehaviour
     private GameObject partAsset;
     public TunnelPart nextTunnelPart;
     public TunnelPart previousTunnelPart;
-    public Theme tunnelPartTheme;
     public ETunnelPartType tunnelPartType;
 
 
     private void Awake()
     {   
-
         this.partAsset = this.gameObject;
-
-        
-
-
     }
 
     private void Start()

@@ -47,7 +47,7 @@ public class Player : MonoBehaviour
     private void Start()
     {
         XRSettings.eyeTextureResolutionScale = SettingsManager.currenRenderScale;
-        playerPawnTransform.position = new Vector3(13f, 5f, -850f);
+        //playerPawnTransform.position = new Vector3(13f, 5f, -850f);
         dashBoard.GetComponent<RectTransform>().position = new Vector3(transform.position.x, dashBoard.GetComponent<RectTransform>().position.y, dashBoard.GetComponent<RectTransform>().position.z);
         Time.timeScale = 1f;
         isGameRunning = true;
