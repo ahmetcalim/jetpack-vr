@@ -7,21 +7,14 @@ public class InputManager : MonoBehaviour
     public SteamVR_TrackedObject leftController;
     public SteamVR_TrackedObject rightController;
     public PowerUpController powerUpController;
-    private float angleXController;
     public Player player;
-    private float timer;
-    public PlayerMovementController playerMovementController;
     public List<Image> throttleLoadingBar;
     public Text throttlePowerTxt;
     public List<Image> dashBoardImageElements;
     public List<Text> dashBoardTextElements;
-    public bool isDashboardVisible = true;
-    private float accelerationY;
-    public static float yMovementConstant_1 = 44;
-    public static float yMovementConstant_2 = 100;
-    public static float yMovementConstant_3 = 3;
     public GameObject playerTransform;
     public AudioSource jetpackThrottle;
+
     public SteamVR_Controller.Device ControllerL
     {
         get { return SteamVR_Controller.Input((int)leftController.index); }
@@ -30,6 +23,14 @@ public class InputManager : MonoBehaviour
     {
         get { return SteamVR_Controller.Input((int)rightController.index); }
     }
+    public bool IsDashboardVisible { get; set; } = true;
+    public float AccelerationY { get; set; }
+    public static float YMovementConstant_1 { get; set; } = 44;
+    public static float YMovementConstant_2 { get; set; } = 100;
+    public static float YMovementConstant_3 { get; set; } = 3;
+    public float Timer { get; set; }
+    public float AngleXController { get; set; }
+
     void FixedUpdate()
     {
         if (Player.IsGameRunning())
@@ -60,7 +61,7 @@ public class InputManager : MonoBehaviour
         switch (controller.powerUpSlot.tag)
         {
             case "Phase":
-                if (!powerUpController.isPhaseActive)
+                if (!powerUpController.IsPhaseActive())
                 {
                     powerUpController.UsePhase();
                     controller.powerUpSlot.tag = "Untagged";
@@ -83,26 +84,26 @@ public class InputManager : MonoBehaviour
     }
     private void CheckTriggerInput()
     {
-        angleXController = (leftController.transform.rotation.x + rightController.transform.rotation.x) / -2;
+        AngleXController = (leftController.transform.rotation.x + rightController.transform.rotation.x) / -2;
         if (ControllerL.GetHairTrigger() && ControllerR.GetHairTrigger())
         {
             if (!jetpackThrottle.isPlaying)
             {
               
             }
-            if (timer <=1f)
+            if (Timer <=1f)
             {
                 
-                timer += Time.deltaTime;
-                jetpackThrottle.volume += timer/50f;
-                if (throttleLoadingBar[(int)(timer * 10f)].enabled == false)
+                Timer += Time.deltaTime;
+                jetpackThrottle.volume += Timer/50f;
+                if (throttleLoadingBar[(int)(Timer * 10f)].enabled == false)
                 {
-                    throttleLoadingBar[(int)(timer * 10f)].enabled = true;
+                    throttleLoadingBar[(int)(Timer * 10f)].enabled = true;
                 }
-                throttlePowerTxt.text = "%" + ((int)(timer * 100f)).ToString();
+                throttlePowerTxt.text = "%" + ((int)(Timer * 100f)).ToString();
 
             }
-            if (angleXController > 0f)
+            if (AngleXController > 0f)
             {
                 Up(1);
             }
@@ -113,30 +114,30 @@ public class InputManager : MonoBehaviour
         }
         else
         {
-            if (timer >= 0f)
+            if (Timer >= 0f)
             {
                 
-                timer -= Time.deltaTime;
-                jetpackThrottle.volume -= timer/50f;
-                if (throttleLoadingBar[(int)(timer*10f) + 1].enabled == true)
+                Timer -= Time.deltaTime;
+                jetpackThrottle.volume -= Timer/50f;
+                if (throttleLoadingBar[(int)(Timer*10f) + 1].enabled == true)
                 {
-                    throttleLoadingBar[(int)(timer*10f) + 1].enabled = false;
+                    throttleLoadingBar[(int)(Timer*10f) + 1].enabled = false;
                 }
-                if (timer<=0.01f)
+                if (Timer<=0.01f)
                 {
                     throttleLoadingBar[0].enabled = false;
                 }
-                throttlePowerTxt.text = "%" + ((int)(timer * 100f) + 1).ToString();
+                throttlePowerTxt.text = "%" + ((int)(Timer * 100f) + 1).ToString();
             }
         }
-        if (ControllerL.GetHairTrigger() && Player.isMalfunctionActive)
+        if (ControllerL.GetHairTrigger())
         {
             if (ControllerL.velocity.magnitude > 3f)
             {
                 Debug.Log("SOLU SALLADIM KIRDIM BEBEYİM");
             }
         }
-        if (ControllerR.GetHairTrigger() && Player.isMalfunctionActive)
+        if (ControllerR.GetHairTrigger())
         {
             if (ControllerR.velocity.magnitude > 3f)
             {
@@ -165,7 +166,7 @@ public class InputManager : MonoBehaviour
     }
     public void ChangeDashboardVisibleAfterFrame()
     {
-        if (isDashboardVisible == true)
+        if (IsDashboardVisible == true)
         {
             StartCoroutine(DashboardVisible(false));
             ChangeDashboardVisibility(dashBoardTextElements, dashBoardImageElements, .05f);
@@ -179,27 +180,25 @@ public class InputManager : MonoBehaviour
     IEnumerator DashboardVisible(bool state)
     {
         yield return new WaitForSeconds(.1f);
-        isDashboardVisible = state;
+        IsDashboardVisible = state;
     }
     public void Up(float side)
     {
-        if (Player.isGameRunning == true && Player.isMalfunctionActive == false)
+        if (Player.IsGameRunning())
         {
             
-            accelerationY = Mathf.Pow(yMovementConstant_3 * (Time.deltaTime + 0.03f), yMovementConstant_1 / yMovementConstant_2);
+            AccelerationY = Mathf.Pow(YMovementConstant_3 * (Time.deltaTime + 0.03f), YMovementConstant_1 / YMovementConstant_2);
             if (side < 0)
             {
-                accelerationY *= 4f;
+                AccelerationY *= 4f;
             }
             switch (side)
             {
                 case 1:
-                    playerTransform.GetComponent<Rigidbody>().velocity += Vector3.up *accelerationY * PowerUpController.bulletTimeMultipleValue;
-                    //playerTransform.GetComponent<Rigidbody>().AddForce(Vector3.up * accelerationY * PowerUpController.bulletTimeMultipleValue, ForceMode.Impulse);
+                    playerTransform.GetComponent<Rigidbody>().velocity += Vector3.up *AccelerationY * PowerUpController.BulletTimeMultipleValue;
                     break;
                 case -1:
-                   // playerTransform.GetComponent<Rigidbody>().AddForce(Vector3.down * accelerationY * PowerUpController.bulletTimeMultipleValue, ForceMode.Impulse);
-                   playerTransform.GetComponent<Rigidbody>().velocity += Vector3.down * accelerationY * PowerUpController.bulletTimeMultipleValue;
+                   playerTransform.GetComponent<Rigidbody>().velocity += Vector3.down * AccelerationY * PowerUpController.BulletTimeMultipleValue;
                     break;
                 default:
                     break;

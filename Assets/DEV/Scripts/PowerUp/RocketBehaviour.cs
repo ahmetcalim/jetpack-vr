@@ -7,7 +7,9 @@ public class RocketBehaviour : MonoBehaviour
     public GameObject rocketPrefab;
     public List<GameObject> targets;
     private List<GameObject> copys = new List<GameObject>();
-    private bool isActive;
+
+    public bool IsActive { get; set; }
+
     public void UseRocket(int numOfRocket)
     {
         
@@ -17,11 +19,11 @@ public class RocketBehaviour : MonoBehaviour
             copys.Add(copy);
 
         }
-        isActive = true;
+        IsActive = true;
     }
     private void FixedUpdate()
     {
-        if (isActive == true)
+        if (IsActive == true)
         {
             copys[0].GetComponent<Rigidbody>().velocity = copys[0].transform.forward * 5f;
             Quaternion targetRotation = Quaternion.LookRotation(targets[0].transform.position - transform.position);

@@ -8,7 +8,7 @@ public class CloserPassBehaviour : MonoBehaviour
     {
         if (Player.IsGameRunning())
         {
-            if (other.tag == "Obstacle" && FindObjectOfType<PowerUpController>().isPhaseActive == false)
+            if (other.tag == "Obstacle" && !FindObjectOfType<PowerUpController>().IsPhaseActive())
             {
                 GetComponent<AudioSource>().Play();
             }

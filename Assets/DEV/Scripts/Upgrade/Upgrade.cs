@@ -33,38 +33,38 @@ public class Upgrade : MonoBehaviour
 
     private static void CheckPrefs()
     {
-        if (PowerUpController.phasePowerUpMaxTime < 3)
+        if (PowerUpController.PhaseMaxTime < 3)
         {
-            PowerUpController.phasePowerUpMaxTime = 3;
+            PowerUpController.PhaseMaxTime = 3;
         }
-        if (PowerUpController.bulletTimeDuringTime < 3)
+        if (PowerUpController.BulletTimeDuringTime < 3)
         {
-            PowerUpController.bulletTimeDuringTime = 3;
+            PowerUpController.BulletTimeDuringTime = 3;
         }
-        if (PlayerPrefs.GetFloat("bulletTimeDuringTime") > PowerUpController.bulletTimeDuringTime)
+        if (PlayerPrefs.GetFloat("bulletTimeDuringTime") > PowerUpController.BulletTimeDuringTime)
         {
-            PowerUpController.bulletTimeDuringTime = PlayerPrefs.GetFloat("bulletTimeDuringTime");
+            PowerUpController.BulletTimeDuringTime = PlayerPrefs.GetFloat("bulletTimeDuringTime");
         }
         else
         {
-            PlayerPrefs.SetFloat("bulletTimeDuringTime", PowerUpController.bulletTimeDuringTime);
+            PlayerPrefs.SetFloat("bulletTimeDuringTime", PowerUpController.BulletTimeDuringTime);
         }
 
-        if (PlayerPrefs.GetFloat("phasePowerUpDuringTime") > PowerUpController.phasePowerUpMaxTime)
+        if (PlayerPrefs.GetFloat("phasePowerUpDuringTime") > PowerUpController.PhaseMaxTime)
         {
-            PowerUpController.phasePowerUpMaxTime = PlayerPrefs.GetFloat("phasePowerUpDuringTime");
+            PowerUpController.PhaseMaxTime = PlayerPrefs.GetFloat("phasePowerUpDuringTime");
         }
         else
         {
-            PlayerPrefs.SetFloat("phasePowerUpDuringTime", PowerUpController.phasePowerUpMaxTime);
+            PlayerPrefs.SetFloat("phasePowerUpDuringTime", PowerUpController.PhaseMaxTime);
         }
-        if (PlayerPrefs.GetFloat("rocketEffectAreaSize") > PowerUpController.rocketCount)
+        if (PlayerPrefs.GetFloat("rocketEffectAreaSize") > PowerUpController.RocketCount)
         {
-            PowerUpController.rocketCount = PlayerPrefs.GetFloat("rocketEffectAreaSize");
+            PowerUpController.RocketCount = PlayerPrefs.GetFloat("rocketEffectAreaSize");
         }
         else
         {
-            PlayerPrefs.SetFloat("rocketEffectAreaSize", PowerUpController.rocketCount);
+            PlayerPrefs.SetFloat("rocketEffectAreaSize", PowerUpController.RocketCount);
         }
     }
 
@@ -106,7 +106,7 @@ public class Upgrade : MonoBehaviour
                     case UpgradeType.PHASE:
                         if (upgradeManager.phaseUpgradeLevelIndex == index)
                         {
-                            PlayerPrefs.SetFloat("phasePowerUpDuringTime", PowerUpController.phasePowerUpMaxTime + upgradeAmount);
+                            PlayerPrefs.SetFloat("phasePowerUpDuringTime", PowerUpController.PhaseMaxTime + upgradeAmount);
                             DoTheseBeforeUpgrade();
                             upgradeManager.phaseUpgradeLevelIndex++;
                             PlayerPrefs.SetInt("phaseUpgradeLevelIndex", upgradeManager.phaseUpgradeLevelIndex);

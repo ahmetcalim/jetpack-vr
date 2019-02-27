@@ -8,36 +8,15 @@ using UnityEngine.XR;
 //Bu class Player ile ilgili özellikleri barındırmakta.
 public class Player : MonoBehaviour
 {
-    [Header("Malfunction")]
-    public static bool isMalfunctionActive = false;
-    [Header("Z Hız")]
-    public float velocityZBase = 40;
-    public static float velocityZMax = 100f;
-    public float velocityIncreaseAmount = 0.03f;
-
-    [Header("Player Özellikler")]
     public List<AudioSource> effectSources;
     public AudioSource bgMusicSource;
-    public float travelledDistance;
-    public static float totalDistance;
-    private float gainedResource;
-    private float gainedResourceSum;
     public static bool isGameRunning = true;
-    public static float difficulty = 0;
-    public static float resourceMultipleValue = .5f;
     public Transform playerPawnTransform;
     public GameObject UIVROrigin;
     public GameObject VRGameOrigin;
     public Transform tunnelTransform;
-    public PlayerMovementController playerMovementController;
-    public static bool isGlassTunnelActive =false;
     public List<Image> speedBar;
-    private float barTimer;
-    private int speedBarState = 0;
-    private float speedBarInterval = 50;
-    private float loadAmount = 0f;
     public List<BoxCollider> glassTunnelColliders;
-    [Header("Bbonuslar ve feedbackler")]
     public Text resourceTxt;
     public Text speedXTxt;
     public Text travelledDistanceTxt;
@@ -47,6 +26,23 @@ public class Player : MonoBehaviour
     public PowerUpController powerUpController;
     public Canvas dashBoard;
     public AudioSource bonusRecieved;
+    public float _velocityZBase = 40;
+
+    public float GainedResource { get; set; }
+    public float GainedResourceSum { get; set; }
+    public float BarTimer { get; set; }
+    public static float TotalDistance { get; set; }
+    public static float Difficulty { get; set; } = 0;
+    public int SpeedBarState { get; set; } = 0;
+    public float SpeedBarInterval { get; set; } = 50;
+    public float LoadAmount { get; set; } = 0f;
+    public float VelocityZBase { get => _velocityZBase; set => _velocityZBase = value; }
+    public static bool IsGlassTunnelActive { get; set; } = false;
+    public static float ResourceMultipleValue { get; set; } = .5f;
+    public float TravelledDistance { get; set; }
+    public float VelocityIncreaseAmount { get; set; } = 0.03f;
+    public static float VelocityZMax { get; set; } = 100f;
+
     private void Start()
     {
         foreach (var item in effectSources)
@@ -54,16 +50,15 @@ public class Player : MonoBehaviour
 
             item.volume = SettingsManager.effectVolume;
         }
-       // bgMusicSource.volume = SettingsManager.musicVolume;
+        // bgMusicSource.volume = SettingsManager.musicVolume;
         XRSettings.eyeTextureResolutionScale = SettingsManager.currenRenderScale;
-       // playerPawnTransform.position = new Vector3(13f, 5f, -850f);
+        // playerPawnTransform.position = new Vector3(13f, 5f, -850f);
         dashBoard.GetComponent<RectTransform>().position = new Vector3(transform.position.x, dashBoard.GetComponent<RectTransform>().position.y, dashBoard.GetComponent<RectTransform>().position.z);
         Time.timeScale = 1f;
         isGameRunning = true;
         StartCoroutine(IncreaseVelocityZ());
-      
+
     }
- 
     private void Update()
     {
         RuntimeEvents();
@@ -77,30 +72,33 @@ public class Player : MonoBehaviour
     {
         if (IsGameRunning())
         {
-            difficulty = Mathf.Pow(3, ((Time.timeSinceLevelLoad * 2) / (90 + Time.timeSinceLevelLoad)) + 1) - 3;
-            travelledDistance = (Time.timeSinceLevelLoad * velocityZBase);
-            GainResource();
-            PrintValueToText(resourceTxt, ((int)gainedResource).ToString(), "");
-            PrintValueToText(speedXTxt, (velocityZBase).ToString(), "");
-            PrintValueToText(travelledDistanceTxt, ((int)travelledDistance).ToString(), "");
-            PrintValueToText(gainedResourceSumTxt, ((int)PlayerPrefs.GetFloat("gResource")).ToString(), "");
+            CalculateBaseValues();
+            PrintValuesToDashboard();
         }
     }
-
-    public void GainResource()
+    private void CalculateBaseValues()
     {
-        gainedResource = (travelledDistance * difficulty) * resourceMultipleValue;
+        Difficulty = Mathf.Pow(3, ((Time.timeSinceLevelLoad * 2) / (90 + Time.timeSinceLevelLoad)) + 1) - 3;
+        TravelledDistance = (Time.timeSinceLevelLoad * VelocityZBase);
+        GainedResource = (TravelledDistance * Difficulty) * ResourceMultipleValue;
+    }
+    private void PrintValuesToDashboard()
+    {
+        PrintValueToText(resourceTxt, ((int)GainedResource).ToString(), "");
+        PrintValueToText(speedXTxt, (VelocityZBase).ToString(), "");
+        PrintValueToText(travelledDistanceTxt, ((int)TravelledDistance).ToString(), "");
+        PrintValueToText(gainedResourceSumTxt, ((int)PlayerPrefs.GetFloat("gResource")).ToString(), "");
     }
     public static void ResetStaticValues()
     {
-        isMalfunctionActive = false;
-        difficulty = 0f;
-        totalDistance = 0f;
-        resourceMultipleValue = .5f;
+
+        Difficulty = 0f;
+        TotalDistance = 0f;
+        ResourceMultipleValue = .5f;
     }
     private void OnTriggerEnter(Collider other)
     {
-        if (other.tag == "Obstacle" )
+        if (other.tag == "Obstacle")
         {
             GameOver(other);
         }
@@ -111,25 +109,20 @@ public class Player : MonoBehaviour
 
         }
     }
-
     private void GetPowerup(Collider other)
     {
-        
+
         Destroy(other.gameObject);
         PowerUp powerUp = other.GetComponent<PowerUp>();
         powerUpController.SetPowerUp(powerUp.sprite, powerUp.tagName);
     }
-
     private void GameOver(Collider other)
     {
         Destroy(other.gameObject);
-        if (powerUpController.isPhaseActive == false)
+        if (!powerUpController.IsPhaseActive())
         {
             ResetStaticValues();
             Destroy(playerPawnTransform.gameObject.GetComponent<Rigidbody>());
-
-
-            //Bu çok sağlıksız
             foreach (var item in rocketDestroyManager.TriggerList)
             {
                 Destroy(item.gameObject);
@@ -138,38 +131,35 @@ public class Player : MonoBehaviour
             {
                 Destroy(item.gameObject);
             }
-            //-----/------//
             UIVROrigin.SetActive(true);
             VRGameOrigin.SetActive(false);
             isGameRunning = false;
 
-            gainedResourceSum = PlayerPrefs.GetFloat("gResource") + gainedResource;
-            PlayerPrefs.SetFloat("gResource", gainedResourceSum);
+            GainedResourceSum = PlayerPrefs.GetFloat("gResource") + GainedResource;
+            PlayerPrefs.SetFloat("gResource", GainedResourceSum);
         }
     }
-
     public void PrintValueToText(Text textObject, string value, string name)
     {
         textObject.text = name + "" + value;
     }
- 
     private IEnumerator IncreaseVelocityZ()
     {
         yield return new WaitForSeconds(.1f);
-        if (velocityZBase < velocityZMax && IsGameRunning())
+        if (VelocityZBase < VelocityZMax && IsGameRunning())
         {
-            loadAmount += 0.003f;
+            LoadAmount += 0.003f;
 
-            speedBar[speedBarState].color = new Color(1f, 1f, 1f, loadAmount);
-            if (velocityZBase>speedBarInterval)
+            speedBar[SpeedBarState].color = new Color(1f, 1f, 1f, LoadAmount);
+            if (VelocityZBase > SpeedBarInterval)
             {
 
-                loadAmount = 0f;
-                speedBarInterval += 10;
-                speedBarState++;
+                LoadAmount = 0f;
+                SpeedBarInterval += 10;
+                SpeedBarState++;
 
             }
-            velocityZBase += velocityIncreaseAmount;
+            VelocityZBase += VelocityIncreaseAmount;
             StartCoroutine(IncreaseVelocityZ());
         }
     }

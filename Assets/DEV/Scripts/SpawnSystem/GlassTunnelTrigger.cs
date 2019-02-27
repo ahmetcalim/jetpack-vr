@@ -12,13 +12,13 @@ public class GlassTunnelTrigger : MonoBehaviour
             if (index == 1)
             {
                 Debug.Log("Açıldı");
-                Player.isGlassTunnelActive = true;
+                Player.IsGlassTunnelActive = true;
                 FindObjectOfType<Player>().ActivateGlassTunnel(false);
             }
-            if (index==0 && Player.isGlassTunnelActive == true)
+            if (index==0 && Player.IsGlassTunnelActive == true)
             {
                 Debug.Log("Kapandı");
-                Player.isGlassTunnelActive = false;
+                Player.IsGlassTunnelActive = false;
                 FindObjectOfType<Player>().ActivateGlassTunnel(true);
             }
             

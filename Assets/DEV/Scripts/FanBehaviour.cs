@@ -9,7 +9,7 @@ public class FanBehaviour : MonoBehaviour
     {
         if (other.tag == "Player")
         {
-            other.GetComponent<Rigidbody>().AddForce(Vector3.right * (powerOfAnarchy + Player.difficulty), ForceMode.Impulse);
+            other.GetComponent<Rigidbody>().AddForce(Vector3.right * (powerOfAnarchy + Player.Difficulty), ForceMode.Impulse);
         }
     }
 }

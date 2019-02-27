@@ -11,9 +11,9 @@ public class ValueInterface : MonoBehaviour
 
     public void SetValues()
     {
-        player.velocityIncreaseAmount = velocityZIncreamentAmount;
-        player.velocityZBase = velocityZBase;
-        Player.velocityZMax = velocityZMax;
+        player.VelocityIncreaseAmount = velocityZIncreamentAmount;
+        player.VelocityZBase = velocityZBase;
+        Player.VelocityZMax = velocityZMax;
         Debug.Log("Değerler Değiştirildi Lütfen, " + player.gameObject + " objesinin üzerinden kontrol ediniz.");
     }
 }
