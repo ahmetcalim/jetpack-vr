@@ -16,6 +16,12 @@ public class InputManager : MonoBehaviour
     public List<Image> dashBoardImageElements;
     public List<Text> dashBoardTextElements;
     public bool isDashboardVisible = true;
+    private float accelerationY;
+    public static float yMovementConstant_1 = 44;
+    public static float yMovementConstant_2 = 100;
+    public static float yMovementConstant_3 = 3;
+    public GameObject playerTransform;
+    public AudioSource jetpackThrottle;
     public SteamVR_Controller.Device ControllerL
     {
         get { return SteamVR_Controller.Input((int)leftController.index); }
@@ -26,12 +32,16 @@ public class InputManager : MonoBehaviour
     }
     void FixedUpdate()
     {
-        if (Player.isGameRunning)
+        if (Player.IsGameRunning())
         {
             CheckTouchpadInput();
             CheckTriggerInput();
             CheckGripInput();
         }
+    }
+    private void Start()
+    {
+       
     }
     private void CheckTouchpadInput()
     {
@@ -76,10 +86,15 @@ public class InputManager : MonoBehaviour
         angleXController = (leftController.transform.rotation.x + rightController.transform.rotation.x) / -2;
         if (ControllerL.GetHairTrigger() && ControllerR.GetHairTrigger())
         {
-            
+            if (!jetpackThrottle.isPlaying)
+            {
+              
+            }
             if (timer <=1f)
             {
+                
                 timer += Time.deltaTime;
+                jetpackThrottle.volume += timer/50f;
                 if (throttleLoadingBar[(int)(timer * 10f)].enabled == false)
                 {
                     throttleLoadingBar[(int)(timer * 10f)].enabled = true;
@@ -89,18 +104,20 @@ public class InputManager : MonoBehaviour
             }
             if (angleXController > 0f)
             {
-                playerMovementController.Up(1);
+                Up(1);
             }
             else
             {
-                playerMovementController.Up(-1);
+                Up(-1);
             }
         }
         else
         {
             if (timer >= 0f)
             {
+                
                 timer -= Time.deltaTime;
+                jetpackThrottle.volume -= timer/50f;
                 if (throttleLoadingBar[(int)(timer*10f) + 1].enabled == true)
                 {
                     throttleLoadingBar[(int)(timer*10f) + 1].enabled = false;
@@ -131,7 +148,7 @@ public class InputManager : MonoBehaviour
     {
         if (ControllerL.GetPressUp(SteamVR_Controller.ButtonMask.Grip))
         {
-            Yes();
+            ChangeDashboardVisibleAfterFrame();
         }
         
     }
@@ -146,7 +163,7 @@ public class InputManager : MonoBehaviour
             item.color = new Color(1f, 1f, 1f, visibilityAmount);
         }
     }
-    public void Yes()
+    public void ChangeDashboardVisibleAfterFrame()
     {
         if (isDashboardVisible == true)
         {
@@ -163,5 +180,31 @@ public class InputManager : MonoBehaviour
     {
         yield return new WaitForSeconds(.1f);
         isDashboardVisible = state;
+    }
+    public void Up(float side)
+    {
+        if (Player.isGameRunning == true && Player.isMalfunctionActive == false)
+        {
+            
+            accelerationY = Mathf.Pow(yMovementConstant_3 * (Time.deltaTime + 0.03f), yMovementConstant_1 / yMovementConstant_2);
+            if (side < 0)
+            {
+                accelerationY *= 4f;
+            }
+            switch (side)
+            {
+                case 1:
+                    playerTransform.GetComponent<Rigidbody>().velocity += Vector3.up *accelerationY * PowerUpController.bulletTimeMultipleValue;
+                    //playerTransform.GetComponent<Rigidbody>().AddForce(Vector3.up * accelerationY * PowerUpController.bulletTimeMultipleValue, ForceMode.Impulse);
+                    break;
+                case -1:
+                   // playerTransform.GetComponent<Rigidbody>().AddForce(Vector3.down * accelerationY * PowerUpController.bulletTimeMultipleValue, ForceMode.Impulse);
+                   playerTransform.GetComponent<Rigidbody>().velocity += Vector3.down * accelerationY * PowerUpController.bulletTimeMultipleValue;
+                    break;
+                default:
+                    break;
+            }
+            
+        }
     }
 }

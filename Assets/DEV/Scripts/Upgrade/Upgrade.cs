@@ -14,89 +14,136 @@ public class Upgrade : MonoBehaviour
     public float upgradeAmount;
     public int index;
     private UpgradeManager upgradeManager;
-    private bool isAvailable = true;
+    private bool isAvailable = false;
+    public bool isPurchased;
+    public GameObject lockObject;
+    public GameObject keyObject;
+    public GameObject costBox;
+    public Text costText;
+    public Button yesButton;
+    public GameObject popupPanel;
     private void Start()
     {
         upgradeManager = FindObjectOfType<UpgradeManager>();
-       
-        GetComponent<Button>().GetComponentInChildren<Text>().text = upgradeType.ToString() + " " + cost + " Res";
+        CheckPrefs();
         CheckAvailabity();
-        if (isAvailable == false)
-        {
-            GetComponent<Button>().GetComponentInChildren<Text>().text = "Satın alındı daha önce";
-            GetComponent<Button>().GetComponentInChildren<Text>().color = Color.red;
-            GetComponent<Button>().enabled = false;
-        }
+       
+        SetAvailabity();
     }
-    public void ApplyUpgrade()
+
+    private static void CheckPrefs()
     {
-     
-        if (PlayerPrefs.GetFloat("gResource") > cost)
+        if (PowerUpController.phasePowerUpMaxTime < 3)
         {
-            switch (upgradeType)
-            {
-                case UpgradeType.PHASE:
-                    if (upgradeManager.phaseUpgradeLevelIndex == index)
-                    {
-                        PlayerPrefs.SetFloat("phasePowerUpDuringTime", PlayerPrefs.GetFloat("phasePowerUpDuringTime") + upgradeAmount);
-                        DoTheseBeforeUpgrade();
-                        upgradeManager.phaseUpgradeLevelIndex++;
-                        PlayerPrefs.SetInt("phaseUpgradeLevelIndex", upgradeManager.phaseUpgradeLevelIndex);
-                    }
-                    break;
-                case UpgradeType.ROCKET:
-                    if (upgradeManager.rocketUpgradeLevelIndex == index)
-                    {
-                        PlayerPrefs.SetFloat("rocketEffectAreaSize", PlayerPrefs.GetFloat("rocketEffectAreaSize") + upgradeAmount);
-                        DoTheseBeforeUpgrade();
-                        upgradeManager.rocketUpgradeLevelIndex++;
-                        PlayerPrefs.SetInt("rocketUpgradeLevelIndex", upgradeManager.rocketUpgradeLevelIndex);
-                    }
-                    break;
-                case UpgradeType.BULLET_TIME:
-                    if (upgradeManager.bulletTimeUpgradeLevelIndex == index)
-                    {
-                        PlayerPrefs.SetFloat("bulletTimeDuringTime", PlayerPrefs.GetFloat("bulletTimeDuringTime") + upgradeAmount);
-                        DoTheseBeforeUpgrade();
-                        upgradeManager.bulletTimeUpgradeLevelIndex++;
-                        PlayerPrefs.SetInt("bulletTimeUpgradeLevelIndex", upgradeManager.bulletTimeUpgradeLevelIndex);
-                    }
-                    break;
-                case UpgradeType.MOVEMENT_X:
-                    if (upgradeManager.movementXUpgradeLevelIndex == index)
-                    {
-                        PlayerPrefs.SetFloat("turnConstant", PlayerPrefs.GetFloat("turnConstant") + upgradeAmount);
-                        DoTheseBeforeUpgrade();
-                        upgradeManager.movementXUpgradeLevelIndex++;
-                        PlayerPrefs.SetInt("movementXUpgradeLevelIndex", upgradeManager.movementXUpgradeLevelIndex);
-                    }
-                    break;
-                case UpgradeType.MOVEMENT_Y:
-                    if (upgradeManager.movementYUpgradeLevelIndex == index)
-                    {
-                        PlayerPrefs.SetFloat("accelerationYConstant", PlayerPrefs.GetFloat("accelerationYConstant") + upgradeAmount);
-                        DoTheseBeforeUpgrade();
-                        upgradeManager.movementYUpgradeLevelIndex++;
-                        PlayerPrefs.SetInt("movementYUpgradeLevelIndex", upgradeManager.movementYUpgradeLevelIndex);
-                    }
-                    break;
-                case UpgradeType.MOVEMENT_Z:
-                    if (upgradeManager.movementZUpgradeLevelIndex == index)
-                    {
-                        PlayerPrefs.SetFloat("velocityIncreaseAmount", PlayerPrefs.GetFloat("velocityIncreaseAmount") + upgradeAmount);
-                        DoTheseBeforeUpgrade();
-                        upgradeManager.movementZUpgradeLevelIndex++;
-                        PlayerPrefs.SetInt("movementZUpgradeLevelIndex", upgradeManager.movementZUpgradeLevelIndex);
-                    }
-                    break;
-                default:
-                    break;
-            }
+            PowerUpController.phasePowerUpMaxTime = 3;
+        }
+        if (PowerUpController.bulletTimeDuringTime < 3)
+        {
+            PowerUpController.bulletTimeDuringTime = 3;
+        }
+        if (PlayerPrefs.GetFloat("bulletTimeDuringTime") > PowerUpController.bulletTimeDuringTime)
+        {
+            PowerUpController.bulletTimeDuringTime = PlayerPrefs.GetFloat("bulletTimeDuringTime");
         }
         else
         {
-            Debug.Log("ACCIK DAHA PARA KAZAN.");
+            PlayerPrefs.SetFloat("bulletTimeDuringTime", PowerUpController.bulletTimeDuringTime);
         }
+
+        if (PlayerPrefs.GetFloat("phasePowerUpDuringTime") > PowerUpController.phasePowerUpMaxTime)
+        {
+            PowerUpController.phasePowerUpMaxTime = PlayerPrefs.GetFloat("phasePowerUpDuringTime");
+        }
+        else
+        {
+            PlayerPrefs.SetFloat("phasePowerUpDuringTime", PowerUpController.phasePowerUpMaxTime);
+        }
+        if (PlayerPrefs.GetFloat("rocketEffectAreaSize") > PowerUpController.rocketCount)
+        {
+            PowerUpController.rocketCount = PlayerPrefs.GetFloat("rocketEffectAreaSize");
+        }
+        else
+        {
+            PlayerPrefs.SetFloat("rocketEffectAreaSize", PowerUpController.rocketCount);
+        }
+    }
+
+    private void SetAvailabity()
+    {
+        if (isAvailable == false)
+        {
+            GetComponent<Button>().enabled = false;
+            lockObject.SetActive(true);
+            keyObject.SetActive(false);
+            costText.text = cost.ToString();
+        }
+        if (isPurchased == true)
+        {
+            costBox.SetActive(false);
+        }
+        if (isPurchased == false && isAvailable == false)
+        {
+            costText.text = cost.ToString();
+            keyObject.SetActive(true);
+            lockObject.SetActive(false);
+        }
+    }
+
+    public void ApplyUpgrade()
+    {
+        if (!popupPanel.activeSelf)
+        {
+            popupPanel.SetActive(true);
+            GetComponent<Button>().enabled = false;
+            yesButton.onClick.AddListener(ApplyUpgrade);
+        }
+        else
+        {
+            if (PlayerPrefs.GetFloat("gResource") > cost)
+            { popupPanel.SetActive(false);
+                switch (upgradeType)
+                {
+                    case UpgradeType.PHASE:
+                        if (upgradeManager.phaseUpgradeLevelIndex == index)
+                        {
+                            PlayerPrefs.SetFloat("phasePowerUpDuringTime", PowerUpController.phasePowerUpMaxTime + upgradeAmount);
+                            DoTheseBeforeUpgrade();
+                            upgradeManager.phaseUpgradeLevelIndex++;
+                            PlayerPrefs.SetInt("phaseUpgradeLevelIndex", upgradeManager.phaseUpgradeLevelIndex);
+                            isPurchased = true;
+                        }
+                        break;
+                    case UpgradeType.ROCKET:
+                        if (upgradeManager.rocketUpgradeLevelIndex == index)
+                        {
+                            PlayerPrefs.SetFloat("rocketEffectAreaSize", PlayerPrefs.GetFloat("rocketEffectAreaSize") + upgradeAmount);
+                            DoTheseBeforeUpgrade();
+                            upgradeManager.rocketUpgradeLevelIndex++;
+                            PlayerPrefs.SetInt("rocketUpgradeLevelIndex", upgradeManager.rocketUpgradeLevelIndex);
+                            isPurchased = true;
+                        }
+                        break;
+                    case UpgradeType.BULLET_TIME:
+                        if (upgradeManager.bulletTimeUpgradeLevelIndex == index)
+                        {
+                            PlayerPrefs.SetFloat("bulletTimeDuringTime", PlayerPrefs.GetFloat("bulletTimeDuringTime") + upgradeAmount);
+                            DoTheseBeforeUpgrade();
+                            upgradeManager.bulletTimeUpgradeLevelIndex++;
+                            PlayerPrefs.SetInt("bulletTimeUpgradeLevelIndex", upgradeManager.bulletTimeUpgradeLevelIndex);
+                            isPurchased = true;
+                        }
+                        break;
+                    default:
+                        break;
+                }
+                SetAvailabity();
+            }
+            else
+            {
+                Debug.Log("ACCIK DAHA PARA KAZAN.");
+            }
+        }
+        
     }
     private void CheckAvailabity()
     {
@@ -104,63 +151,39 @@ public class Upgrade : MonoBehaviour
         switch (upgradeType)
         {
             case UpgradeType.PHASE:
-                if (upgradeManager.phaseUpgradeLevelIndex > index)
+                if (PlayerPrefs.GetInt("phaseUpgradeLevelIndex") > this.index)
                 {
+                    isPurchased = true;
                     isAvailable = false;
                 }
                 else
                 {
+                    isPurchased = false;
                     isAvailable = true;
                 }
-
+               
                 break;
             case UpgradeType.ROCKET:
-                if (upgradeManager.rocketUpgradeLevelIndex > index)
+                if (PlayerPrefs.GetInt("rocketUpgradeLevelIndex") > index)
                 {
+                    isPurchased = true;
                     isAvailable = false;
                 }
                 else
                 {
-                    isAvailable = true;
+                    isPurchased = false;
+                       isAvailable = true;
                 }
                 break;
             case UpgradeType.BULLET_TIME:
                 if (upgradeManager.bulletTimeUpgradeLevelIndex > index)
                 {
+                    isPurchased = true;
                     isAvailable = false;
                 }
                 else
                 {
-                    isAvailable = true;
-                }
-                break;
-            case UpgradeType.MOVEMENT_X:
-                if (upgradeManager.movementXUpgradeLevelIndex > index)
-                {
-                    isAvailable = false;
-                }
-                else
-                {
-                    isAvailable = true;
-                }
-                break;
-            case UpgradeType.MOVEMENT_Y:
-                if (upgradeManager.movementYUpgradeLevelIndex > index)
-                {
-                    isAvailable = false;
-                }
-                else
-                {
-                    isAvailable = true;
-                }
-                break;
-            case UpgradeType.MOVEMENT_Z:
-                if (upgradeManager.movementZUpgradeLevelIndex > index)
-                {
-                    isAvailable = false;
-                }
-                else
-                {
+                    isPurchased = false;
                     isAvailable = true;
                 }
                 break;
@@ -172,7 +195,5 @@ public class Upgrade : MonoBehaviour
     {
         PlayerPrefs.SetFloat("gResource", PlayerPrefs.GetFloat("gResource") - cost);
         upgradeManager.UpdateResourceText(PlayerPrefs.GetFloat("gResource"));
-        GetComponent<Button>().GetComponentInChildren<Text>().text = "Satın alındı daha önce";
-        GetComponent<Button>().enabled = false;
     }
 }

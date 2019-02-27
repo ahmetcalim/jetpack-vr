@@ -12,4 +12,5 @@ public class SoundController : MonoBehaviour
     public AudioClip countDownBip;
     public AudioClip bulletTimeOut;
     public AudioClip phaseOut;
+    public AudioClip powerup;
 }

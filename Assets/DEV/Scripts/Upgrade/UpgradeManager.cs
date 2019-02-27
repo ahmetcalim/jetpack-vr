@@ -17,11 +17,19 @@ public class UpgradeManager : MonoBehaviour
         phaseUpgradeLevelIndex = PlayerPrefs.GetInt("phaseUpgradeLevelIndex");
         rocketUpgradeLevelIndex = PlayerPrefs.GetInt("rocketUpgradeLevelIndex");
         bulletTimeUpgradeLevelIndex = PlayerPrefs.GetInt("bulletTimeUpgradeLevelIndex");
-        movementXUpgradeLevelIndex = PlayerPrefs.GetInt("movementXUpgradeLevelIndex");
-        movementYUpgradeLevelIndex = PlayerPrefs.GetInt("movementYUpgradeLevelIndex");
-        movementZUpgradeLevelIndex = PlayerPrefs.GetInt("movementZUpgradeLevelIndex");
+        SetPlayerPrefs(PlayerPrefs.GetInt("phaseUpgradeLevelIndex"), "phaseUpgradeLevelIndex");
+        SetPlayerPrefs(PlayerPrefs.GetInt("rocketUpgradeLevelIndex"), "rocketUpgradeLevelIndex");
+        SetPlayerPrefs(PlayerPrefs.GetInt("bulletTimeUpgradeLevelIndex"), "bulletTimeUpgradeLevelIndex");
+
 
         UpdateResourceText(PlayerPrefs.GetFloat("gResource"));
+    }
+    private void SetPlayerPrefs(float a, string name)
+    {
+        if (a<1)
+        {
+            PlayerPrefs.SetInt(name, 0);
+        }
     }
     public void UpdateResourceText(float resourceAmount)
     {

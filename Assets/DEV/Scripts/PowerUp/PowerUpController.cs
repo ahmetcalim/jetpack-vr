@@ -7,8 +7,8 @@ using HTC.UnityPlugin.Utility;
 public class PowerUpController : MonoBehaviour
 {
     [Header("Bonus")]
-    public Image powerUpSlotLeft;
-    public Image powerUpSlotRight;
+    public Image slotLeft;
+    public Image slotRight;
     private float timer;
     private bool timeCountFinished = true;
     public GameObject phase;
@@ -16,7 +16,7 @@ public class PowerUpController : MonoBehaviour
     public AudioSource countDownAudioSource;
     public SoundController soundController;
     [Header("Phase Bonus")]
-    public float phasePowerUpMaxTime;
+    public static float phasePowerUpMaxTime;
     public bool isPhaseActive;
     public Material m_Controller_Fade;
     public Material m_Controller_Default;
@@ -24,14 +24,13 @@ public class PowerUpController : MonoBehaviour
     [Header("Roket Bonus")]
     public RocketDestroyManager rocketDestroyManager;
     public bool isRocketActive;
-    private float rocketEffectAreaSize;
+    public static float rocketCount;
     [Header("Bullet Time Bonus")]
     public static float bulletTimeMultipleValue = 1f;
-    public float bulletTimeDuringTime;
+    public static float bulletTimeDuringTime;
     public bool isBulletTimeActive;
     public float phaseİkiKati = 1f;
     [Header("Diğer")]
-    private float gravityDefault;
     public PlayerMovementController playerMovementController;
     private int lastSlot = 1;
 
@@ -52,7 +51,7 @@ public class PowerUpController : MonoBehaviour
         }
         else
         {
-            PlayerPrefs.SetFloat("bulletTimeDuringTime", bulletTimeDuringTime);
+            PlayerPrefs.SetFloat("bulletTimeDuringTime", 3f);
         }
 
         if (PlayerPrefs.GetFloat("phasePowerUpDuringTime") > phasePowerUpMaxTime)
@@ -61,35 +60,35 @@ public class PowerUpController : MonoBehaviour
         }
         else
         {
-            PlayerPrefs.SetFloat("phasePowerUpDuringTime", phasePowerUpMaxTime);
+            PlayerPrefs.SetFloat("phasePowerUpDuringTime", 3f);
         }
-        if (PlayerPrefs.GetFloat("rocketEffectAreaSize") > rocketEffectAreaSize)
+        if (PlayerPrefs.GetFloat("rocketEffectAreaSize") > rocketCount)
         {
-            rocketEffectAreaSize = PlayerPrefs.GetFloat("rocketEffectAreaSize");
+            rocketCount = PlayerPrefs.GetFloat("rocketEffectAreaSize");
         }
         else
         {
-            PlayerPrefs.SetFloat("rocketEffectAreaSize", rocketEffectAreaSize);
+            PlayerPrefs.SetFloat("rocketEffectAreaSize", rocketCount);
         }
 
     }
     public void SetPowerUp(Sprite powerUpSprite, string pUpTag)
     {
         
-        if (powerUpSlotLeft.sprite == null)
+        if (slotLeft.sprite == null)
         {
-            powerUpSlotLeft.sprite = powerUpSprite;
-            powerUpSlotLeft.gameObject.tag = pUpTag;
+            slotLeft.sprite = powerUpSprite;
+            slotLeft.gameObject.tag = pUpTag;
            
             playerMovementController.ControllerL.TriggerHapticPulse(50000);
           
         }
-        else if(powerUpSlotRight.sprite == null)
+        else if(slotRight.sprite == null)
         {
             playerMovementController.ControllerR.TriggerHapticPulse(50000);
-            powerUpSlotRight.sprite = powerUpSprite;
-           
-            powerUpSlotRight.gameObject.tag = pUpTag;
+            slotRight.sprite = powerUpSprite;
+
+            slotRight.gameObject.tag = pUpTag;
       
         }
         else
@@ -97,14 +96,14 @@ public class PowerUpController : MonoBehaviour
             switch (lastSlot)
             {
                 case 0:
-                    powerUpSlotRight.sprite = powerUpSprite;
-                    powerUpSlotRight.gameObject.tag = pUpTag;
+                    slotRight.sprite = powerUpSprite;
+                    slotRight.gameObject.tag = pUpTag;
                     playerMovementController.ControllerL.TriggerHapticPulse(50000);
                     lastSlot = 1;
                     break;
                 case 1:
-                    powerUpSlotLeft.sprite = powerUpSprite;
-                    powerUpSlotLeft.gameObject.tag = pUpTag;
+                    slotLeft.sprite = powerUpSprite;
+                    slotLeft.gameObject.tag = pUpTag;
                     playerMovementController.ControllerR.TriggerHapticPulse(50000);
                     lastSlot = 0;
                     break;

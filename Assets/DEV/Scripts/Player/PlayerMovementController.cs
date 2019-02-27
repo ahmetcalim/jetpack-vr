@@ -27,28 +27,6 @@ public class PlayerMovementController : MonoBehaviour
     {
         get { return SteamVR_Controller.Input((int)rightController.index); }
     }
-    private void Start()
-    {
-        UpdatePrefs();
-    }
-    public void UpdatePrefs()
-    {
-        if (PlayerPrefs.GetFloat("accelerationYConstant") > accelerationYConstant)
-        {
-            accelerationYConstant = PlayerPrefs.GetFloat("accelerationYConstant");
-        }
-        else
-        {
-            PlayerPrefs.SetFloat("accelerationYConstant", accelerationYConstant);
-        }
-    }
-    void Update()
-    {
-        if (Player.isGameRunning == true)
-        {
-            IncreaseTravveledDistance();
-        }
-    }
     public void Up(float side)
     {
         if (Player.isGameRunning == true && Player.isMalfunctionActive == false)
@@ -61,9 +39,6 @@ public class PlayerMovementController : MonoBehaviour
             playerTransform.GetComponent<Rigidbody>().velocity = new Vector3(0, side, 0f) * accelerationY * PowerUpController.bulletTimeMultipleValue;
         }
     }
-    private void IncreaseTravveledDistance()
-    {
-        player.travelledDistance = (Time.timeSinceLevelLoad * player.velocityZBase);
-    }
+  
   
 }
